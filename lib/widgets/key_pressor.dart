@@ -11,13 +11,28 @@ class _KeyPressorState extends State<KeyPressor> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 20.0,
-      child: ListView.builder(
-          itemCount: keyboard.keys.length,
-          itemBuilder: (context, index) {
-            return Text(keyboard.keys[index].value);
-          }),
+    return Expanded(
+      child: Container(
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: keyboard.keys.length,
+            itemBuilder: (context, index) {
+              SingleKey key = keyboard.keys[index];
+              return Padding(
+                padding: const EdgeInsets.all(Keyboard.keyPadding),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    setState(() {
+                      keyboard.select(key);
+                    });
+                  },
+                  child: Text(key.value),
+                  backgroundColor: key.isSelected?Colors.green:Colors.red,
+                ),
+              );
+              // return Text(keyboard.keys[index].value);
+            }),
+      ),
     );
     // return Row(
     //   children: <Widget>[
