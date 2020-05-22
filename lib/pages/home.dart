@@ -15,8 +15,8 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           title: Text("HELLO"),
         ),
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        body: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             KeyPressor(),
           ],
