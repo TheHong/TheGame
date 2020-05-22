@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_app/widgets/key_pressor.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -6,31 +7,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool pressed=false;
+  bool pressed = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.ac_unit),
-            onPressed: () {
-              setState(() {
-                pressed=!pressed;
-              });
-            },
-            color: pressed?Colors.red:Colors.blue,
-          ),
-          SizedBox(width: 20.0,),
-          IconButton(
-            icon: Icon(Icons.account_balance),
-            onPressed: () {},
-          ),
-        ],
-      ),
-    ));
+        appBar: AppBar(
+          title: Text("HELLO"),
+        ),
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            KeyPressor(),
+          ],
+        ));
   }
 }
