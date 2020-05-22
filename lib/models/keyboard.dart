@@ -14,7 +14,7 @@ class Keyboard {
   List<SingleKey> whiteKeys;
   List<SingleKey> blackKeys;
   SingleKey currKey;
-  SingleKey nullKey = SingleKey(value: "NULL");
+  SingleKey nullKey = SingleKey(value: "");
   static const double keyPadding = 1.0;
 
   Keyboard() {

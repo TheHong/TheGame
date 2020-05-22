@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/widgets/key_pressor.dart';
+import 'package:game_app/widgets/note_icon.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,6 +9,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool pressed = false;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,7 @@ class _HomeState extends State<Home> {
         body: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            NoteIcon(),
             KeyPressor(),
           ],
         ));

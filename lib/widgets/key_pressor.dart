@@ -32,7 +32,6 @@ class _KeyPressorState extends State<KeyPressor> {
                   child: FloatingActionButton(
                     onPressed: () {
                       setState(() {
-                        print("HI");
                         keyboard.select(key);
                       });
                     },
@@ -50,6 +49,7 @@ class _KeyPressorState extends State<KeyPressor> {
     return Container(
       child: Column(
         children: <Widget>[
+          Text(keyboard.currKey.value, style: TextStyle(fontSize: 50.0),),
           createKeyRow(keyboard.blackKeys, 30),
           createKeyRow(keyboard.whiteKeys, 0)
         ],
