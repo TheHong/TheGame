@@ -9,7 +9,6 @@ class NoteIcon extends StatefulWidget {
 
 class _NoteIconState extends State<NoteIcon> {
   
-
   @override
   Widget build(BuildContext context) {
     return Consumer<GameInfo>(
@@ -23,6 +22,7 @@ class _NoteIconState extends State<NoteIcon> {
             onPressed: () {
               // Submit answer if a note is selected
               gameInfo.setSubmitted(gameInfo.selectedNote != "");
+              Navigator.pushNamed(context, '/waiting_page');
 
               // Play note
               gameInfo.notePlayer.play();
