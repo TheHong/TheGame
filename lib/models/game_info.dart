@@ -22,7 +22,7 @@ class GameInfo extends ChangeNotifier {
     print("GameInfo initialized!");
     score = 0;
     currRound = 0;
-    run();
+    // run();
   }
 
   void resetRound() {

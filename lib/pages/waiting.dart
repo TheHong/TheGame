@@ -11,16 +11,17 @@ class WaitingPage extends StatefulWidget {
 class _WaitingPageState extends State<WaitingPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<GameInfo>(builder: (context, gameInfo, child) {
-      return Scaffold(
-          backgroundColor: Colors.blue[900],
-          body: Center(
+
+    // return Consumer<GameInfo>(builder: (context, gameInfo, child) {
+      return Container(
+          color: Colors.blue[900],
+          child: Center(
             child: SpinKitPouringHourglass(
               // https://pub.dev/packages/flutter_spinkit
               color: Colors.white,
               size: 100.0,
             ),
           ));
-    });
+    // });
   }
 }

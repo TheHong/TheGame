@@ -11,6 +11,7 @@ class KeyPressor extends StatefulWidget {
 class _KeyPressorState extends State<KeyPressor> {
   @override
   Widget build(BuildContext context) {
+    print("Created keypressor");
     /* Contains one column with the current key selected, and the two keyboard rows */
     return Consumer<GameInfo>(builder: (context, gameInfo, child) {
       return Container(
@@ -20,46 +21,56 @@ class _KeyPressorState extends State<KeyPressor> {
               gameInfo.keyboard.currKey.value,
               style: TextStyle(fontSize: 50.0),
             ),
-            createKeyRow(keys: gameInfo.keyboard.blackKeys, gameInfo: gameInfo, leftPadding: 30),
-            createKeyRow(keys: gameInfo.keyboard.whiteKeys, gameInfo: gameInfo, leftPadding: 0)
+            createKeyRow(
+                keys: gameInfo.keyboard.blackKeys,
+                gameInfo: gameInfo,
+                leftPadding: 30),
+            createKeyRow(
+                keys: gameInfo.keyboard.whiteKeys,
+                gameInfo: gameInfo,
+                leftPadding: 0)
           ],
         ),
       );
     });
   }
 
-  Widget createKeyRow({List<SingleKey> keys, GameInfo gameInfo, double leftPadding}) {
+  Widget createKeyRow(
+      {List<SingleKey> keys, GameInfo gameInfo, double leftPadding}) {
     return Container(
-        color: Colors.lightBlueAccent,
-        height: 50.0,
-        padding: EdgeInsets.only(left: leftPadding),
-        // Iterating through keys and building the buttons
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: keys.length,
-            itemBuilder: (context, index) {
-              SingleKey key = keys[index];
-              return Visibility(
-                // To deactivate the disabled keys (e.g. E# key)
-                visible: !key.isDisabled,
-                maintainSize: true,
-                maintainState: true,
-                maintainAnimation: true,
-                child: Padding(
-                  padding: const EdgeInsets.all(Keyboard.keyPadding),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      setState(() {
-                        gameInfo.keyboard.select(key);
-                        gameInfo.setSelected(key.isSelected ? key.value : "");
-                      });
-                    },
-                    child: Text(key.value),
-                    backgroundColor:
-                        key.isSelected ? Colors.green : Colors.black,
+      color: Colors.lightBlueAccent,
+      height: 50.0,
+      // padding: EdgeInsets.only(left: leftPadding),
+      // Iterating through keys and building the buttons
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: keys.length,
+          itemBuilder: (context, index) {
+            SingleKey key = keys[index];
+            return Visibility(
+              // To deactivate the disabled keys (e.g. E# key)
+              visible: !key.isDisabled,
+              maintainSize: true,
+              maintainState: true,
+              maintainAnimation: true,
+              child: RaisedButton(
+                onPressed: () {
+                  setState(() {
+                    gameInfo.keyboard.select(key);
+                    gameInfo.setSelected(key.isSelected ? key.value : "");
+                  });
+                },
+                child: Text(
+                  key.value,
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
                 ),
-              );
-            }));
+                shape: CircleBorder(),
+                color: key.isSelected ? Colors.green : Colors.black,
+              ),
+            );
+          }),
+    );
   }
 }

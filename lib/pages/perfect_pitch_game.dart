@@ -30,18 +30,18 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
             IconButton(
               icon: Icon(Icons.file_download),
               onPressed: () {
-                Navigator.pushNamed(context, "/waiting_page");
+                Navigator.pushNamed(context, '/');
               },
-            )
+            ),
+            IconButton(
+              icon: Icon(Icons.directions_run),
+              iconSize: 50.0,
+              color: Colors.greenAccent,
+              onPressed: () {
+                gameInfo.run();
+              },
+            ),
           ],
-        ),
-        floatingActionButton: IconButton(
-          icon: Icon(Icons.directions_run),
-          iconSize: 50.0,
-          color: Colors.greenAccent,
-          onPressed: () {
-            gameInfo.run();
-          },
         ),
       ),
     );

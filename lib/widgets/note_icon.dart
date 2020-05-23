@@ -22,7 +22,7 @@ class _NoteIconState extends State<NoteIcon> {
             onPressed: () {
               // Submit answer if a note is selected
               gameInfo.setSubmitted(gameInfo.selectedNote != "");
-              Navigator.pushNamed(context, '/waiting_page');
+              // Navigator.pushNamed(context, '/waiting_page');
 
               // Play note
               gameInfo.notePlayer.play();

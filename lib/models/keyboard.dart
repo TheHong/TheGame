@@ -15,7 +15,7 @@ class Keyboard {
   SingleKey currKey;
   SingleKey nullKey =
       SingleKey(value: ""); // Key that indicates no music key is selected
-  static const double keyPadding = 1.0; // Padding between keys
+  // static const double keyPadding = 0.0; // Padding between keys
 
   Keyboard() {
     // Define keys here
