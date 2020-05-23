@@ -29,7 +29,7 @@ class NotePlayer {
   ];
   int _low = 35; // Lowest note to play by an instance
   int _hi = 80; // Highest note to play by an instance
-  int _currNote = -1; // The current note to be played by an instance
+  int _currNote; // The current note to be played by an instance
 
   // Gets info about current note
   int get currNote => _currNote;
@@ -38,6 +38,7 @@ class NotePlayer {
   NotePlayer() {
     print("Initializing NotePlayer");
     _load('assets/Piano.sf2');
+    randomizeNote();
   }
 
   void play() {

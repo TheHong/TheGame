@@ -65,4 +65,9 @@ class Keyboard {
       }
     }
   }
+
+  void reset(){
+    currKey.isSelected = false;
+    currKey = nullKey;
+  }
 }
