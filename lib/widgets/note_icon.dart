@@ -19,7 +19,7 @@ class _NoteIconState extends State<NoteIcon> {
         icon: Icon(Icons.music_note),
         iconSize: 100,
         onPressed: () {
-          print(notePlayer.currNote);
+          print("${notePlayer.currNote} (${notePlayer.getCurrNoteAsStr()})");
           notePlayer.play();
           notePlayer.randomizeNote();
         },

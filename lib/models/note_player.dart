@@ -13,7 +13,7 @@ class NotePlayer{
   final _flutterMidi = FlutterMidi(); // Deals with playing the midi
   final random = new Random(); // Generates random number
 
-  List<String> notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"]; // TODO:
+  List<String> notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
   int low = 35; // Lowest note to play by an instance
   int hi = 80; // Highest note to play by an instance
   int currNote = -1; // The current note to be played by an instance
@@ -39,9 +39,15 @@ class NotePlayer{
     currNote = low + random.nextInt(hi - low);
   }
 
+  String getCurrNoteAsStr(){
+    /* Converts the current note integer in its corresponding string (ignoring which octave) */
+    return getNoteAsStr(currNote);
+  }
+
   String getNoteAsStr(int note){
     /* Converts the note integer in its corresponding string (ignoring which octave) */
-    
+    int numKeys = 12;
+    return notes[note % numKeys];
   }
 
 }

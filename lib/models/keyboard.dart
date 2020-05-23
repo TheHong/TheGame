@@ -1,9 +1,10 @@
 class SingleKey {
   String value; // Music note value
+  int noteID;
   bool isSelected; // Whether or not selected by user
   bool isDisabled; // Whether or not to not display the key
 
-  SingleKey({this.value, this.isDisabled = false}) {
+  SingleKey({this.value, this.noteID, this.isDisabled = false}) {
     isSelected = false;
   }
 }
@@ -19,21 +20,21 @@ class Keyboard {
   Keyboard() {
     // Define keys here
     whiteKeys = [
-      SingleKey(value: "C"),
-      SingleKey(value: "D"),
-      SingleKey(value: "E"),
-      SingleKey(value: "F"),
-      SingleKey(value: "G"),
-      SingleKey(value: "A"),
-      SingleKey(value: "B"),
+      SingleKey(value: "C", noteID: 60),
+      SingleKey(value: "D", noteID: 62),
+      SingleKey(value: "E", noteID: 64),
+      SingleKey(value: "F", noteID: 65),
+      SingleKey(value: "G", noteID: 67),
+      SingleKey(value: "A", noteID: 69),
+      SingleKey(value: "B", noteID: 71),
     ];
     blackKeys = [
-      SingleKey(value: "C#"),
-      SingleKey(value: "D#"),
-      SingleKey(value: "E#", isDisabled: true),
-      SingleKey(value: "F#"),
-      SingleKey(value: "G#"),
-      SingleKey(value: "A#"),
+      SingleKey(value: "C#", noteID: 61),
+      SingleKey(value: "D#", noteID: 63),
+      SingleKey(value: "E#", noteID: 65, isDisabled: true),
+      SingleKey(value: "F#", noteID: 66),
+      SingleKey(value: "G#", noteID: 68),
+      SingleKey(value: "A#", noteID: 70),
     ];
 
     // Set initial currKey
