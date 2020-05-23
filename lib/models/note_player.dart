@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter_midi/flutter_midi.dart';
 
-class NotePlayer{
+class NotePlayer {
   /* 
   Notes can be played using an integer identifier from 0 to 127 inclusive, each 
   integer corresponding to a certain note. More details found at:
@@ -11,22 +11,33 @@ class NotePlayer{
   */
 
   final _flutterMidi = FlutterMidi(); // Deals with playing the midi
-  final random = new Random(); // Generates random number
+  final _random = new Random(); // Generates random number
 
-  List<String> notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-  int low = 35; // Lowest note to play by an instance
-  int hi = 80; // Highest note to play by an instance
-  int currNote = -1; // The current note to be played by an instance
+  List<String> _noteStr = [
+    "C",
+    "C#",
+    "D",
+    "D#",
+    "E",
+    "F",
+    "F#",
+    "G",
+    "G#",
+    "A",
+    "A#",
+    "B"
+  ];
+  int _low = 35; // Lowest note to play by an instance
+  int _hi = 80; // Highest note to play by an instance
+  int _currNote = -1; // The current note to be played by an instance
+
+  // Gets info about current note
+  int get currNote => _currNote;
+  String get currNoteAsStr => getNoteAsStr(currNote); // Ignore which octave
 
   NotePlayer() {
     print("Initializing NotePlayer");
-    load('assets/Piano.sf2');
-  }
-
-  void load(asset) async{
-    _flutterMidi.unmute();
-    ByteData _byte = await rootBundle.load(asset);
-    _flutterMidi.prepare(sf2: _byte);
+    _load('assets/Piano.sf2');
   }
 
   void play() {
@@ -34,20 +45,20 @@ class NotePlayer{
     _flutterMidi.playMidiNote(midi: currNote);
   }
 
-  void randomizeNote(){
+  void _load(asset) async {
+    _flutterMidi.unmute();
+    ByteData _byte = await rootBundle.load(asset);
+    _flutterMidi.prepare(sf2: _byte);
+  }
+
+  void randomizeNote() {
     /* Changes the current note to a random note. */
-    currNote = low + random.nextInt(hi - low);
+    _currNote = _low + _random.nextInt(_hi - _low);
   }
 
-  String getCurrNoteAsStr(){
-    /* Converts the current note integer in its corresponding string (ignoring which octave) */
-    return getNoteAsStr(currNote);
-  }
-
-  String getNoteAsStr(int note){
+  String getNoteAsStr(int note) {
     /* Converts the note integer in its corresponding string (ignoring which octave) */
-    int numKeys = 12;
-    return notes[note % numKeys];
+    int numKeys = _noteStr.length;
+    return _noteStr[note % numKeys];
   }
-
 }
