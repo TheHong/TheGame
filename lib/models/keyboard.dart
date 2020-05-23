@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
-
 class SingleKey {
-  String value;
-  bool isSelected;
-  bool isDisabled;
+  String value; // Music note value
+  bool isSelected; // Whether or not selected by user
+  bool isDisabled; // Whether or not to not display the key
 
-  SingleKey({this.value, this.isDisabled=false}) {
+  SingleKey({this.value, this.isDisabled = false}) {
     isSelected = false;
   }
 }
@@ -14,8 +12,9 @@ class Keyboard {
   List<SingleKey> whiteKeys;
   List<SingleKey> blackKeys;
   SingleKey currKey;
-  SingleKey nullKey = SingleKey(value: "");
-  static const double keyPadding = 1.0;
+  SingleKey nullKey =
+      SingleKey(value: ""); // Key that indicates no music key is selected
+  static const double keyPadding = 1.0; // Padding between keys
 
   Keyboard() {
     // Define keys here
@@ -28,7 +27,6 @@ class Keyboard {
       SingleKey(value: "A"),
       SingleKey(value: "B"),
     ];
-
     blackKeys = [
       SingleKey(value: "C#"),
       SingleKey(value: "D#"),
@@ -43,6 +41,9 @@ class Keyboard {
   }
 
   void select(SingleKey key) {
+    /* Updates SingleKey states based on which key is selected.
+    On the keyboard, at most one key is selected. Furthermore, a key can be deselected */
+
     // Case 1: No key has been previously selected
     if (currKey == nullKey) {
       currKey = key;

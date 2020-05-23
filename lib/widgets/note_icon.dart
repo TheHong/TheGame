@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:game_app/models/note_player.dart';
-
 
 class NoteIcon extends StatefulWidget {
   @override

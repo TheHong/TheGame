@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:game_app/models/keyboard.dart';
 
@@ -11,18 +9,35 @@ class KeyPressor extends StatefulWidget {
 class _KeyPressorState extends State<KeyPressor> {
   Keyboard keyboard = Keyboard();
 
-  Widget createKeyRow(List<SingleKey> keys, double leftPadding) {
+  @override
+  Widget build(BuildContext context) {
+    /* Contains one column with the current key selected, and the two keyboard rows */
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Text(
+            keyboard.currKey.value,
+            style: TextStyle(fontSize: 50.0),
+          ),
+          createKeyRow(keys: keyboard.blackKeys, leftPadding: 30),
+          createKeyRow(keys: keyboard.whiteKeys, leftPadding: 0)
+        ],
+      ),
+    );
+  }
+
+  Widget createKeyRow({List<SingleKey> keys, double leftPadding}) {
     return Container(
         color: Colors.lightBlueAccent,
         height: 50.0,
         padding: EdgeInsets.only(left: leftPadding),
-        // Iterating through keys
+        // Iterating through keys and building the buttons
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: keys.length,
             itemBuilder: (context, index) {
               SingleKey key = keys[index];
-              return Visibility(
+              return Visibility( // To deactivate the disabled keys (e.g. E# key)
                 visible: !key.isDisabled,
                 maintainSize: true,
                 maintainState: true,
@@ -42,18 +57,5 @@ class _KeyPressorState extends State<KeyPressor> {
                 ),
               );
             }));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Text(keyboard.currKey.value, style: TextStyle(fontSize: 50.0),),
-          createKeyRow(keyboard.blackKeys, 30),
-          createKeyRow(keyboard.whiteKeys, 0)
-        ],
-      ),
-    );
   }
 }
