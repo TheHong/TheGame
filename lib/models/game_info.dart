@@ -16,7 +16,6 @@ class GameInfo extends ChangeNotifier {
   };
 
   // TODO: Privatize if needed
-
   double score = 0.0;
   int currRound = 0;
   String currNote = ""; // Current note to be identified
@@ -29,6 +28,8 @@ class GameInfo extends ChangeNotifier {
   bool isCorrect = false; // Is the submitted answer correct
   bool isRoundDone = false; // Is the round completed
   bool isGameDone = false; // Are all the rounds completed
+
+  bool isDebugMode = false;
 
   final notePlayer = NotePlayer(); // To play the tones
   final keyboard = Keyboard(); // Contains the information of the keys
@@ -54,6 +55,9 @@ class GameInfo extends ChangeNotifier {
   void run() async {
     for (int i = 0; i < _numRounds; i++) {
       // Prepare for the round ------------------------------------------------
+      // Prevent user from guessing before round even begins
+      keyboard.deactivate(); 
+
       // Reset variables
       isRoundDone = false;
       keyboard.reset();
@@ -68,7 +72,7 @@ class GameInfo extends ChangeNotifier {
       notePlayer.randomizeNote();
       currNote = notePlayer.currNoteAsStr;
       keyboard.reset();
-      keyboard.deactivate(); // Prevent user from guessing before round even begins
+      notifyListeners();
 
       // Counts down for the user right before round begins
       // The above changes are updated in the widgets using notifyLIsteners
@@ -84,11 +88,13 @@ class GameInfo extends ChangeNotifier {
       notePlayer.play();
 
       // Give user time to choose
+      keyboard.activate();
       stopwatch.start(); // Used in another widget to get the exact time user submits
       await counter.run(_timePerRound, notifyListeners);
       print(stopwatch.elapsedMicroseconds);
       stopwatch.stop();
       stopwatch.reset();
+      keyboard.deactivate();
 
       // Evaluation -----------------------------------------------------------
       // No answer was submitted or the answer is incorrect

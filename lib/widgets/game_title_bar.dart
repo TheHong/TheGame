@@ -15,14 +15,6 @@ class GameTitleBar extends StatelessWidget {
               style: TextStyle(fontSize: 30.0),
             ),
             Text(
-              "Chosen (${gameInfo.selectedNote}) | Current (${gameInfo.currNote}) | Submitted (${gameInfo.submitTime})",
-              style: TextStyle(fontSize: 15.0),
-            ),
-            Text(
-              "Counter => ${gameInfo.counter.currCount}|correct (${gameInfo.isCorrect})|round (${gameInfo.isRoundDone})",
-              style: TextStyle(fontSize: 15.0),
-            ),
-            Text(
               gameInfo.prompt,
               style: TextStyle(fontSize: 30.0),
             ),

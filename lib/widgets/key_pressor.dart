@@ -65,7 +65,7 @@ class _KeyPressorState extends State<KeyPressor> {
                   child: Text(
                     key.value,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: gameInfo.isDebugMode? Colors.red: Colors.white,
                     ),
                   ),
                   shape: CircleBorder(),

@@ -22,7 +22,17 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
       create: (context) => gameInfo,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("HELLO"),
+          title: Text("PERFECT PITCH"),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.bug_report),
+              onPressed: () {
+                setState(() {
+                  gameInfo.isDebugMode = !gameInfo.isDebugMode;
+                });
+              },
+            )
+          ],
         ),
         body: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
@@ -30,26 +40,6 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
             GameTitleBar(),
             NoteIcon(),
             KeyPressor(),
-            Row(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.directions_run),
-                  iconSize: 50.0,
-                  color: Colors.greenAccent,
-                  onPressed: () {
-                    gameInfo.run();
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  iconSize: 30.0,
-                  color: Colors.greenAccent,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/waiting_page');
-                  },
-                ),
-              ],
-            ),
             SubmitButton(),
           ],
         ),
