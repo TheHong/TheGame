@@ -11,7 +11,8 @@ class GameTitleBar extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [Colors.purple, Colors.white]),
+                gradient: LinearGradient(
+                    colors: [Colors.blueGrey[100], Colors.white]),
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
               ),
               padding: const EdgeInsets.all(12.0),

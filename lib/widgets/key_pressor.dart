@@ -42,7 +42,7 @@ class _KeyPressorState extends State<KeyPressor> {
   Widget createKeyRow(
       {List<SingleKey> keys, GameInfo gameInfo, double leftPadding}) {
     return Container(
-      color: gameInfo.isDebugMode? Colors.lightBlueAccent: Colors.transparent,
+      color: gameInfo.isDebugMode ? Colors.lightBlueAccent : Colors.transparent,
       height: 50.0,
       padding: EdgeInsets.only(left: leftPadding),
       // Iterating through keys and building the buttons
@@ -58,8 +58,19 @@ class _KeyPressorState extends State<KeyPressor> {
               maintainState: true,
               maintainAnimation: true,
               child: Container(
-                width: 60.0, // TODO: Change this so that not hardcoded
+                width: 55.0, // TODO: Change this so that not hardcoded
                 child: FlatButton(
+                  shape: CircleBorder(),
+                  color: key.isSelected ? Colors.green : Colors.grey[800],
+                  child: Text(
+                    key.value,
+                    style: TextStyle(
+                      color: Colors.white,
+                      // color: gameInfo.keyboard.isActive
+                      //     ? Colors.white
+                      //     : Colors.blueGrey,
+                    ),
+                  ),
                   onPressed: () {
                     // Submit the first key selected if not submitted yet
                     if (gameInfo.keyboard.isActive) {
@@ -74,16 +85,6 @@ class _KeyPressorState extends State<KeyPressor> {
                       });
                     }
                   },
-                  child: Text(
-                    key.value,
-                    style: TextStyle(
-                      color: gameInfo.keyboard.isActive
-                          ? Colors.white
-                          : Colors.blueGrey,
-                    ),
-                  ),
-                  shape: CircleBorder(),
-                  color: key.isSelected ? Colors.green : Colors.black,
                 ),
               ),
             );

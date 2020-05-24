@@ -22,7 +22,7 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
     return ChangeNotifierProvider(
       create: (context) => gameInfo,
       child: Scaffold(
-        backgroundColor: Color(0xFF21BFBD),
+        backgroundColor: Colors.cyan[800],
         appBar: AppBar(
           title: Text("PERFECT PITCH"),
           actions: <Widget>[
@@ -64,7 +64,7 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.blueGrey[100],
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(75.0),
                     topRight: Radius.circular(75.0),
