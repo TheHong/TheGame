@@ -8,15 +8,36 @@ class GameTitleBar extends StatelessWidget {
     return Consumer<GameInfo>(
       builder: (context, gameInfo, child) {
         return Container(
-            child: Column(
+            child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "Current score: ${(gameInfo.score).toStringAsFixed(3)}",
-              style: TextStyle(fontSize: 30.0),
+            Expanded(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    "Round ${gameInfo.currRound} of ${gameInfo.numRounds}",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  Text(
+                    "Score: ${(gameInfo.score).toStringAsFixed(3)}",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ],
+              ),
             ),
-            Text(
-              gameInfo.prompt,
-              style: TextStyle(fontSize: 30.0),
+            Expanded(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    gameInfo.prompt,
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  Text(
+                    "${gameInfo.counter.currCount}",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ],
+              ),
             ),
           ],
         ));

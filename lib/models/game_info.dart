@@ -6,14 +6,18 @@ import 'note_player.dart';
 class GameInfo extends ChangeNotifier {
   static int _numRounds = 3;
   static int _timePerRound = 5; // Duration of each round
-  static int _timePerPreparation = 3; // Duration of the countdown to the start of the round
-  static int _timePerEnd = 3; // Duration at the end of each round before the countdown of next round
+  static int _timePerPreparation =
+      3; // Duration of the countdown to the start of the round
+  static int _timePerEnd =
+      3; // Duration at the end of each round before the countdown of next round
   static Map _prompts = {
     "prep": "Get Ready!",
     "game": "GO!",
     "correct": "Correct!",
     "incorrect": "Incorrect!",
   };
+
+  int get numRounds => _numRounds;
 
   // TODO: Privatize if needed
   double score = 0.0;
@@ -40,23 +44,11 @@ class GameInfo extends ChangeNotifier {
     print("GameInfo initialized!");
   }
 
-  void resetRound() {
-    isRoundDone = false;
-    notePlayer.randomizeNote();
-    currNote = notePlayer.currNoteAsStr;
-    keyboard.reset();
-    selectedNote = "";
-    submitTime = -1;
-    currRound += 1;
-    prompt = "Get Ready!";
-    notifyListeners();
-  }
-
   void run() async {
     for (int i = 0; i < _numRounds; i++) {
       // Prepare for the round ------------------------------------------------
       // Prevent user from guessing before round even begins
-      keyboard.deactivate(); 
+      keyboard.deactivate();
 
       // Reset variables
       isRoundDone = false;
@@ -89,7 +81,8 @@ class GameInfo extends ChangeNotifier {
 
       // Give user time to choose
       keyboard.activate();
-      stopwatch.start(); // Used in another widget to get the exact time user submits
+      stopwatch
+          .start(); // Used in another widget to get the exact time user submits
       await counter.run(_timePerRound, notifyListeners);
       print(stopwatch.elapsedMicroseconds);
       stopwatch.stop();
@@ -131,6 +124,16 @@ class GameInfo extends ChangeNotifier {
     selectedNote = newNote;
     notifyListeners();
   }
+
+  String getDebugInfo() {
+    return "Chosen: $selectedNote\n" +
+        "Current: $currNote\n" +
+        "Keyboard Active: ${keyboard.isActive}\n" +
+        "Submit Time: $submitTime\n" +
+        "Correct: $isCorrect\n" +
+        "Round Complete: $isRoundDone}\n" +
+        "Game Complete: $isGameDone\n";
+  }
 }
 
 class Counter {
@@ -141,7 +144,7 @@ class Counter {
 
   Future run(int startCount, dynamic notifier) async {
     for (int i = startCount - 1; i >= 0; i--) {
-      // _currCount is only updated if other widgets are notified 
+      // _currCount is only updated if other widgets are notified
       if (notifier is Function) {
         _currCount = i;
         notifier();

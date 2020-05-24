@@ -40,13 +40,10 @@ class SubmitButton extends StatelessWidget {
             Visibility(
               visible: gameInfo.isDebugMode,
               child: Text(
-                "Chosen: ${gameInfo.selectedNote}\n" +
-                    "Current: ${gameInfo.currNote}\n" +
-                    "Keyboard Active: ${gameInfo.keyboard.isActive}\n" +
-                    "Submit Time: ${gameInfo.submitTime}\n" +
-                    "Correct: ${gameInfo.isCorrect}\n" +
-                    "Round Complete: ${gameInfo.isRoundDone}\n" +
-                    "Game Complete: ${gameInfo.isGameDone}\n",
+                gameInfo.getDebugInfo(),
+                style: TextStyle(
+                  fontSize: 8,
+                ),
               ),
             ),
           ],

@@ -15,6 +15,7 @@ class _NoteIconState extends State<NoteIcon> {
     return Consumer<GameInfo>(
       builder: (context, gameInfo, child) {
         return Container(
+          color: Colors.indigo,
             child: Padding(
           padding: const EdgeInsets.all(50.0),
           child: IconButton(

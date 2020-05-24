@@ -24,13 +24,15 @@ class _KeyPressorState extends State<KeyPressor> {
               style: TextStyle(fontSize: 50.0),
             ),
             createKeyRow(
-                keys: gameInfo.keyboard.blackKeys,
-                gameInfo: gameInfo,
-                leftPadding: 30),
+              keys: gameInfo.keyboard.blackKeys,
+              gameInfo: gameInfo,
+              leftPadding: 30,
+            ),
             createKeyRow(
-                keys: gameInfo.keyboard.whiteKeys,
-                gameInfo: gameInfo,
-                leftPadding: 0)
+              keys: gameInfo.keyboard.whiteKeys,
+              gameInfo: gameInfo,
+              leftPadding: 0,
+            )
           ],
         ),
       );
@@ -60,7 +62,7 @@ class _KeyPressorState extends State<KeyPressor> {
                 child: FlatButton(
                   onPressed: () {
                     // Submit the first key selected if not submitted yet
-                    if (gameInfo.submitTime < 0) {
+                    if (gameInfo.keyboard.isActive) {
                       gameInfo.setSubmitTime(
                           gameInfo.stopwatch.elapsedMicroseconds / pow(10, 6));
                       // Navigator.pushNamed(context, '/waiting_page');
@@ -75,7 +77,9 @@ class _KeyPressorState extends State<KeyPressor> {
                   child: Text(
                     key.value,
                     style: TextStyle(
-                      color: gameInfo.keyboard.isActive ? Colors.blueGrey : Colors.white,
+                      color: gameInfo.keyboard.isActive
+                          ? Colors.white
+                          : Colors.blueGrey,
                     ),
                   ),
                   shape: CircleBorder(),

@@ -25,7 +25,10 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
           title: Text("PERFECT PITCH"),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.bug_report, color: gameInfo.isDebugMode?Colors.greenAccent:Colors.white),
+              icon: Icon(
+                Icons.bug_report,
+                color: gameInfo.isDebugMode ? Colors.greenAccent : Colors.white,
+              ),
               onPressed: () {
                 setState(() {
                   gameInfo.isDebugMode = !gameInfo.isDebugMode;
