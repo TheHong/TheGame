@@ -12,5 +12,5 @@ void main() => runApp(MaterialApp(
     '/perfect_pitch': (context) => PerfectPitchGame(),
     '/waiting_page': (context) => WaitingPage(),
   },
-  theme: getTheme(name: "futuristic"),
+  theme: getTheme(name: "chung"),
 ));

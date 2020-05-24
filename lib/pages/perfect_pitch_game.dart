@@ -24,7 +24,7 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          title: Text("PERFECT PITCH"),
+          title: Text("The Pitch"),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
           actions: <Widget>[
@@ -66,7 +66,7 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).backgroundColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(75.0),
                     topRight: Radius.circular(75.0),

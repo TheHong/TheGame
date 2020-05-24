@@ -28,7 +28,7 @@ class _NoteIconState extends State<NoteIcon> {
                   color: !gameInfo.keyboard.isActive && !gameInfo.isRoundDone
                       ? Colors.black
                       : gameInfo.isRoundDone
-                          ? (gameInfo.isCorrect ? Colors.green : Colors.red)
+                          ? (!gameInfo.isCorrect ? Colors.lightGreenAccent[700] : Colors.redAccent[700])
                           : Colors.blue,
                 ),
                 onPressed: !gameInfo.keyboard.isActive
