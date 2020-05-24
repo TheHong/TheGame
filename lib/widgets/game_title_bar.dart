@@ -7,45 +7,35 @@ class GameTitleBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GameInfo>(
       builder: (context, gameInfo, child) {
-        return Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [Colors.purple, Colors.white]),
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-            ),
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        "Round ${gameInfo.currRound} of ${gameInfo.numRounds}",
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      Text(
-                        "Score: ${(gameInfo.score).toStringAsFixed(3)}",
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                    ],
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [Colors.purple, Colors.white]),
+                borderRadius: BorderRadius.all(Radius.circular(25.0)),
+              ),
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    "Round\n${gameInfo.currRound} of ${gameInfo.numRounds}",
+                    style: TextStyle(fontSize: 15.0),
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        gameInfo.prompt,
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      Text(
+                  Expanded(
+                    child: Center(
+                      child: Text(
                         "${gameInfo.counter.currCount}",
-                        style: TextStyle(fontSize: 20.0),
+                        style: TextStyle(fontSize: 30.0),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
-            ));
+                  Text(
+                    "Score\n${(gameInfo.score).toStringAsFixed(3)}",
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+                ],
+              )),
+        );
       },
     );
   }

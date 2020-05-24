@@ -15,7 +15,7 @@ class _NoteIconState extends State<NoteIcon> {
         return Container(
             color: gameInfo.isDebugMode ? Colors.indigo : Colors.transparent,
             child: Padding(
-              padding: const EdgeInsets.all(50.0),
+              padding: const EdgeInsets.only(top:30.0, bottom: 20.0),
               child: OutlineButton(
                 padding: EdgeInsets.all(25),
                 shape: CircleBorder(),

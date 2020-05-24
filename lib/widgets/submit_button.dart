@@ -7,8 +7,17 @@ class SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GameInfo>(builder: (context, gameInfo, child) {
       return Container(
-        child: Row(
+        child: Column(
           children: <Widget>[
+            Visibility(
+              visible: gameInfo.isDebugMode,
+              child: Text(
+                gameInfo.getDebugInfo(),
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+              ),
+            ),
             Visibility(
               visible: gameInfo.isGameDone,
               maintainSize: true,
@@ -19,15 +28,6 @@ class SubmitButton extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, '/'); // TODO: Create result page
                 },
-              ),
-            ),
-            Visibility(
-              visible: gameInfo.isDebugMode,
-              child: Text(
-                gameInfo.getDebugInfo(),
-                style: TextStyle(
-                  fontSize: 12,
-                ),
               ),
             ),
           ],

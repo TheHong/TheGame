@@ -3,6 +3,7 @@ import 'package:game_app/models/game_info.dart';
 import 'package:game_app/widgets/game_title_bar.dart';
 import 'package:game_app/widgets/key_pressor.dart';
 import 'package:game_app/widgets/note_icon.dart';
+import 'package:game_app/widgets/prompter.dart';
 import 'package:game_app/widgets/submit_button.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +26,12 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
         appBar: AppBar(
           title: Text("PERFECT PITCH"),
           actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {
+                Navigator.pushNamed(context, '/');
+              },
+            ),
             IconButton(
               icon: Icon(Icons.directions_run),
               onPressed: () {
@@ -54,29 +61,23 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             GameTitleBar(),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(75.0),
-                  topRight: Radius.circular(75.0),
-                ),
-              ),
-              child: Column(
-                children: <Widget>[
-                  NoteIcon(),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
-                    child: Text(
-                      gameInfo.prompt,
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(75.0),
+                    topRight: Radius.circular(75.0),
                   ),
-                  KeyPressor(),
-                  SubmitButton(),
-                ],
+                ),
+                child: Column(
+                  children: <Widget>[
+                    NoteIcon(),
+                    Prompter(),
+                    KeyPressor(),
+                    SubmitButton(),
+                  ],
+                ),
               ),
             ),
           ],

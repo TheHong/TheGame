@@ -5,7 +5,7 @@ import 'note_player.dart';
 
 class GameInfo extends ChangeNotifier {
   static int _numRounds = 3;
-  static int _timePerRound = 5; // Duration of each round
+  static int _timePerRound = 10; // Duration of each round
   static int _timePerPreparation =
       3; // Duration of the countdown to the start of the round
   static int _timePerEnd =
