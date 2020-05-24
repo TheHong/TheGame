@@ -6,10 +6,10 @@ import 'package:game_app/pages/waiting.dart';
 
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
-  initialRoute: '/perfect_pitch', // To override the default of '/'
+  initialRoute: '/', // To override the default of '/'
   routes: {
     '/': (context) => Home(),
-    '/perfect_pitch': (context) => PerfectPitchGame(),
+    '/the_pitch': (context) => PerfectPitchGame(),
     '/waiting_page': (context) => WaitingPage(),
   },
   theme: getTheme(name: "chung"),
