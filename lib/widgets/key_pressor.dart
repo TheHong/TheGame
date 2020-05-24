@@ -41,54 +41,59 @@ class _KeyPressorState extends State<KeyPressor> {
 
   Widget createKeyRow(
       {List<SingleKey> keys, GameInfo gameInfo, double leftPadding}) {
-    return Container(
-      color: gameInfo.isDebugMode ? Colors.lightBlueAccent : Colors.transparent,
-      height: 50.0,
-      padding: EdgeInsets.only(left: leftPadding),
-      // Iterating through keys and building the buttons
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: keys.length,
-          itemBuilder: (context, index) {
-            SingleKey key = keys[index];
-            return Visibility(
-              // To deactivate the disabled keys (e.g. E# key)
-              visible: !key.isDisabled,
-              maintainSize: true,
-              maintainState: true,
-              maintainAnimation: true,
-              child: Container(
-                width: 55.0, // TODO: Change this so that not hardcoded
-                child: FlatButton(
-                  shape: CircleBorder(),
-                  color: key.isSelected ? Colors.green : Colors.grey[800],
-                  child: Text(
-                    key.value,
-                    style: TextStyle(
-                      color: Colors.white,
-                      // color: gameInfo.keyboard.isActive
-                      //     ? Colors.white
-                      //     : Colors.blueGrey,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+      child: Container(
+        color: gameInfo.isDebugMode ? Colors.lightBlueAccent : Colors.transparent,
+        height: 50.0,
+        padding: EdgeInsets.only(left: leftPadding),
+        // Iterating through keys and building the buttons
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: keys.length,
+            itemBuilder: (context, index) {
+              SingleKey key = keys[index];
+              return Visibility(
+                // To deactivate the disabled keys (e.g. E# key)
+                visible: !key.isDisabled,
+                maintainSize: true,
+                maintainState: true,
+                maintainAnimation: true,
+                child: Container(
+                  width: 55.0, // TODO: Change this so that not hardcoded
+                  child: FlatButton(
+                    shape: CircleBorder(),
+                    color: key.isSelected
+                        ? Colors.black
+                        : Theme.of(context).accentColor,
+                    child: Text(
+                      key.value,
+                      style: TextStyle(
+                        color: Colors.white,
+                        // color: gameInfo.keyboard.isActive
+                        //     ? Colors.white
+                        //     : Colors.blueGrey,
+                      ),
                     ),
-                  ),
-                  onPressed: () {
-                    // Submit the first key selected if not submitted yet
-                    if (gameInfo.keyboard.isActive) {
-                      gameInfo.setSubmitTime(
-                          gameInfo.stopwatch.elapsedMicroseconds / pow(10, 6));
-                      // Navigator.pushNamed(context, '/waiting_page');
+                    onPressed: () {
+                      // Submit the first key selected if not submitted yet
+                      if (gameInfo.keyboard.isActive) {
+                        gameInfo.setSubmitTime(
+                            gameInfo.stopwatch.elapsedMicroseconds / pow(10, 6));
+                        // Navigator.pushNamed(context, '/waiting_page');
 
-                      setState(() {
-                        gameInfo.keyboard.select(key);
-                        gameInfo.keyboard.deactivate();
-                        gameInfo.setSelected(key.isSelected ? key.value : "");
-                      });
-                    }
-                  },
+                        setState(() {
+                          gameInfo.keyboard.select(key);
+                          gameInfo.keyboard.deactivate();
+                          gameInfo.setSelected(key.isSelected ? key.value : "");
+                        });
+                      }
+                    },
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+      ),
     );
   }
 }
