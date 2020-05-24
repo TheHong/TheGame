@@ -7,7 +7,7 @@ class Prompter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GameInfo>(builder: (context, gameInfo, child) {
       return Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
+        padding: const EdgeInsets.only(bottom: 22.0),
         child: Text(
           gameInfo.prompt,
           style: TextStyle(

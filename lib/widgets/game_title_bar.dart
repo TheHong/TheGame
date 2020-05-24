@@ -17,9 +17,17 @@ class GameTitleBar extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: Row(
                 children: <Widget>[
-                  Text(
-                    "Round\n${gameInfo.currRound} of ${gameInfo.numRounds}",
-                    style: TextStyle(fontSize: 15.0),
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        "Round",
+                        style: TextStyle(fontSize: 10.0),
+                      ),
+                      Text(
+                        "${gameInfo.currRound} of ${gameInfo.numRounds}",
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                    ],
                   ),
                   Expanded(
                     child: Center(
@@ -29,9 +37,17 @@ class GameTitleBar extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(
-                    "Score\n${(gameInfo.score).toStringAsFixed(3)}",
-                    style: TextStyle(fontSize: 15.0),
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        "Score",
+                        style: TextStyle(fontSize: 10.0),
+                      ),
+                      Text(
+                        "${(gameInfo.score).toStringAsFixed(3)}",
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                    ],
                   ),
                 ],
               )),

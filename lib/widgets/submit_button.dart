@@ -9,7 +9,11 @@ class SubmitButton extends StatelessWidget {
       return Container(
         child: Column(
           children: <Widget>[
+            // Debug Info
             Visibility(
+              maintainSize: true,
+              maintainState: true,
+              maintainAnimation: true,
               visible: gameInfo.isDebugMode,
               child: Text(
                 gameInfo.getDebugInfo(),
@@ -18,6 +22,7 @@ class SubmitButton extends StatelessWidget {
                 ),
               ),
             ),
+            // Actual Submit button
             Visibility(
               visible: gameInfo.isGameDone,
               maintainSize: true,
