@@ -30,7 +30,7 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
             IconButton(
               icon: Icon(Icons.file_download),
               onPressed: () {
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamed(context, '/waiting_page');
               },
             ),
             IconButton(
