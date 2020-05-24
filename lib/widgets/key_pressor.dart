@@ -40,7 +40,7 @@ class _KeyPressorState extends State<KeyPressor> {
     return Container(
       color: Colors.lightBlueAccent,
       height: 50.0,
-      // padding: EdgeInsets.only(left: leftPadding),
+      padding: EdgeInsets.only(left: leftPadding),
       // Iterating through keys and building the buttons
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -53,21 +53,24 @@ class _KeyPressorState extends State<KeyPressor> {
               maintainSize: true,
               maintainState: true,
               maintainAnimation: true,
-              child: RaisedButton(
-                onPressed: () {
-                  setState(() {
-                    gameInfo.keyboard.select(key);
-                    gameInfo.setSelected(key.isSelected ? key.value : "");
-                  });
-                },
-                child: Text(
-                  key.value,
-                  style: TextStyle(
-                    color: Colors.white,
+              child: Container(
+                width: 60.0, // TODO: Change this so that not hardcoded
+                child: FlatButton(
+                  onPressed: () {
+                    setState(() {
+                      gameInfo.keyboard.select(key);
+                      gameInfo.setSelected(key.isSelected ? key.value : "");
+                    });
+                  },
+                  child: Text(
+                    key.value,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
+                  shape: CircleBorder(),
+                  color: key.isSelected ? Colors.green : Colors.black,
                 ),
-                shape: CircleBorder(),
-                color: key.isSelected ? Colors.green : Colors.black,
               ),
             );
           }),
