@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:game_app/models/game_info.dart';
 import 'package:game_app/models/keyboard.dart';
@@ -57,15 +59,23 @@ class _KeyPressorState extends State<KeyPressor> {
                 width: 60.0, // TODO: Change this so that not hardcoded
                 child: FlatButton(
                   onPressed: () {
-                    setState(() {
-                      gameInfo.keyboard.select(key);
-                      gameInfo.setSelected(key.isSelected ? key.value : "");
-                    });
+                    // Submit the first key selected if not submitted yet
+                    if (gameInfo.submitTime < 0) {
+                      gameInfo.setSubmitTime(
+                          gameInfo.stopwatch.elapsedMicroseconds / pow(10, 6));
+                      // Navigator.pushNamed(context, '/waiting_page');
+
+                      setState(() {
+                        gameInfo.keyboard.select(key);
+                        gameInfo.keyboard.deactivate();
+                        gameInfo.setSelected(key.isSelected ? key.value : "");
+                      });
+                    }
                   },
                   child: Text(
                     key.value,
                     style: TextStyle(
-                      color: gameInfo.isDebugMode? Colors.red: Colors.white,
+                      color: gameInfo.keyboard.isActive ? Colors.blueGrey : Colors.white,
                     ),
                   ),
                   shape: CircleBorder(),

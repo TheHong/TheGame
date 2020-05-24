@@ -26,13 +26,6 @@ class _NoteIconState extends State<NoteIcon> {
             ),
             iconSize: 100,
             onPressed: () {
-              // Submit answer if a note is selected
-              if (gameInfo.selectedNote != "") {
-                gameInfo.setSubmitTime(
-                    gameInfo.stopwatch.elapsedMicroseconds / pow(10, 6));
-                // Navigator.pushNamed(context, '/waiting_page');
-              }
-
               // Play note
               gameInfo.notePlayer.play();
               print(

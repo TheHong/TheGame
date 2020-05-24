@@ -16,7 +16,7 @@ class Keyboard {
   SingleKey nullKey =
       SingleKey(value: ""); // Key that indicates no music key is selected
   // static const double keyPadding = 0.0; // Padding between keys
-  bool _isActive = true;
+  bool isActive = true;
 
   Keyboard() {
     // Define keys here
@@ -46,7 +46,7 @@ class Keyboard {
     /* Updates SingleKey states based on which key is selected.
     On the keyboard, at most one key is selected. Furthermore, a key can be deselected */
 
-    if (_isActive) {
+    if (isActive) {
       // Case 1: No key has been previously selected
       if (currKey == nullKey) {
         currKey = key;
@@ -75,10 +75,10 @@ class Keyboard {
   }
 
   void activate() {
-    _isActive = true;
+    isActive = true;
   }
 
   void deactivate() {
-    _isActive = false;
+    isActive = false;
   }
 }

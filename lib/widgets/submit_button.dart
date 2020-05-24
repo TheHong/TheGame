@@ -27,6 +27,9 @@ class SubmitButton extends StatelessWidget {
             ),
             Visibility(
               visible: gameInfo.isGameDone,
+              maintainSize: true,
+              maintainState: true,
+              maintainAnimation: true,
               child: FlatButton(
                 child: Text("End Game", style: TextStyle(fontSize: 25)),
                 onPressed: () {
@@ -39,6 +42,7 @@ class SubmitButton extends StatelessWidget {
               child: Text(
                 "Chosen: ${gameInfo.selectedNote}\n" +
                     "Current: ${gameInfo.currNote}\n" +
+                    "Keyboard Active: ${gameInfo.keyboard.isActive}\n" +
                     "Submit Time: ${gameInfo.submitTime}\n" +
                     "Correct: ${gameInfo.isCorrect}\n" +
                     "Round Complete: ${gameInfo.isRoundDone}\n" +
