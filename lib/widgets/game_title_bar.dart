@@ -19,7 +19,7 @@ class GameTitleBar extends StatelessWidget {
               style: TextStyle(fontSize: 15.0),
             ),
             Text(
-              "Counter => ${gameInfo.counter.currCount}|correct (${gameInfo.isCorrect})|round (${gameInfo.isResultDecided})",
+              "Counter => ${gameInfo.counter.currCount}|correct (${gameInfo.isCorrect})|round (${gameInfo.isRoundDone})",
               style: TextStyle(fontSize: 15.0),
             ),
             Text(

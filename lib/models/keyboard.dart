@@ -16,6 +16,7 @@ class Keyboard {
   SingleKey nullKey =
       SingleKey(value: ""); // Key that indicates no music key is selected
   // static const double keyPadding = 0.0; // Padding between keys
+  bool _isActive = true;
 
   Keyboard() {
     // Define keys here
@@ -45,29 +46,39 @@ class Keyboard {
     /* Updates SingleKey states based on which key is selected.
     On the keyboard, at most one key is selected. Furthermore, a key can be deselected */
 
-    // Case 1: No key has been previously selected
-    if (currKey == nullKey) {
-      currKey = key;
-      currKey.isSelected = true;
-
-      // Case 2: A key has been selected
-    } else {
-      // Deselect if pressing on selected key
-      if (currKey == key) {
-        currKey.isSelected = false;
-        currKey = nullKey;
-
-        // Select if pressing on unselected key
-      } else {
-        currKey.isSelected = false;
-        key.isSelected = true;
+    if (_isActive) {
+      // Case 1: No key has been previously selected
+      if (currKey == nullKey) {
         currKey = key;
+        currKey.isSelected = true;
+
+        // Case 2: A key has been selected
+      } else {
+        // Deselect if pressing on selected key
+        if (currKey == key) {
+          currKey.isSelected = false;
+          currKey = nullKey;
+
+          // Select if pressing on unselected key
+        } else {
+          currKey.isSelected = false;
+          key.isSelected = true;
+          currKey = key;
+        }
       }
     }
   }
 
-  void reset(){
+  void reset() {
     currKey.isSelected = false;
     currKey = nullKey;
+  }
+
+  void activate() {
+    _isActive = true;
+  }
+
+  void deactivate() {
+    _isActive = false;
   }
 }

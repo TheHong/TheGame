@@ -20,7 +20,7 @@ class _NoteIconState extends State<NoteIcon> {
           child: IconButton(
             icon: Icon(
               Icons.music_note,
-              color: gameInfo.isResultDecided
+              color: gameInfo.isRoundDone
                   ? (gameInfo.isCorrect ? Colors.green : Colors.red)
                   : Colors.blue,
             ),
