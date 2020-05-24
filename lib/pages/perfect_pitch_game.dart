@@ -21,9 +21,22 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
     return ChangeNotifierProvider(
       create: (context) => gameInfo,
       child: Scaffold(
+        backgroundColor: Color(0xFF21BFBD),
         appBar: AppBar(
           title: Text("PERFECT PITCH"),
           actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.directions_run),
+              onPressed: () {
+                gameInfo.run();
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.camera),
+              onPressed: () {
+                Navigator.pushNamed(context, '/waiting_page');
+              },
+            ),
             IconButton(
               icon: Icon(
                 Icons.bug_report,
@@ -41,9 +54,31 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             GameTitleBar(),
-            NoteIcon(),
-            KeyPressor(),
-            SubmitButton(),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(75.0),
+                  topRight: Radius.circular(75.0),
+                ),
+              ),
+              child: Column(
+                children: <Widget>[
+                  NoteIcon(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: Text(
+                      gameInfo.prompt,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  KeyPressor(),
+                  SubmitButton(),
+                ],
+              ),
+            ),
           ],
         ),
       ),

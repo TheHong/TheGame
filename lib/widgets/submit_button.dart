@@ -6,25 +6,9 @@ class SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<GameInfo>(builder: (context, gameInfo, child) {
-      return Expanded(
+      return Container(
         child: Row(
           children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.directions_run),
-              iconSize: 50.0,
-              color: Colors.greenAccent,
-              onPressed: () {
-                gameInfo.run();
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.delete),
-              iconSize: 30.0,
-              color: Colors.greenAccent,
-              onPressed: () {
-                Navigator.pushNamed(context, '/waiting_page');
-              },
-            ),
             Visibility(
               visible: gameInfo.isGameDone,
               maintainSize: true,
@@ -42,7 +26,7 @@ class SubmitButton extends StatelessWidget {
               child: Text(
                 gameInfo.getDebugInfo(),
                 style: TextStyle(
-                  fontSize: 8,
+                  fontSize: 12,
                 ),
               ),
             ),

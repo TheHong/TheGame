@@ -131,7 +131,7 @@ class GameInfo extends ChangeNotifier {
         "Keyboard Active: ${keyboard.isActive}\n" +
         "Submit Time: $submitTime\n" +
         "Correct: $isCorrect\n" +
-        "Round Complete: $isRoundDone}\n" +
+        "Round Complete: $isRoundDone\n" +
         "Game Complete: $isGameDone\n";
   }
 }

@@ -19,10 +19,10 @@ class _KeyPressorState extends State<KeyPressor> {
       return Container(
         child: Column(
           children: <Widget>[
-            Text(
-              gameInfo.keyboard.currKey.value,
-              style: TextStyle(fontSize: 50.0),
-            ),
+            // Text(
+            //   gameInfo.keyboard.currKey.value,
+            //   style: TextStyle(fontSize: 50.0),
+            // ),
             createKeyRow(
               keys: gameInfo.keyboard.blackKeys,
               gameInfo: gameInfo,
@@ -42,7 +42,7 @@ class _KeyPressorState extends State<KeyPressor> {
   Widget createKeyRow(
       {List<SingleKey> keys, GameInfo gameInfo, double leftPadding}) {
     return Container(
-      color: Colors.lightBlueAccent,
+      color: gameInfo.isDebugMode? Colors.lightBlueAccent: Colors.transparent,
       height: 50.0,
       padding: EdgeInsets.only(left: leftPadding),
       // Iterating through keys and building the buttons

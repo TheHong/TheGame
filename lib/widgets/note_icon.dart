@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:game_app/models/game_info.dart';
 import 'package:provider/provider.dart';
