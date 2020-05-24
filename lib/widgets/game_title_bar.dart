@@ -11,16 +11,20 @@ class GameTitleBar extends StatelessWidget {
             child: Column(
           children: <Widget>[
             Text(
-              "Current score: ${gameInfo.score}",
+              "Current score: ${(gameInfo.score).toStringAsFixed(3)}",
               style: TextStyle(fontSize: 30.0),
             ),
             Text(
-              "Chosen (${gameInfo.selectedNote}) | Current (${gameInfo.currNote})",
+              "Chosen (${gameInfo.selectedNote}) | Current (${gameInfo.currNote}) | Submitted (${gameInfo.submitTime})",
               style: TextStyle(fontSize: 15.0),
             ),
             Text(
-              "Submitted (${gameInfo.isSubmitted})",
+              "Counter => ${gameInfo.counter.currCount}|correct (${gameInfo.isCorrect})|round (${gameInfo.isResultDecided})",
               style: TextStyle(fontSize: 15.0),
+            ),
+            Text(
+              gameInfo.prompt,
+              style: TextStyle(fontSize: 30.0),
             ),
           ],
         ));
