@@ -6,6 +6,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
+// TODO: Navigation-related (disable back, pop off pages)
 class _HomeState extends State<Home> {
   List<Result> ppResults = [
     // Test results to be replaced later by data from a database

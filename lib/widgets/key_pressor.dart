@@ -44,7 +44,7 @@ class _KeyPressorState extends State<KeyPressor> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Container(
-        color: gameInfo.isDebugMode ? Colors.lightBlueAccent : Colors.transparent,
+        color: gameInfo.isDebugMode ? Colors.black12 : Colors.transparent,
         height: 50.0,
         padding: EdgeInsets.only(left: leftPadding),
         // Iterating through keys and building the buttons
@@ -69,10 +69,9 @@ class _KeyPressorState extends State<KeyPressor> {
                     child: Text(
                       key.value,
                       style: TextStyle(
-                        color: Colors.white,
-                        // color: gameInfo.keyboard.isActive
-                        //     ? Colors.white
-                        //     : Colors.blueGrey,
+                        color: gameInfo.keyboard.isActive
+                            ? Colors.white
+                            : Colors.blueGrey,
                       ),
                     ),
                     onPressed: () {

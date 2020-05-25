@@ -5,6 +5,7 @@ import 'note_player.dart';
 
 class GameInfo extends ChangeNotifier {
   static int _numRounds = 3;
+  static int _timeBeforeStart = 5; // Duration for game to load
   static int _timePerRound = 10; // Duration of each round
   static int _timePerPreparation =
       3; // Duration of the countdown to the start of the round
@@ -42,9 +43,16 @@ class GameInfo extends ChangeNotifier {
 
   GameInfo() {
     print("GameInfo initialized!");
+    // run();
   }
 
   void run() async {
+    // Prepare for the game ---------------------------------------------------
+    prompt="Welcome. Game is loading.";
+    keyboard.deactivate();
+    notifyListeners();
+    await counter.run(_timeBeforeStart, notifyListeners, isRedActive: false);
+
     for (int i = 0; i < _numRounds; i++) {
       // Prepare for the round ------------------------------------------------
       // Prevent user from guessing before round even begins
@@ -67,8 +75,7 @@ class GameInfo extends ChangeNotifier {
       notifyListeners();
 
       // Counts down for the user right before round begins
-      // The above changes are updated in the widgets using notifyLIsteners
-      await counter.run(_timePerPreparation, notifyListeners);
+      await counter.run(_timePerPreparation, notifyListeners, isRedActive: false);
 
       // Round ----------------------------------------------------------------
       // Start Round
@@ -142,11 +149,16 @@ class Counter {
   int get currCount => _currCount;
   set currCount(int num) => num;
 
-  Future run(int startCount, dynamic notifier) async {
+  Color defaultColour = Colors.black;
+  Color urgentColour = Colors.red;
+  Color colour = Colors.black;
+
+  Future run(int startCount, dynamic notifier, {bool isRedActive=true}) async {
     for (int i = startCount - 1; i >= 0; i--) {
       // _currCount is only updated if other widgets are notified
       if (notifier is Function) {
         _currCount = i;
+        colour = isRedActive && i <= 3? urgentColour: defaultColour;
         notifier();
       }
       await Future.delayed(Duration(seconds: 1), () {});

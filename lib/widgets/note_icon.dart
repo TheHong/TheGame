@@ -13,7 +13,7 @@ class _NoteIconState extends State<NoteIcon> {
     return Consumer<GameInfo>(
       builder: (context, gameInfo, child) {
         return Container(
-            color: gameInfo.isDebugMode ? Colors.indigo : Colors.transparent,
+            color: gameInfo.isDebugMode ? Colors.black12 : Colors.transparent,
             child: Padding(
               padding: const EdgeInsets.only(top:30.0, bottom: 20.0),
               child: OutlineButton(
@@ -28,7 +28,7 @@ class _NoteIconState extends State<NoteIcon> {
                   color: !gameInfo.keyboard.isActive && !gameInfo.isRoundDone
                       ? Colors.black
                       : gameInfo.isRoundDone
-                          ? (!gameInfo.isCorrect ? Colors.lightGreenAccent[700] : Colors.redAccent[700])
+                          ? (gameInfo.isCorrect ? Colors.lightGreenAccent[700] : Colors.redAccent[700])
                           : Colors.blue,
                 ),
                 onPressed: !gameInfo.keyboard.isActive

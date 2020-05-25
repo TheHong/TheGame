@@ -18,37 +18,45 @@ class GameTitleBar extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: Row(
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "Round",
-                        style: TextStyle(fontSize: 10.0),
-                      ),
-                      Text(
-                        "${gameInfo.currRound} of ${gameInfo.numRounds}",
-                        style: TextStyle(fontSize: 15.0),
-                      ),
-                    ],
+                  Visibility(
+                    visible: !gameInfo.isGameDone,
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          "Round",
+                          style: TextStyle(fontSize: 10.0),
+                        ),
+                        Text(
+                          "${gameInfo.currRound} of ${gameInfo.numRounds}",
+                          style: TextStyle(fontSize: 15.0),
+                        ),
+                      ],
+                    ),
                   ),
                   Expanded(
                     child: Center(
                       child: Text(
-                        "${gameInfo.counter.currCount}",
-                        style: TextStyle(fontSize: 30.0),
+                        !gameInfo.isGameDone
+                            ? "${gameInfo.counter.currCount}"
+                            : "Final Score: ${gameInfo.score.toStringAsFixed(3)}",
+                        style: TextStyle(fontSize: 30.0, color: gameInfo.counter.colour),
                       ),
                     ),
                   ),
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "Score",
-                        style: TextStyle(fontSize: 10.0),
-                      ),
-                      Text(
-                        "${(gameInfo.score).toStringAsFixed(3)}",
-                        style: TextStyle(fontSize: 15.0),
-                      ),
-                    ],
+                  Visibility(
+                    visible: !gameInfo.isGameDone,
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          "Score",
+                          style: TextStyle(fontSize: 10.0),
+                        ),
+                        Text(
+                          "${gameInfo.score.toStringAsFixed(3)}",
+                          style: TextStyle(fontSize: 15.0),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               )),

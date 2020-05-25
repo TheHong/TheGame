@@ -28,22 +28,29 @@ class _PerfectPitchGameState extends State<PerfectPitchGame> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
           actions: <Widget>[
+            Visibility(
+              visible: gameInfo.isDebugMode,
+              child: IconButton(
+                icon: Icon(Icons.directions_run),
+                onPressed: () {
+                  gameInfo.run();
+                },
+              ),
+            ),
+            Visibility(
+              visible: gameInfo.isDebugMode,
+              child: IconButton(
+                icon: Icon(Icons.camera),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/waiting_page');
+                },
+              ),
+            ),
             IconButton(
+              // TODO: Implement a "Are you sure?" if user wants to exits before game ends
               icon: Icon(Icons.home),
               onPressed: () {
                 Navigator.pushNamed(context, '/');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.directions_run),
-              onPressed: () {
-                gameInfo.run();
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.camera),
-              onPressed: () {
-                Navigator.pushNamed(context, '/waiting_page');
               },
             ),
             IconButton(
