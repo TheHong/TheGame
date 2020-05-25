@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/models/game_info.dart';
+import 'package:game_app/models/game_core.dart';
 import 'package:provider/provider.dart';
 
 class NoteIcon extends StatefulWidget {
@@ -10,7 +10,7 @@ class NoteIcon extends StatefulWidget {
 class _NoteIconState extends State<NoteIcon> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<GameInfo>(
+    return Consumer<ThePitchCore>(
       builder: (context, gameInfo, child) {
         return Container(
             color: gameInfo.isDebugMode ? Colors.black12 : Colors.transparent,

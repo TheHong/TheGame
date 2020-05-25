@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/models/game_info.dart';
+import 'package:game_app/models/game_core.dart';
 import 'package:game_app/widgets/game_title_bar.dart';
 import 'package:game_app/widgets/key_pressor.dart';
 import 'package:game_app/widgets/note_icon.dart';
@@ -13,7 +13,7 @@ class PerfectPitchGame extends StatefulWidget {
 }
 
 class _PerfectPitchGameState extends State<PerfectPitchGame> {
-  GameInfo gameInfo = GameInfo();
+  ThePitchCore gameInfo = ThePitchCore();
 
   // TODO: Create submit button to finish game
   // TODO: Organize perfect_pitch screen

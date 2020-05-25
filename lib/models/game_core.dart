@@ -3,7 +3,9 @@ import 'package:game_app/models/keyboard.dart';
 
 import 'note_player.dart';
 
-class GameInfo extends ChangeNotifier {
+
+
+class ThePitchCore extends ChangeNotifier {
   static int _numRounds = 3;
   static int _timeBeforeStart = 5; // Duration for game to load
   static int _timePerRound = 10; // Duration of each round
@@ -41,7 +43,7 @@ class GameInfo extends ChangeNotifier {
   final counter = Counter(); // To get time to be displayed
   final stopwatch = Stopwatch(); // To measure time
 
-  GameInfo() {
+  ThePitchCore() {
     print("GameInfo initialized!");
     // run();
   }

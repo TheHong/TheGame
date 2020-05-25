@@ -76,9 +76,9 @@ class _HomeState extends State<Home> {
                         colorGradient: [Colors.green[200], Colors.green[100]],
                       ),
                       gameCard(
-                        name: "The Stock",
+                        name: "The Icon",
                         subtitle: "Coming Soon",
-                        icon: Icons.attach_money,
+                        icon: Icons.face,
                         routeStr: '/waiting_page',
                         results: ppResults,
                         colorGradient: [Colors.red[200], Colors.red[100]],

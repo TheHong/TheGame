@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/models/game_info.dart';
+import 'package:game_app/models/game_core.dart';
 import 'package:provider/provider.dart';
 
 class SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<GameInfo>(builder: (context, gameInfo, child) {
+    return Consumer<ThePitchCore>(builder: (context, gameInfo, child) {
       return Container(
         child: Column(
           children: <Widget>[
