@@ -3,9 +3,48 @@ import 'package:game_app/models/keyboard.dart';
 
 import 'note_player.dart';
 
+class Counter {
+  /* Starts counting down at startCount - 1 */
+  int _currCount = 0;
+  int get currCount => _currCount;
+  set currCount(int num) => num;
+
+  Color defaultColour = Colors.black;
+  Color urgentColour = Colors.red;
+  Color colour = Colors.black;
+
+  Future run(int startCount, dynamic notifier,
+      {bool isRedActive = true}) async {
+    for (int i = startCount - 1; i >= 0; i--) {
+      // _currCount is only updated if other widgets are notified
+      if (notifier is Function) {
+        _currCount = i;
+        colour = isRedActive && i <= 3 ? urgentColour : defaultColour;
+        notifier();
+      }
+      await Future.delayed(Duration(seconds: 1), () {});
+    }
+    colour = defaultColour;
+  }
+}
 
 
-class ThePitchCore extends ChangeNotifier {
+abstract class GameCore extends ChangeNotifier {
+  final counter = Counter(); // To get time to be displayed
+
+  // TODO: Privatize if needed
+  double score = 0.0;
+  bool isRoundDone = false; // Is the round completed
+  bool isGameDone = false; // Are all the rounds completed
+  bool isDebugMode = false;
+
+  void run();
+  String getDebugInfo();
+}
+
+
+class ThePitchCore extends GameCore {
+  @override
   static int _numRounds = 3;
   static int _timeBeforeStart = 5; // Duration for game to load
   static int _timePerRound = 10; // Duration of each round
@@ -21,9 +60,6 @@ class ThePitchCore extends ChangeNotifier {
   };
 
   int get numRounds => _numRounds;
-
-  // TODO: Privatize if needed
-  double score = 0.0;
   int currRound = 0;
   String currNote = ""; // Current note to be identified
   String selectedNote = ""; // Note selected by player
@@ -33,14 +69,9 @@ class ThePitchCore extends ChangeNotifier {
       _prompts["prep"]; // Prompt to inform player of the current game status
 
   bool isCorrect = false; // Is the submitted answer correct
-  bool isRoundDone = false; // Is the round completed
-  bool isGameDone = false; // Are all the rounds completed
-
-  bool isDebugMode = false;
-
+  
   final notePlayer = NotePlayer(); // To play the tones
   final keyboard = Keyboard(); // Contains the information of the keys
-  final counter = Counter(); // To get time to be displayed
   final stopwatch = Stopwatch(); // To measure time
 
   ThePitchCore() {
@@ -48,9 +79,10 @@ class ThePitchCore extends ChangeNotifier {
     // run();
   }
 
+  @override
   void run() async {
     // Prepare for the game ---------------------------------------------------
-    prompt="Welcome. Game is loading.";
+    prompt = "Welcome. Game is loading.";
     keyboard.deactivate();
     notifyListeners();
     await counter.run(_timeBeforeStart, notifyListeners, isRedActive: false);
@@ -77,7 +109,8 @@ class ThePitchCore extends ChangeNotifier {
       notifyListeners();
 
       // Counts down for the user right before round begins
-      await counter.run(_timePerPreparation, notifyListeners, isRedActive: false);
+      await counter.run(_timePerPreparation, notifyListeners,
+          isRedActive: false);
 
       // Round ----------------------------------------------------------------
       // Start Round
@@ -119,11 +152,6 @@ class ThePitchCore extends ChangeNotifier {
     print("Done");
   }
 
-  // void incrScore(int addor) {
-  //   score += addor;
-  //   notifyListeners();
-  // }
-
   void setSubmitTime(double newSubmit) {
     submitTime = newSubmit;
     notifyListeners();
@@ -134,6 +162,7 @@ class ThePitchCore extends ChangeNotifier {
     notifyListeners();
   }
 
+  @override
   String getDebugInfo() {
     return "Chosen: $selectedNote\n" +
         "Current: $currNote\n" +
@@ -145,25 +174,3 @@ class ThePitchCore extends ChangeNotifier {
   }
 }
 
-class Counter {
-  /* Starts counting down at startCount - 1 */
-  int _currCount = 0;
-  int get currCount => _currCount;
-  set currCount(int num) => num;
-
-  Color defaultColour = Colors.black;
-  Color urgentColour = Colors.red;
-  Color colour = Colors.black;
-
-  Future run(int startCount, dynamic notifier, {bool isRedActive=true}) async {
-    for (int i = startCount - 1; i >= 0; i--) {
-      // _currCount is only updated if other widgets are notified
-      if (notifier is Function) {
-        _currCount = i;
-        colour = isRedActive && i <= 3? urgentColour: defaultColour;
-        notifier();
-      }
-      await Future.delayed(Duration(seconds: 1), () {});
-    }
-  }
-}
