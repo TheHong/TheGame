@@ -60,7 +60,7 @@ class _KeyPressorState extends State<KeyPressor> {
                 maintainState: true,
                 maintainAnimation: true,
                 child: Container(
-                  width: 55.0, // TODO: Change this so that not hardcoded
+                  width: 55.0, // TODO: Change this so that not hardcoded (use MediaQuery)
                   child: FlatButton(
                     shape: CircleBorder(),
                     color: key.isSelected
@@ -97,3 +97,4 @@ class _KeyPressorState extends State<KeyPressor> {
     );
   }
 }
+
