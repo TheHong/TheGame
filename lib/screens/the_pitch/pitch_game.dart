@@ -13,14 +13,14 @@ class PitchGame extends StatefulWidget {
 }
 
 class _PitchGameState extends State<PitchGame> {
-  ThePitchCore gameInfo = ThePitchCore(); // TODO: Change gameInfo to something else
+  ThePitchCore pitchCore = ThePitchCore(); 
 
   // TODO: Create submit button to finish game
   // TODO: Organize perfect_pitch screen
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => gameInfo,
+      create: (context) => pitchCore,
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -29,16 +29,16 @@ class _PitchGameState extends State<PitchGame> {
           elevation: 0,
           actions: <Widget>[
             Visibility(
-              visible: gameInfo.isDebugMode,
+              visible: pitchCore.isDebugMode,
               child: IconButton(
                 icon: Icon(Icons.directions_run),
                 onPressed: () {
-                  gameInfo.run();
+                  pitchCore.run();
                 },
               ),
             ),
             Visibility(
-              visible: gameInfo.isDebugMode,
+              visible: pitchCore.isDebugMode,
               child: IconButton(
                 icon: Icon(Icons.camera),
                 onPressed: () {
@@ -56,11 +56,11 @@ class _PitchGameState extends State<PitchGame> {
             IconButton(
               icon: Icon(
                 Icons.bug_report,
-                color: gameInfo.isDebugMode ? Colors.greenAccent : Colors.white,
+                color: pitchCore.isDebugMode ? Colors.greenAccent : Colors.white,
               ),
               onPressed: () {
                 setState(() {
-                  gameInfo.isDebugMode = !gameInfo.isDebugMode;
+                  pitchCore.isDebugMode = !pitchCore.isDebugMode;
                 });
               },
             )

@@ -15,7 +15,7 @@ class _KeyPressorState extends State<KeyPressor> {
   Widget build(BuildContext context) {
     print("Created keypressor");
     /* Contains one column with the current key selected, and the two keyboard rows */
-    return Consumer<ThePitchCore>(builder: (context, gameInfo, child) {
+    return Consumer<ThePitchCore>(builder: (context, pitchCore, child) {
       return Container(
         child: Column(
           children: <Widget>[
@@ -24,13 +24,13 @@ class _KeyPressorState extends State<KeyPressor> {
             //   style: TextStyle(fontSize: 50.0),
             // ),
             createKeyRow(
-              keys: gameInfo.keyboard.blackKeys,
-              gameInfo: gameInfo,
+              keys: pitchCore.keyboard.blackKeys,
+              gameInfo: pitchCore,
               leftPadding: 30,
             ),
             createKeyRow(
-              keys: gameInfo.keyboard.whiteKeys,
-              gameInfo: gameInfo,
+              keys: pitchCore.keyboard.whiteKeys,
+              gameInfo: pitchCore,
               leftPadding: 0,
             )
           ],

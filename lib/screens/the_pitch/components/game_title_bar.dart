@@ -6,7 +6,7 @@ class GameTitleBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ThePitchCore>(
-      builder: (context, gameInfo, child) {
+      builder: (context, pitchCore, child) {
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: Container(
@@ -19,7 +19,7 @@ class GameTitleBar extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Visibility(
-                    visible: !gameInfo.isGameDone,
+                    visible: !pitchCore.isGameDone,
                     child: Column(
                       children: <Widget>[
                         Text(
@@ -27,7 +27,7 @@ class GameTitleBar extends StatelessWidget {
                           style: TextStyle(fontSize: 10.0),
                         ),
                         Text(
-                          "${gameInfo.currRound} of ${gameInfo.numRounds}",
+                          "${pitchCore.currRound} of ${pitchCore.numRounds}",
                           style: TextStyle(fontSize: 15.0),
                         ),
                       ],
@@ -36,15 +36,15 @@ class GameTitleBar extends StatelessWidget {
                   Expanded(
                     child: Center(
                       child: Text(
-                        !gameInfo.isGameDone
-                            ? "${gameInfo.counter.currCount}"
-                            : "Final Score: ${gameInfo.score.toStringAsFixed(3)}",
-                        style: TextStyle(fontSize: 30.0, color: gameInfo.counter.colour),
+                        !pitchCore.isGameDone
+                            ? "${pitchCore.counter.currCount}"
+                            : "Final Score: ${pitchCore.score.toStringAsFixed(3)}",
+                        style: TextStyle(fontSize: 30.0, color: pitchCore.counter.colour),
                       ),
                     ),
                   ),
                   Visibility(
-                    visible: !gameInfo.isGameDone,
+                    visible: !pitchCore.isGameDone,
                     child: Column(
                       children: <Widget>[
                         Text(
@@ -52,7 +52,7 @@ class GameTitleBar extends StatelessWidget {
                           style: TextStyle(fontSize: 10.0),
                         ),
                         Text(
-                          "${gameInfo.score.toStringAsFixed(3)}",
+                          "${pitchCore.score.toStringAsFixed(3)}",
                           style: TextStyle(fontSize: 15.0),
                         ),
                       ],

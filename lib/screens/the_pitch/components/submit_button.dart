@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 class SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThePitchCore>(builder: (context, gameInfo, child) {
+    return Consumer<ThePitchCore>(builder: (context, pitchCore, child) {
       return Container(
         child: Column(
           children: <Widget>[
@@ -14,9 +14,9 @@ class SubmitButton extends StatelessWidget {
               maintainSize: true,
               maintainState: true,
               maintainAnimation: true,
-              visible: gameInfo.isDebugMode,
+              visible: pitchCore.isDebugMode,
               child: Text(
-                gameInfo.getDebugInfo(),
+                pitchCore.getDebugInfo(),
                 style: TextStyle(
                   fontSize: 12,
                 ),
@@ -24,7 +24,7 @@ class SubmitButton extends StatelessWidget {
             ),
             // Actual Submit button
             Visibility(
-              visible: gameInfo.isGameDone,
+              visible: pitchCore.isGameDone,
               maintainSize: true,
               maintainState: true,
               maintainAnimation: true,

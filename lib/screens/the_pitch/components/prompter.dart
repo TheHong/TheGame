@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 class Prompter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThePitchCore>(builder: (context, gameInfo, child) {
+    return Consumer<ThePitchCore>(builder: (context, pitchCore, child) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 22.0),
         child: Text(
-          gameInfo.prompt,
+          pitchCore.prompt,
           style: TextStyle(
             fontSize: 20,
           ),

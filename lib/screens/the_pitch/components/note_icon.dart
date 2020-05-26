@@ -11,9 +11,9 @@ class _NoteIconState extends State<NoteIcon> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ThePitchCore>(
-      builder: (context, gameInfo, child) {
+      builder: (context, pitchCore, child) {
         return Container(
-            color: gameInfo.isDebugMode ? Colors.black12 : Colors.transparent,
+            color: pitchCore.isDebugMode ? Colors.black12 : Colors.transparent,
             child: Padding(
               padding: const EdgeInsets.only(top:30.0, bottom: 20.0),
               child: OutlineButton(
@@ -25,19 +25,19 @@ class _NoteIconState extends State<NoteIcon> {
                   // Inactive: Black
                   // Awaiting user answer: Blue
                   // Displaying result: Green or Red
-                  color: !gameInfo.keyboard.isActive && !gameInfo.isRoundDone
+                  color: !pitchCore.keyboard.isActive && !pitchCore.isRoundDone
                       ? Colors.black
-                      : gameInfo.isRoundDone
-                          ? (gameInfo.isCorrect ? Colors.lightGreenAccent[700] : Colors.redAccent[700])
+                      : pitchCore.isRoundDone
+                          ? (pitchCore.isCorrect ? Colors.lightGreenAccent[700] : Colors.redAccent[700])
                           : Colors.blue,
                 ),
-                onPressed: !gameInfo.keyboard.isActive
+                onPressed: !pitchCore.keyboard.isActive
                     ? null
                     : () {
                         // Play note
-                        gameInfo.notePlayer.play();
+                        pitchCore.notePlayer.play();
                         print(
-                            "${gameInfo.notePlayer.currNote} (${gameInfo.notePlayer.currNoteAsStr})");
+                            "${pitchCore.notePlayer.currNote} (${pitchCore.notePlayer.currNoteAsStr})");
                       },
               ),
             ));
