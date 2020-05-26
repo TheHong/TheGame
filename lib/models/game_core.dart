@@ -39,6 +39,12 @@ abstract class GameCore extends ChangeNotifier {
 
   void run();
   String getDebugInfo();
+
+  @override
+  void dispose() {
+    super.dispose();
+    print("$this successfully disposed.}");
+  }
 }
 
 class ThePitchCore extends GameCore {
@@ -84,71 +90,75 @@ class ThePitchCore extends GameCore {
     notifyListeners();
     await counter.run(_timeBeforeStart, notifyListeners, isRedActive: false);
 
-    for (int i = 0; i < _numRounds; i++) {
-      // Prepare for the round ------------------------------------------------
-      // Prevent user from guessing before round even begins
-      keyboard.deactivate();
+    try {
+      for (int i = 0; i < _numRounds; i++) {
+        // Prepare for the round ------------------------------------------------
+        // Prevent user from guessing before round even begins
+        keyboard.deactivate();
 
-      // Reset variables
-      isRoundDone = false;
-      keyboard.reset();
-      selectedNote = "";
-      submitTime = -1;
+        // Reset variables
+        isRoundDone = false;
+        keyboard.reset();
+        selectedNote = "";
+        submitTime = -1;
 
-      // Update variables
-      prompt = _prompts["prep"];
-      currRound += 1;
+        // Update variables
+        prompt = _prompts["prep"];
+        currRound += 1;
 
-      // Get new note
-      notePlayer.randomizeNote();
-      currNote = notePlayer.currNoteAsStr;
-      keyboard.reset();
-      notifyListeners();
+        // Get new note
+        notePlayer.randomizeNote();
+        currNote = notePlayer.currNoteAsStr;
+        keyboard.reset();
+        notifyListeners();
 
-      // Counts down for the user right before round begins
-      await counter.run(_timePerPreparation, notifyListeners,
-          isRedActive: false);
+        // Counts down for the user right before round begins
+        await counter.run(_timePerPreparation, notifyListeners,
+            isRedActive: false);
 
-      // Round ----------------------------------------------------------------
-      // Start Round
-      print("Round $currRound commencing");
-      prompt = _prompts["game"];
-      notifyListeners();
+        // Round ----------------------------------------------------------------
+        // Start Round
+        print("Round $currRound commencing");
+        prompt = _prompts["game"];
+        notifyListeners();
 
-      // Play the note for player automatically
-      notePlayer.play();
+        // Play the note for player automatically
+        notePlayer.play();
 
-      // Give user time to choose
-      keyboard.activate();
-      stopwatch
-          .start(); // Used in another widget to get the exact time user submits
-      await counter.run(_timePerRound, notifyListeners);
-      print(stopwatch.elapsedMicroseconds);
-      stopwatch.stop();
-      stopwatch.reset();
-      keyboard.deactivate();
+        // Give user time to choose
+        keyboard.activate();
+        stopwatch
+            .start(); // Used in another widget to get the exact time user submits
+        await counter.run(_timePerRound, notifyListeners);
+        print(stopwatch.elapsedMicroseconds);
+        stopwatch.stop();
+        stopwatch.reset();
+        keyboard.deactivate();
 
-      // Evaluation -----------------------------------------------------------
-      // No answer was submitted or the answer is incorrect
-      if (submitTime == -1 || currNote != selectedNote) {
-        score += 0;
-        isCorrect = false;
-        prompt = "Incorrect!";
-      } else {
-        score += _timePerRound - submitTime;
-        isCorrect = true;
-        prompt = "Correct!";
+        // Evaluation -----------------------------------------------------------
+        // No answer was submitted or the answer is incorrect
+        if (submitTime == -1 || currNote != selectedNote) {
+          score += 0;
+          isCorrect = false;
+          prompt = "Incorrect!";
+        } else {
+          score += _timePerRound - submitTime;
+          isCorrect = true;
+          prompt = "Correct!";
+        }
+        isRoundDone = true;
+        isGameDone = i + 1 == _numRounds;
+        notifyListeners();
+
+        // Pause for user to get result feedback --------------------------------
+        await counter.run(_timePerEnd, false);
       }
-      isRoundDone = true;
-      isGameDone = i + 1 == _numRounds;
+      print("Done");
+      prompt = "";
       notifyListeners();
-
-      // Pause for user to get result feedback --------------------------------
-      await counter.run(_timePerEnd, false);
+    } on FlutterError {
+      print("Counter safely came to an abrupt end.");
     }
-    print("Done");
-    prompt = "";
-    notifyListeners();
   }
 
   void setSubmitTime(double newSubmit) {
@@ -212,13 +222,13 @@ class TheTrillCore extends GameCore {
     notifyListeners();
     await counter.run(_timePerEnd, false);
 
-    print("Done");    
+    print("Done");
   }
 
   String getDebugInfo() {
-    return "score: $score\n" + 
-    "keyboard active: ${keyboard.isActive}\n" + 
-    "previous tap: ${keyboard.prevTap}\n" +
-    "game done: $isGameDone";
+    return "score: $score\n" +
+        "keyboard active: ${keyboard.isActive}\n" +
+        "previous tap: ${keyboard.prevTap}\n" +
+        "game done: $isGameDone";
   }
 }
