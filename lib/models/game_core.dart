@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/models/the_pitch/keyboard.dart';
 import 'package:game_app/models/the_pitch/note_player.dart';
-
+import 'package:game_app/models/the_trill/mini_keyboard.dart';
 
 class Counter {
   /* Starts counting down at startCount - 1 */
@@ -28,7 +28,6 @@ class Counter {
   }
 }
 
-
 abstract class GameCore extends ChangeNotifier {
   final counter = Counter(); // To get time to be displayed
 
@@ -42,7 +41,6 @@ abstract class GameCore extends ChangeNotifier {
   String getDebugInfo();
 }
 
-
 class ThePitchCore extends GameCore {
   static int _numRounds = 3;
   static int _timeBeforeStart = 5; // Duration for game to load
@@ -52,6 +50,7 @@ class ThePitchCore extends GameCore {
   static int _timePerEnd =
       3; // Duration at the end of each round before the countdown of next round
   static Map _prompts = {
+    "loading": "Game is loading...",
     "prep": "Get Ready!",
     "game": "GO!",
     "correct": "Correct!",
@@ -68,7 +67,7 @@ class ThePitchCore extends GameCore {
       _prompts["prep"]; // Prompt to inform player of the current game status
 
   bool isCorrect = false; // Is the submitted answer correct
-  
+
   final notePlayer = NotePlayer(); // To play the tones
   final keyboard = Keyboard(); // Contains the information of the keys
   final stopwatch = Stopwatch(); // To measure time
@@ -81,8 +80,7 @@ class ThePitchCore extends GameCore {
   @override
   void run() async {
     // Prepare for the game ---------------------------------------------------
-    prompt = "Welcome. Game is loading.";
-    keyboard.deactivate();
+    prompt = _prompts["loading"];
     notifyListeners();
     await counter.run(_timeBeforeStart, notifyListeners, isRedActive: false);
 
@@ -149,6 +147,8 @@ class ThePitchCore extends GameCore {
       await counter.run(_timePerEnd, false);
     }
     print("Done");
+    prompt = "";
+    notifyListeners();
   }
 
   void setSubmitTime(double newSubmit) {
@@ -173,3 +173,52 @@ class ThePitchCore extends GameCore {
   }
 }
 
+class TheTrillCore extends GameCore {
+  static int _timeBeforeStart = 5; // Duration for game to load
+  static int _timePerRound = 11; // Duration of each round
+  static int _timePerPreparation =
+      5; // Duration of the countdown to the start of the round
+  static int _timePerEnd =
+      3; // Duration at the end of each round before the countdown of next round
+
+  String prompt = "Welcome";
+  MiniKeyboard keyboard = MiniKeyboard();
+
+  void run() async {
+    // Prepare for the game ---------------------------------------------------
+    prompt = "Game is loading...";
+    notifyListeners();
+    await counter.run(_timeBeforeStart, notifyListeners, isRedActive: false);
+
+    prompt = "Get Ready!";
+    notifyListeners();
+
+    // Counts down for the user right before game begins
+    await counter.run(_timePerPreparation, notifyListeners, isRedActive: false);
+
+    // Game  ----------------------------------------------------------------
+    // Start Round
+    prompt = "TRILL!";
+    keyboard.activate();
+    notifyListeners();
+
+    // Give player a certain amount of time to do the trills
+    await counter.run(_timePerRound, notifyListeners);
+    keyboard.deactivate();
+
+    // Pause for user to get result feedback --------------------------------
+    prompt = "";
+    isGameDone = true;
+    notifyListeners();
+    await counter.run(_timePerEnd, false);
+
+    print("Done");    
+  }
+
+  String getDebugInfo() {
+    return "score: $score\n" + 
+    "keyboard active: ${keyboard.isActive}\n" + 
+    "previous tap: ${keyboard.prevTap}\n" +
+    "game done: $isGameDone";
+  }
+}

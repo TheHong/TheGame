@@ -69,9 +69,9 @@ class _HomeState extends State<Home> {
                       ),
                       gameCard(
                         name: "The Trill",
-                        subtitle: "Coming Soon",
+                        subtitle: "How fast can you trill?",
                         icon: Icons.autorenew,
-                        routeStr: '/waiting_page',
+                        routeStr: '/the_trill',
                         results: ppResults,
                         colorGradient: [Colors.green[200], Colors.green[100]],
                       ),

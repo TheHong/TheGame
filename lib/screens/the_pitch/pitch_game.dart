@@ -13,7 +13,7 @@ class PitchGame extends StatefulWidget {
 }
 
 class _PitchGameState extends State<PitchGame> {
-  ThePitchCore gameInfo = ThePitchCore();
+  ThePitchCore gameInfo = ThePitchCore(); // TODO: Change gameInfo to something else
 
   // TODO: Create submit button to finish game
   // TODO: Organize perfect_pitch screen
