@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/models/game_core.dart';
+import 'package:game_app/screens/results.dart';
 import 'package:game_app/screens/the_pitch/components/game_title_bar.dart';
 import 'package:game_app/screens/the_pitch/components/key_pressor.dart';
 import 'package:game_app/screens/the_pitch/components/note_icon.dart';
@@ -13,13 +14,13 @@ class PitchGame extends StatefulWidget {
 }
 
 class _PitchGameState extends State<PitchGame> {
-  ThePitchCore pitchCore = ThePitchCore(); 
+  ThePitchCore pitchCore = ThePitchCore();
 
   // TODO: Create submit button to finish game
   // TODO: Organize perfect_pitch screen
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider<ThePitchCore>(
       create: (context) => pitchCore,
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -40,9 +41,14 @@ class _PitchGameState extends State<PitchGame> {
             Visibility(
               visible: pitchCore.isDebugMode,
               child: IconButton(
-                icon: Icon(Icons.camera),
+                icon: Icon(Icons.exit_to_app),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/waiting_page');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ResultsPage(pitchCore),
+                    ),
+                  );
                 },
               ),
             ),
@@ -56,7 +62,8 @@ class _PitchGameState extends State<PitchGame> {
             IconButton(
               icon: Icon(
                 Icons.bug_report,
-                color: pitchCore.isDebugMode ? Colors.greenAccent : Colors.white,
+                color:
+                    pitchCore.isDebugMode ? Colors.greenAccent : Colors.white,
               ),
               onPressed: () {
                 setState(() {

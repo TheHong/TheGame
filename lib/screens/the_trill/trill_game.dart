@@ -16,7 +16,7 @@ class _TrillGameState extends State<TrillGame> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider<TheTrillCore>(
         create: (context) => trillCore,
         child: Scaffold(
             backgroundColor: Colors.green[100],

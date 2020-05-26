@@ -9,9 +9,11 @@ class Home extends StatefulWidget {
 
 // TODO: Navigation-related (disable back, pop off pages)
 class _HomeState extends State<Home> {
+  // Results processing ==============================
   // These results to be replaced later by data from a database
   List<Result> ppResults = getSampleResults();
 
+  // Building the home screen ====================================
   @override
   Widget build(BuildContext context) {
     return Scaffold(
