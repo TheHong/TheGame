@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/models/game_core.dart';
-import 'package:game_app/widgets/game_title_bar.dart';
-import 'package:game_app/widgets/key_pressor.dart';
-import 'package:game_app/widgets/note_icon.dart';
-import 'package:game_app/widgets/prompter.dart';
-import 'package:game_app/widgets/submit_button.dart';
+import 'package:game_app/screens/the_pitch/components/game_title_bar.dart';
+import 'package:game_app/screens/the_pitch/components/key_pressor.dart';
+import 'package:game_app/screens/the_pitch/components/note_icon.dart';
+import 'package:game_app/screens/the_pitch/components/prompter.dart';
+import 'package:game_app/screens/the_pitch/components/submit_button.dart';
 import 'package:provider/provider.dart';
 
 class PerfectPitchGame extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/models/keyboard.dart';
+import 'package:game_app/models/the_pitch/keyboard.dart';
+import 'package:game_app/models/the_pitch/note_player.dart';
 
-import 'note_player.dart';
 
 class Counter {
   /* Starts counting down at startCount - 1 */
@@ -44,7 +44,6 @@ abstract class GameCore extends ChangeNotifier {
 
 
 class ThePitchCore extends GameCore {
-  @override
   static int _numRounds = 3;
   static int _timeBeforeStart = 5; // Duration for game to load
   static int _timePerRound = 10; // Duration of each round
