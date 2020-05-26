@@ -7,12 +7,12 @@ import 'package:game_app/screens/the_pitch/components/prompter.dart';
 import 'package:game_app/screens/the_pitch/components/submit_button.dart';
 import 'package:provider/provider.dart';
 
-class PerfectPitchGame extends StatefulWidget {
+class PitchGame extends StatefulWidget {
   @override
-  _PerfectPitchGameState createState() => _PerfectPitchGameState();
+  _PitchGameState createState() => _PitchGameState();
 }
 
-class _PerfectPitchGameState extends State<PerfectPitchGame> {
+class _PitchGameState extends State<PitchGame> {
   ThePitchCore gameInfo = ThePitchCore();
 
   // TODO: Create submit button to finish game
