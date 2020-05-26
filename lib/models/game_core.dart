@@ -79,7 +79,6 @@ class ThePitchCore extends GameCore {
   final stopwatch = Stopwatch(); // To measure time
 
   ThePitchCore() {
-    print("GameInfo initialized!");
     // run();
   }
 
@@ -193,6 +192,10 @@ class TheTrillCore extends GameCore {
 
   String prompt = "Welcome";
   MiniKeyboard keyboard = MiniKeyboard();
+
+  TheTrillCore() {
+    // run();
+  }
 
   void run() async {
     // Prepare for the game ---------------------------------------------------

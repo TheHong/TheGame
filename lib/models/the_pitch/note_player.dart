@@ -36,7 +36,6 @@ class NotePlayer {
   String get currNoteAsStr => getNoteAsStr(currNote); // Ignore which octave
 
   NotePlayer() {
-    print("Initializing NotePlayer");
     _load('assets/Piano.sf2');
     randomizeNote();
   }

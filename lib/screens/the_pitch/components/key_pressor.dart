@@ -13,7 +13,6 @@ class KeyPressor extends StatefulWidget {
 class _KeyPressorState extends State<KeyPressor> {
   @override
   Widget build(BuildContext context) {
-    print("Created keypressor");
     /* Contains one column with the current key selected, and the two keyboard rows */
     return Consumer<ThePitchCore>(builder: (context, pitchCore, child) {
       return Container(
