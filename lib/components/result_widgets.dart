@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:game_app/models/game_core.dart';
 import 'package:game_app/models/user.dart';
+import 'package:game_app/screens/results.dart';
 
 Widget getSmallMedalResultItem(int rank, Result result) {
   assert(rank <= 3, "One does not get a medal if the rank is more than 3");
@@ -31,6 +33,11 @@ Widget getMedalItem(int rank, double medalSize) {
     case 3: // Bronze
       {
         gradientColours = [Colors.brown, Colors.orange];
+      }
+      break;
+    case -1: // Debug
+      {
+        gradientColours = [Colors.white, Colors.white];
       }
   }
   return Container(
@@ -106,9 +113,8 @@ Widget getResultItem({int rank, Result result, int rankBeEmphasized = -1}) {
   );
 }
 
-void getName(BuildContext context, int rank) {
+void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
   double circleSize = 75;
-  String newName = "";
   final _getNameFormKey = GlobalKey<FormState>();
 
   showDialog(
@@ -163,7 +169,7 @@ void getName(BuildContext context, int rank) {
                             labelText: "Enter a name",
                           ),
                           onSaved: (value) {
-                            newName = value;
+                            gameCore.newName = value;
                           },
                           validator: (value) => value.isEmpty
                               ? "Must enter something"
@@ -179,7 +185,13 @@ void getName(BuildContext context, int rank) {
                           onPressed: () {
                             if (_getNameFormKey.currentState.validate()) {
                               _getNameFormKey.currentState.save();
-                              Navigator.of(context).pop();
+                              gameCore.updateResult();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ResultsPage(gameCore),
+                                ),
+                              );
                             }
                           },
                           child: Text("Submit"),
@@ -191,7 +203,9 @@ void getName(BuildContext context, int rank) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    rank <= 3 ? getMedalItem(rank, circleSize) : Text(""),
+                    gameCore.newRank <= 3
+                        ? getMedalItem(gameCore.newRank, circleSize)
+                        : Text(""),
                   ],
                 ),
               ],

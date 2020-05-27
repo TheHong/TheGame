@@ -45,7 +45,10 @@ abstract class GameCore extends ChangeNotifier {
   String prompt =
       "Welcome"; // Prompt to inform player of the current game status
   Result result = Result(game: "", name: "", score: -1);
+
+  // Variables used to store user info if they make it onto leaderboard
   int newRank = -1;
+  String newName = "";
 
   void run();
   String getGameName();
@@ -72,11 +75,16 @@ abstract class GameCore extends ChangeNotifier {
   }
 
   void updateResult({String name}) {
-    result = Result(game: getGameName(), name: name, score: score);
-    historicalResults.removeAt(historicalResults.length - 1);
-    historicalResults.insert(newRank - 1, result);
-    prompt = "Congrats! You are ranked $newRank!";
-    // TODO: Update firebase
+    if (newRank > 0) {
+      result = Result(game: getGameName(), name: newName, score: score);
+      historicalResults.removeAt(historicalResults.length - 1);
+      historicalResults.insert(newRank - 1, result);
+      prompt = "Congrats! You are ranked $newRank!";
+      // TODO: Update firebase
+
+    } else {
+      print("Not on leaderboard. No result to be updated");
+    }
   }
 
   @override

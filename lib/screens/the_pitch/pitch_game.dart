@@ -58,7 +58,7 @@ class _PitchGameState extends State<PitchGame> {
               child: IconButton(
                 icon: Icon(Icons.indeterminate_check_box),
                 onPressed: () {
-                  getName(context, 2);
+                  processNewLeaderboardResult(context, pitchCore);
                 },
               ),
             ),
