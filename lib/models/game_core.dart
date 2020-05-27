@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:game_app/models/the_pitch/keyboard.dart';
 import 'package:game_app/models/the_pitch/note_player.dart';
 import 'package:game_app/models/the_trill/mini_keyboard.dart';
+import 'package:game_app/models/user.dart';
 
 class Counter {
   /* Starts counting down at startCount - 1 */
@@ -15,14 +16,18 @@ class Counter {
 
   Future run(int startCount, dynamic notifier,
       {bool isRedActive = true}) async {
-    for (int i = startCount - 1; i >= 0; i--) {
-      // _currCount is only updated if other widgets are notified
-      if (notifier is Function) {
-        _currCount = i;
-        colour = isRedActive && i <= 3 ? urgentColour : defaultColour;
-        notifier();
+    try {
+      for (int i = startCount - 1; i >= 0; i--) {
+        // _currCount is only updated if other widgets are notified
+        if (notifier is Function) {
+          _currCount = i;
+          colour = isRedActive && i <= 3 ? urgentColour : defaultColour;
+          notifier();
+        }
+        await Future.delayed(Duration(seconds: 1), () {});
       }
-      await Future.delayed(Duration(seconds: 1), () {});
+    } on FlutterError {
+      print("Counter safely came to an abrupt end.");
     }
     colour = defaultColour;
   }
@@ -36,9 +41,41 @@ abstract class GameCore extends ChangeNotifier {
   bool isRoundDone = false; // Is the round completed
   bool isGameDone = false; // Are all the rounds completed
   bool isDebugMode = false;
+  List<Result> historicalResults;
+  String prompt =
+      "Welcome"; // Prompt to inform player of the current game status
+  Result result = Result(game: "", name: "", score: -1);
+  int newRank = -1;
 
   void run();
   String getDebugInfo();
+
+  void loadHistoricalResults() {
+    // TODO: Load from firebase (kinda repeat from the home.dart)
+    // The following is temprorary
+    historicalResults = getSampleResults();
+  }
+
+  void evaluateResult() {
+    if (score > historicalResults.last.score) {
+      // Player makes it onto the ranking
+      int rank;
+      result = Result(game: "TEMP", name: "TEMP", score: score);
+      for (rank = 1; rank <= historicalResults.length; rank++) {
+        if (score >= historicalResults[rank - 1].score) {
+          break;
+        }
+      }
+      
+      historicalResults.removeAt(historicalResults.length - 1);
+      historicalResults.insert(
+          rank - 1, result);
+      prompt = "Congrats! You are ranked $rank!";
+      newRank = rank;
+      // TODO: Update firebase
+
+    }
+  }
 
   @override
   void dispose() {
@@ -48,9 +85,9 @@ abstract class GameCore extends ChangeNotifier {
 }
 
 class ThePitchCore extends GameCore {
-  static int _numRounds = 3;
+  static int _numRounds = 1;
   static int _timeBeforeStart = 5; // Duration for game to load
-  static int _timePerRound = 10; // Duration of each round
+  static int _timePerRound = 5; // Duration of each round
   static int _timePerPreparation =
       3; // Duration of the countdown to the start of the round
   static int _timePerEnd =
@@ -69,8 +106,6 @@ class ThePitchCore extends GameCore {
   String selectedNote = ""; // Note selected by player
 
   double submitTime = -1; // Point in the COUNTDOWN that answer was submitted
-  String prompt =
-      _prompts["prep"]; // Prompt to inform player of the current game status
 
   bool isCorrect = false; // Is the submitted answer correct
 
@@ -79,6 +114,7 @@ class ThePitchCore extends GameCore {
   final stopwatch = Stopwatch(); // To measure time
 
   ThePitchCore() {
+    loadHistoricalResults();
     // run();
   }
 
@@ -156,7 +192,7 @@ class ThePitchCore extends GameCore {
       prompt = "";
       notifyListeners();
     } on FlutterError {
-      print("Counter safely came to an abrupt end.");
+      print("Core safely came to an abrupt end.");
     }
   }
 
@@ -190,10 +226,10 @@ class TheTrillCore extends GameCore {
   static int _timePerEnd =
       3; // Duration at the end of each round before the countdown of next round
 
-  String prompt = "Welcome";
   MiniKeyboard keyboard = MiniKeyboard();
 
   TheTrillCore() {
+    loadHistoricalResults();
     // run();
   }
 

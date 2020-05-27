@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:game_app/models/user.dart';
 
@@ -47,12 +45,21 @@ Widget getMedalItem(int rank, double medalSize) {
   );
 }
 
-Widget getResultItem(int rank, Result result) {
+Widget getResultItem(int rank, Result result, {int rankBeEmphasized = -1}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
     child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
+          boxShadow: rank == rankBeEmphasized
+              ? [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 10,
+                      blurRadius: 7,
+                      offset: Offset(0, 3))
+                ]
+              : [],
           gradient: LinearGradient(
             colors: rank % 2 == 0
                 ? [Colors.deepPurple[50], Colors.deepPurple[100]]
@@ -70,13 +77,26 @@ Widget getResultItem(int rank, Result result) {
                   ? getMedalItem(rank, 50)
                   : Padding(
                       padding: const EdgeInsets.only(left: 15.0),
-                      child: Text("$rank.", style: TextStyle(fontSize: 25)),
+                      child: Text(
+                        "$rank.",
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: rank == rankBeEmphasized
+                                ? FontWeight.bold
+                                : FontWeight.normal),
+                      ),
                     ),
             ),
             Expanded(
-                child: Text(result.name,
-                    style: TextStyle(fontSize: rank <= 3 ? 35 : 25))),
-            Text("${result.score}",
+                child: Text(
+              result.name,
+              style: TextStyle(
+                  fontSize: rank <= 3 ? 35 : 25,
+                  fontWeight: rank == rankBeEmphasized
+                      ? FontWeight.bold
+                      : FontWeight.normal),
+            )),
+            Text("${result.score.toStringAsFixed(3)}",
                 style: TextStyle(
                     fontSize: rank <= 3 ? 35 : 25,
                     fontWeight: FontWeight.bold,
