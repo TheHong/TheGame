@@ -62,21 +62,21 @@ abstract class GameCore extends ChangeNotifier {
     if (score > historicalResults.last.score) {
       // Player makes it onto the ranking
       int rank;
-      result = Result(game: getGameName(), name: "Unnamed", score: score);
       for (rank = 1; rank <= historicalResults.length; rank++) {
         if (score >= historicalResults[rank - 1].score) {
           break;
         }
       }
-      
-      historicalResults.removeAt(historicalResults.length - 1);
-      historicalResults.insert(
-          rank - 1, result);
-      prompt = "Congrats! You are ranked $rank!";
       newRank = rank;
-      // TODO: Update firebase
-
     }
+  }
+
+  void updateResult({String name}) {
+    result = Result(game: getGameName(), name: name, score: score);
+    historicalResults.removeAt(historicalResults.length - 1);
+    historicalResults.insert(newRank - 1, result);
+    prompt = "Congrats! You are ranked $newRank!";
+    // TODO: Update firebase
   }
 
   @override
@@ -120,10 +120,11 @@ class ThePitchCore extends GameCore {
     // run();
   }
 
-  String getGameName(){
+  String getGameName() {
     return "The Pitch";
   }
-  String getGamePath(){
+
+  String getGamePath() {
     return "/the_pitch";
   }
 
@@ -242,10 +243,11 @@ class TheTrillCore extends GameCore {
     // run();
   }
 
-  String getGameName(){
+  String getGameName() {
     return "The Trill";
   }
-  String getGamePath(){
+
+  String getGamePath() {
     return "/the_trill";
   }
 

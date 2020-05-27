@@ -53,17 +53,20 @@ class _PitchGameState extends State<PitchGame> {
                 },
               ),
             ),
+            Visibility(
+              visible: pitchCore.isDebugMode,
+              child: IconButton(
+                icon: Icon(Icons.indeterminate_check_box),
+                onPressed: () {
+                  getName(context, 2);
+                },
+              ),
+            ),
             IconButton(
               // TODO: Implement a "Are you sure?" if user wants to exits before game ends
               icon: Icon(Icons.home),
               onPressed: () {
                 Navigator.pushNamed(context, '/');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.indeterminate_check_box),
-              onPressed: () {
-                getNamePrompter(context, 2);
               },
             ),
             IconButton(
@@ -80,12 +83,16 @@ class _PitchGameState extends State<PitchGame> {
             )
           ],
         ),
-        body: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            GameTitleBar(),
-            Expanded(
-              child: Container(
+        body: MediaQuery.removePadding(
+          // Need this to remove the bottom listview padding
+          context: context,
+          removeBottom: true,
+          child: ListView(
+            // Need list view to prevent overflow when entering name
+            physics: NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              GameTitleBar(),
+              Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,
                   borderRadius: BorderRadius.only(
@@ -102,8 +109,8 @@ class _PitchGameState extends State<PitchGame> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

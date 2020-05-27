@@ -106,8 +106,11 @@ Widget getResultItem({int rank, Result result, int rankBeEmphasized = -1}) {
   );
 }
 
-void getNamePrompter(BuildContext context, int rank) {
-  double avatarRadius = 50;
+void getName(BuildContext context, int rank) {
+  double circleSize = 75;
+  String newName = "";
+  final _getNameFormKey = GlobalKey<FormState>();
+
   showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -119,7 +122,12 @@ void getNamePrompter(BuildContext context, int rank) {
             child: Stack(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(top: 20),
+                  margin: EdgeInsets.only(top: circleSize / 1.8),
+                  padding: EdgeInsets.only(
+                    top: circleSize / 2 + 10,
+                    left: 10,
+                    right: 10,
+                  ),
                   decoration: new BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.rectangle,
@@ -133,21 +141,35 @@ void getNamePrompter(BuildContext context, int rank) {
                     ],
                   ),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min, // To make the card compact
+                    mainAxisSize: MainAxisSize.min, // Ensuring compactness
                     children: <Widget>[
                       Text(
-                        "HELLO",
+                        "You made it onto the leaderboard!",
                         style: TextStyle(
-                          fontSize: 24.0,
+                          fontSize: 19.0,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       SizedBox(height: 16.0),
-                      Text(
-                        "TEXT HERE",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16.0,
+                      Form(
+                        key: _getNameFormKey,
+                        child: TextFormField(
+                          textCapitalization: TextCapitalization.words,
+                          cursorColor: Colors.green,
+                          decoration: InputDecoration(
+                            filled: true,
+                            icon: const Icon(Icons.person),
+                            hintText: "e.g. SKULE",
+                            labelText: "Enter a name",
+                          ),
+                          onSaved: (value) {
+                            newName = value;
+                          },
+                          validator: (value) => value.isEmpty
+                              ? "Must enter something"
+                              : (value.startsWith(" ") || value.endsWith(" ")
+                                  ? "Must not start or end with a space"
+                                  : null),
                         ),
                       ),
                       SizedBox(height: 24.0),
@@ -155,9 +177,12 @@ void getNamePrompter(BuildContext context, int rank) {
                         alignment: Alignment.bottomRight,
                         child: FlatButton(
                           onPressed: () {
-                            Navigator.of(context).pop(); // To close the dialog
+                            if (_getNameFormKey.currentState.validate()) {
+                              _getNameFormKey.currentState.save();
+                              Navigator.of(context).pop();
+                            }
                           },
-                          child: Text("PRESS THIS"),
+                          child: Text("Submit"),
                         ),
                       ),
                     ],
@@ -166,8 +191,7 @@ void getNamePrompter(BuildContext context, int rank) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircleAvatar(backgroundImage: AssetImage("assets/silver.png"), radius: avatarRadius,)
-                    // getMedalItem(rank, 45),
+                    rank <= 3 ? getMedalItem(rank, circleSize) : Text(""),
                   ],
                 ),
               ],

@@ -18,6 +18,7 @@ class ResultsPage extends StatelessWidget {
             icon: Icon(Icons.home),
             iconSize: 40,
             onPressed: () {
+              // Doesn't create new home screen. It just pops the result screen
               Navigator.pop(context);
             },
           ),
