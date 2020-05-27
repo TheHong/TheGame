@@ -138,6 +138,7 @@ class _HomeState extends State<Home> {
                   ),
                   Row(
                     children: <Widget>[
+                      // This does not take into account more than 3 players on podium
                       getSmallMedalResultItem(1, results[0]),
                       getSmallMedalResultItem(2, results[1]),
                       getSmallMedalResultItem(3, results[2]),
@@ -171,6 +172,8 @@ class _HomeState extends State<Home> {
 }
 
 void _showQuickResults(BuildContext context, List<Result> results) {
+  List<int> ranking = getRanking(results);
+  print(ranking);
   showDialog(
     context: context,
     builder: (context) => SimpleDialog(
@@ -184,7 +187,7 @@ void _showQuickResults(BuildContext context, List<Result> results) {
               scrollDirection: Axis.vertical,
               itemCount: results.length,
               itemBuilder: (context, index) {
-                return getResultItem(index + 1, results[index]);
+                return getResultItem(rank: ranking[index], result: results[index]);
               }),
         ),
       ],

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/components/result_widgets.dart';
 import 'package:game_app/models/game_core.dart';
+import 'package:game_app/models/user.dart';
 
 class ResultsPage extends StatelessWidget {
   final GameCore gameCore;
   ResultsPage(this.gameCore);
-
+  
   @override
   Widget build(BuildContext context) {
+    List<int> ranking = getRanking(gameCore.historicalResults);
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -61,8 +63,8 @@ class ResultsPage extends StatelessWidget {
                     itemCount: gameCore.historicalResults.length,
                     itemBuilder: (context, index) {
                       return getResultItem(
-                        index + 1,
-                        gameCore.historicalResults[index],
+                        rank: ranking[index],
+                        result: gameCore.historicalResults[index],
                         rankBeEmphasized: gameCore.newRank,
                       );
                     }),

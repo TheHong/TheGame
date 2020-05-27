@@ -45,7 +45,7 @@ Widget getMedalItem(int rank, double medalSize) {
   );
 }
 
-Widget getResultItem(int rank, Result result, {int rankBeEmphasized = -1}) {
+Widget getResultItem({int rank, Result result, int rankBeEmphasized = -1}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
     child: Container(
