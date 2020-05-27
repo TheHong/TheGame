@@ -46,9 +46,9 @@ abstract class GameCore extends ChangeNotifier {
   List<Result> historicalResults;
   String prompt =
       "Welcome"; // Prompt to inform player of the current game status
-  Result result = Result(game: "", name: "", score: -1);
 
   // Variables used to store user info if they make it onto leaderboard
+  Result newResult = Result(game: "", name: "", score: -1);
   int newIndex =
       -1; // Location in the list the new result is placed (not necessarily the actual rank)
   int newRank = -1; // Actual rank. Starts at 1!
@@ -67,39 +67,51 @@ abstract class GameCore extends ChangeNotifier {
 
   void evaluateResult() {
     /* In case of ties, the new player will have same rank, but will be earlier in the list */
-    //TODO: Account for nothing in list
-    if (score >= historicalResults.last.score) {
-      // If player makes it onto the ranking
+
+    if (historicalResults.isEmpty) {
+      newRank = 1;
+      newIndex = 0;
+    }
+    // If player makes it onto the ranking
+    else if (score >= historicalResults.last.score) {
       int j;
       for (j = 0; j < historicalResults.length; j++) {
-        if (score >= historicalResults[j - 1].score) {
+        if (score >= historicalResults[j].score) {
           break;
         }
       }
 
       newRank = getRanking(historicalResults.sublist(0, j)).last;
-      newIndex = j - 1;
-    } else if (historicalResults.length < leaderboardSize) {
+      newIndex = j;
       // If there's still space for the player
+    } else if (historicalResults.length < leaderboardSize) {
       newRank = historicalResults.length + 1;
       newIndex = historicalResults.length;
     }
   }
 
   void updateResult({String name}) {
+    /* Algorithm courtesy of Chi-Chung Cheung */
     if (newRank > 0) {
-      bool isLeaderboardFull = historicalResults.length < leaderboardSize;
-      bool isLastTwoTied = historicalResults.length >= 2 &&
-          historicalResults.last ==
-              historicalResults[historicalResults.length - 2];
-      bool isTiedWithLast = score == historicalResults.last;
-      result = Result(game: getGameName(), name: newName, score: score);
-      if (isLeaderboardFull && !isLastTwoTied && !isTiedWithLast)
-        historicalResults.removeLast();
-      historicalResults.insert(newIndex, result);
-      prompt = "Congrats! You are ranked $newRank!";
-      // TODO: Update firebase
+      // Insert at new index first
+      newResult = Result(game: getGameName(), name: newName, score: score);
+      historicalResults.insert(newIndex, newResult);
 
+      // Check validity of leaderboard
+      // Two checks below:
+      // Is leaderboard overflowing?
+      // Is there a tie at the supposed end of the leaderboard?
+      if (historicalResults.length > leaderboardSize) {
+        if (historicalResults[leaderboardSize] !=
+            historicalResults[leaderboardSize - 1]) {
+          historicalResults.removeRange(
+            leaderboardSize,
+            historicalResults.length,
+          );
+        }
+      }
+
+      // TODO: Update firebase
     } else {
       print("Not on leaderboard. No result to be updated");
     }

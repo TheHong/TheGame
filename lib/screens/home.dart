@@ -11,6 +11,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Results processing ==============================
   // These results to be replaced later by data from a database
+  // Also have to update after user played a game so that can see their new result on the leaderboard
   List<Result> ppResults = getSampleResults();
 
   // Building the home screen ====================================
@@ -136,14 +137,15 @@ class _HomeState extends State<Home> {
                       style: TextStyle(fontSize: 15.0, color: Colors.black26),
                     ),
                   ),
-                  Row(
-                    children: <Widget>[
-                      // This does not take into account more than 3 players on podium
-                      getSmallMedalResultItem(1, results[0]),
-                      getSmallMedalResultItem(2, results[1]),
-                      getSmallMedalResultItem(3, results[2]),
-                    ],
-                  ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     // This does not take into account more than 3 players on podium
+                  //     // Nor does it take into account there is less than 3 players
+                  //     getSmallMedalResultItem(1, results[0]),
+                  //     getSmallMedalResultItem(2, results[1]),
+                  //     getSmallMedalResultItem(3, results[2]),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
@@ -177,18 +179,27 @@ void _showQuickResults(BuildContext context, List<Result> results) {
   showDialog(
     context: context,
     builder: (context) => SimpleDialog(
-      title: Text("Historical Results (${results[0].game})",
+      title: Text(
+          results.isNotEmpty
+              ? "Historical Results (${results[0].game})"
+              : "No records yet!",
           style: TextStyle(fontSize: 20)),
       children: [
-        Container(
-          width: 300,
-          height: 300,
-          child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: results.length,
-              itemBuilder: (context, index) {
-                return getResultItem(rank: ranking[index], index: index, result: results[index]);
-              }),
+        Visibility(
+          visible: results.isNotEmpty,
+          child: Container(
+            width: 300,
+            height: 300,
+            child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: results.length,
+                itemBuilder: (context, index) {
+                  return getResultItem(
+                      rank: ranking[index],
+                      index: index,
+                      result: results[index]);
+                }),
+          ),
         ),
       ],
     ),

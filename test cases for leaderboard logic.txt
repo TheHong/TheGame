@@ -1,0 +1,12 @@
+Special cases
+-add into empty
+-leaderboard size 1
+
+Leaderboard size 5
+[5,4,3,2,1] add 6,2.5,0,  5,3,1
+[5,4,3,2,1,1] add 6,2,1.5,1
+[5,4,3,1,1] add 6,1.5,1
+[5,4,3,1,1,1] add 6,1.5,1
+[5,5,5,5,1] add 5
+[5,5,5,5,5] add 5,6
+[5,5,5,5,1,1,1] add 5,4

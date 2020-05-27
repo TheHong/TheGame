@@ -24,7 +24,7 @@ class ResultsPage extends StatelessWidget {
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text("Try Again"),
+              child: Text("Try Again"), // TODO: Should update the results so that when see results on next try, will have any new updates
               onPressed: () {
                 Navigator.popAndPushNamed(context, gameCore.getGamePath());
               },
@@ -36,7 +36,7 @@ class ResultsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                gameCore.result.score == -1 ? "" : gameCore.prompt,
+                gameCore.newResult.score == -1 ? "" : gameCore.prompt,
                 style: TextStyle(color: Colors.black, fontSize: 25),
               ),
             ),
