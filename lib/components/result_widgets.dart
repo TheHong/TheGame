@@ -114,9 +114,11 @@ Widget getResultItem({int rank, Result result, int rankBeEmphasized = -1}) {
 }
 
 void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
+  /* Creates a dialog on top of current screen to ask for name. */
+
   double circleSize = 75;
   final _getNameFormKey = GlobalKey<FormState>();
-
+  BuildContext prevContext = context; // Context of the current screen (below the dialog)
   showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -186,7 +188,8 @@ void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
                             if (_getNameFormKey.currentState.validate()) {
                               _getNameFormKey.currentState.save();
                               gameCore.updateResult();
-                              Navigator.pushReplacement(
+                              Navigator.pop(prevContext); // This removes the screen underneath
+                              Navigator.pushReplacement( // This removes the dialog
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ResultsPage(gameCore),

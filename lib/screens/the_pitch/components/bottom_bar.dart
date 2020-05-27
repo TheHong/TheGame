@@ -37,6 +37,9 @@ class BottomBar extends StatelessWidget {
             // Submit Button
             Visibility(
               visible: pitchCore.isGameDone,
+              maintainSize: true,
+              maintainState: true,
+              maintainAnimation: true,
               child: FlatButton(
                 child: Text("End Game", style: TextStyle(fontSize: 25)),
                 onPressed: () {
