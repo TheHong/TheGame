@@ -41,6 +41,7 @@ abstract class GameCore extends ChangeNotifier {
   bool isRoundDone = false; // Is the round completed
   bool isGameDone = false; // Are all the rounds completed
   bool isDebugMode = false;
+  bool isGameStarted = false; // Has the game started
   List<Result> historicalResults;
   String prompt =
       "Welcome"; // Prompt to inform player of the current game status
@@ -139,9 +140,7 @@ class ThePitchCore extends GameCore {
   @override
   void run() async {
     // Prepare for the game ---------------------------------------------------
-    prompt = _prompts["loading"];
-    notifyListeners();
-    await counter.run(_timeBeforeStart, notifyListeners, isRedActive: false);
+    isGameStarted = true;
 
     try {
       for (int i = 0; i < _numRounds; i++) {

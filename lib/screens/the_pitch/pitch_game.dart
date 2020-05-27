@@ -6,7 +6,7 @@ import 'package:game_app/screens/the_pitch/components/game_title_bar.dart';
 import 'package:game_app/screens/the_pitch/components/key_pressor.dart';
 import 'package:game_app/screens/the_pitch/components/note_icon.dart';
 import 'package:game_app/screens/the_pitch/components/prompter.dart';
-import 'package:game_app/screens/the_pitch/components/submit_button.dart';
+import 'package:game_app/screens/the_pitch/components/bottom_bar.dart';
 import 'package:provider/provider.dart';
 
 class PitchGame extends StatefulWidget {
@@ -30,15 +30,6 @@ class _PitchGameState extends State<PitchGame> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
           actions: <Widget>[
-            Visibility(
-              visible: pitchCore.isDebugMode,
-              child: IconButton(
-                icon: Icon(Icons.directions_run),
-                onPressed: () {
-                  pitchCore.run();
-                },
-              ),
-            ),
             Visibility(
               visible: pitchCore.isDebugMode,
               child: IconButton(
@@ -105,7 +96,7 @@ class _PitchGameState extends State<PitchGame> {
                     NoteIcon(),
                     Prompter(),
                     KeyPressor(),
-                    SubmitButton(),
+                    BottomBar(),
                   ],
                 ),
               ),

@@ -4,7 +4,7 @@ import 'package:game_app/models/game_core.dart';
 import 'package:game_app/screens/results.dart';
 import 'package:provider/provider.dart';
 
-class SubmitButton extends StatelessWidget {
+class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ThePitchCore>(builder: (context, pitchCore, child) {
@@ -24,12 +24,19 @@ class SubmitButton extends StatelessWidget {
                 ),
               ),
             ),
-            // Actual Submit button
+            // Start button
+            Visibility(
+              visible: !pitchCore.isGameStarted,
+              child: FlatButton(
+                child: Text("Begin", style: TextStyle(fontSize: 25)),
+                onPressed: () {
+                  pitchCore.run();
+                },
+              ),
+            ),
+            // Submit Button
             Visibility(
               visible: pitchCore.isGameDone,
-              maintainSize: true,
-              maintainState: true,
-              maintainAnimation: true,
               child: FlatButton(
                 child: Text("End Game", style: TextStyle(fontSize: 25)),
                 onPressed: () {
