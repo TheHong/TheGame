@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_app/components/result_widgets.dart';
 import 'package:game_app/models/game_core.dart';
 import 'package:game_app/screens/results.dart';
 import 'package:game_app/screens/the_pitch/components/game_title_bar.dart';
@@ -57,6 +58,12 @@ class _PitchGameState extends State<PitchGame> {
               icon: Icon(Icons.home),
               onPressed: () {
                 Navigator.pushNamed(context, '/');
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.indeterminate_check_box),
+              onPressed: () {
+                getNamePrompter(context, 2);
               },
             ),
             IconButton(

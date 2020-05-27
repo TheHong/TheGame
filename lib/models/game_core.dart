@@ -48,6 +48,8 @@ abstract class GameCore extends ChangeNotifier {
   int newRank = -1;
 
   void run();
+  String getGameName();
+  String getGamePath();
   String getDebugInfo();
 
   void loadHistoricalResults() {
@@ -60,7 +62,7 @@ abstract class GameCore extends ChangeNotifier {
     if (score > historicalResults.last.score) {
       // Player makes it onto the ranking
       int rank;
-      result = Result(game: "TEMP", name: "TEMP", score: score);
+      result = Result(game: getGameName(), name: "Unnamed", score: score);
       for (rank = 1; rank <= historicalResults.length; rank++) {
         if (score >= historicalResults[rank - 1].score) {
           break;
@@ -116,6 +118,13 @@ class ThePitchCore extends GameCore {
   ThePitchCore() {
     loadHistoricalResults();
     // run();
+  }
+
+  String getGameName(){
+    return "The Pitch";
+  }
+  String getGamePath(){
+    return "/the_pitch";
   }
 
   @override
@@ -231,6 +240,13 @@ class TheTrillCore extends GameCore {
   TheTrillCore() {
     loadHistoricalResults();
     // run();
+  }
+
+  String getGameName(){
+    return "The Trill";
+  }
+  String getGamePath(){
+    return "/the_trill";
   }
 
   void run() async {

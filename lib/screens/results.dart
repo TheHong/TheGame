@@ -19,6 +19,11 @@ class ResultsPage extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+          actions: <Widget>[
+            FlatButton(child: Text("Try Again"), onPressed: (){
+              Navigator.popAndPushNamed(context, '/the_pitch');
+            },)
+          ],
         ),
         body: Column(
           children: <Widget>[

@@ -33,6 +33,11 @@ class SubmitButton extends StatelessWidget {
                 child: Text("End Game", style: TextStyle(fontSize: 25)),
                 onPressed: () {
                   pitchCore.evaluateResult();
+                  if (pitchCore.newRank != -1){// If player gets onto the leaderboard
+                    print("TODO");
+                  }
+
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
