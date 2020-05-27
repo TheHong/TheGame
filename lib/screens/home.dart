@@ -187,7 +187,7 @@ void _showQuickResults(BuildContext context, List<Result> results) {
               scrollDirection: Axis.vertical,
               itemCount: results.length,
               itemBuilder: (context, index) {
-                return getResultItem(rank: ranking[index], result: results[index]);
+                return getResultItem(rank: ranking[index], index: index, result: results[index]);
               }),
         ),
       ],

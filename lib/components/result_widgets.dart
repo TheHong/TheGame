@@ -52,13 +52,14 @@ Widget getMedalItem(int rank, double medalSize) {
   );
 }
 
-Widget getResultItem({int rank, Result result, int rankBeEmphasized = -1}) {
+Widget getResultItem(
+    {int rank, int index, Result result, int indexBeEmphasized = -1}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
     child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          boxShadow: rank == rankBeEmphasized
+          boxShadow: index == indexBeEmphasized
               ? [
                   BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -88,7 +89,7 @@ Widget getResultItem({int rank, Result result, int rankBeEmphasized = -1}) {
                         "$rank.",
                         style: TextStyle(
                             fontSize: 25,
-                            fontWeight: rank == rankBeEmphasized
+                            fontWeight: index == indexBeEmphasized
                                 ? FontWeight.bold
                                 : FontWeight.normal),
                       ),
@@ -99,7 +100,7 @@ Widget getResultItem({int rank, Result result, int rankBeEmphasized = -1}) {
               result.name,
               style: TextStyle(
                   fontSize: rank <= 3 ? 35 : 25,
-                  fontWeight: rank == rankBeEmphasized
+                  fontWeight: index == indexBeEmphasized
                       ? FontWeight.bold
                       : FontWeight.normal),
             )),
@@ -118,7 +119,8 @@ void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
 
   double circleSize = 75;
   final _getNameFormKey = GlobalKey<FormState>();
-  BuildContext prevContext = context; // Context of the current screen (below the dialog)
+  BuildContext prevContext =
+      context; // Context of the current screen (below the dialog)
   showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -188,8 +190,10 @@ void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
                             if (_getNameFormKey.currentState.validate()) {
                               _getNameFormKey.currentState.save();
                               gameCore.updateResult();
-                              Navigator.pop(prevContext); // This removes the screen underneath
-                              Navigator.pushReplacement( // This removes the dialog
+                              Navigator.pop(
+                                  prevContext); // This removes the screen underneath
+                              Navigator.pushReplacement(
+                                // This removes the dialog
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ResultsPage(gameCore),

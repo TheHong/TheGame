@@ -6,7 +6,7 @@ import 'package:game_app/models/user.dart';
 class ResultsPage extends StatelessWidget {
   final GameCore gameCore;
   ResultsPage(this.gameCore);
-  
+
   @override
   Widget build(BuildContext context) {
     List<int> ranking = getRanking(gameCore.historicalResults);
@@ -23,9 +23,12 @@ class ResultsPage extends StatelessWidget {
             },
           ),
           actions: <Widget>[
-            FlatButton(child: Text("Try Again"), onPressed: (){
-              Navigator.popAndPushNamed(context, '/the_pitch');
-            },)
+            FlatButton(
+              child: Text("Try Again"),
+              onPressed: () {
+                Navigator.popAndPushNamed(context, '/the_pitch');
+              },
+            )
           ],
         ),
         body: Column(
@@ -65,8 +68,9 @@ class ResultsPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return getResultItem(
                         rank: ranking[index],
+                        index: index,
                         result: gameCore.historicalResults[index],
-                        rankBeEmphasized: gameCore.newRank,
+                        indexBeEmphasized: gameCore.newIndex,
                       );
                     }),
               ),
