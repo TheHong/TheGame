@@ -30,7 +30,7 @@ class _PitchGameState extends State<PitchGame> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
           actions: <Widget>[
-            Visibility(
+            Visibility( // TODO: to be removed
               visible: pitchCore.isDebugMode,
               child: IconButton(
                 icon: Icon(Icons.exit_to_app),
@@ -44,7 +44,7 @@ class _PitchGameState extends State<PitchGame> {
                 },
               ),
             ),
-            Visibility(
+            Visibility( // TODO: to be removed
               visible: pitchCore.isDebugMode,
               child: IconButton(
                 icon: Icon(Icons.indeterminate_check_box),
@@ -53,14 +53,13 @@ class _PitchGameState extends State<PitchGame> {
                 },
               ),
             ),
-            IconButton(
-              // TODO: Implement a "Are you sure?" if user wants to exits before game ends
+            IconButton( // TODO: to be removed
               icon: Icon(Icons.home),
               onPressed: () {
-                Navigator.pushNamed(context, '/');
+                Navigator.pop(context);
               },
             ),
-            IconButton(
+            IconButton( // TODO: to be removed
               icon: Icon(
                 Icons.bug_report,
                 color:

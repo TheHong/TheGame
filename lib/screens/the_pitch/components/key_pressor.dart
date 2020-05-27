@@ -78,7 +78,6 @@ class _KeyPressorState extends State<KeyPressor> {
                       if (gameInfo.keyboard.isActive) {
                         gameInfo.setSubmitTime(
                             gameInfo.stopwatch.elapsedMicroseconds / pow(10, 6));
-                        // Navigator.pushNamed(context, '/waiting_page');
 
                         setState(() {
                           gameInfo.keyboard.select(key);

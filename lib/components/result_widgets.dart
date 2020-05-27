@@ -193,7 +193,7 @@ void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
                               Navigator.pop(
                                   prevContext); // This removes the screen underneath
                               Navigator.pushReplacement(
-                                // This removes the dialog
+                                // This removes the dialog and navigates to results
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ResultsPage(gameCore),

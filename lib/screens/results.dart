@@ -26,7 +26,7 @@ class ResultsPage extends StatelessWidget {
             FlatButton(
               child: Text("Try Again"),
               onPressed: () {
-                Navigator.popAndPushNamed(context, '/the_pitch');
+                Navigator.popAndPushNamed(context, gameCore.getGamePath());
               },
             )
           ],
