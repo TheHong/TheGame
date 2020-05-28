@@ -57,12 +57,12 @@ abstract class GameCore extends ChangeNotifier {
   String getGameName();
   String getGamePath();
   String getDebugInfo();
-  void _run();
+  Future _run();
 
-  void run() {
+  void run() async {
     try {
       //Used to deal with the case where user abruptly ends game by exiting
-      _run();
+      await _run();
     } on FlutterError {
       print("Core safely came to an abrupt end.");
     }
@@ -176,7 +176,7 @@ class ThePitchCore extends GameCore {
   }
 
   @override
-  void _run() async {
+  Future _run() async {
     // Prepare for the game ---------------------------------------------------
     isGameStarted = true;
 
@@ -293,7 +293,7 @@ class TheTrillCore extends GameCore {
     return "/the_trill";
   }
 
-  void _run() async {
+  Future _run() async {
     // Game  ----------------------------------------------------------------
     // Start Round
     isGameStarted = true;
