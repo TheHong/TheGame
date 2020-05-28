@@ -50,8 +50,8 @@ class ProgressBarPainter extends CustomPainter {
   getRectPaint(LinearGradient gradient, Rect rect, bool isFill) {
     return Paint()
       ..strokeCap = StrokeCap.butt
-      ..style = isFill? PaintingStyle.fill: PaintingStyle.stroke
-      ..strokeWidth = isFill? 0: rect.height * _barThicknessFactor
+      ..style = isFill ? PaintingStyle.fill : PaintingStyle.stroke
+      ..strokeWidth = isFill ? 0 : rect.height * _barThicknessFactor
       ..shader = gradient.createShader(rect);
   }
 
@@ -81,9 +81,8 @@ class ProgressBarPainter extends CustomPainter {
     ];
 
     // Forming the rectangles to be painted
-    Rect bar = Rect.fromCenter(
-        center: Offset(0, 0), width: length, height: height);
-    // Rect.fromLTWH(topLeftCoords[0], topLeftCoords[1], length, height);
+    Rect bar =
+        Rect.fromCenter(center: Offset(0, 0), width: length, height: height);
     Rect progress = Rect.fromLTWH(
       topLeftCoords[0] + barThickness,
       topLeftCoords[1] + barThickness,
@@ -92,8 +91,8 @@ class ProgressBarPainter extends CustomPainter {
     );
 
     // Getting the paint based on the progress and rectangles
-    Paint barPaint =
-        getRectPaint(LinearGradient(colors: [barColour, barColour]), bar, false);
+    Paint barPaint = getRectPaint(
+        LinearGradient(colors: [barColour, barColour]), bar, false);
     Paint progressPaint =
         getRectPaint(progressGradients[progressIndex], progress, true);
 
@@ -111,9 +110,19 @@ class ProgressBarPainter extends CustomPainter {
       canvas.drawLine(
         Offset(horiCoord, vertCoord),
         Offset(horiCoord, vertCoord - 10),
-        getLinePaint(progressGradients[i + 1].colors[1]),
+        getLinePaint(progressGradients[i + 1].colors[0]),
       );
     }
+    // Draw current number of taps
+    TextPainter textPainter = TextPainter(
+        text: TextSpan(
+          text: "${score.toStringAsFixed(0)}",
+          style: TextStyle(color: Colors.black87),
+        ),
+        textDirection: TextDirection.ltr);
+    textPainter.layout();
+    textPainter.paint(canvas,
+        Offset(topLeftCoords[0] + progressLength, topLeftCoords[1] + barThickness + height));
   }
 
   @override
