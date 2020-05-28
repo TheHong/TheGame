@@ -10,19 +10,6 @@ class BottomBar extends StatelessWidget {
       return Container(
         child: Column(
           children: <Widget>[
-            // Debug Info
-            Visibility(
-              maintainSize: true,
-              maintainState: true,
-              maintainAnimation: true,
-              visible: pitchCore.isDebugMode,
-              child: Text(
-                pitchCore.getDebugInfo(),
-                style: TextStyle(
-                  fontSize: 10,
-                ),
-              ),
-            ),
             // Start button
             Visibility(
               visible: !pitchCore.isGameStarted,
@@ -33,7 +20,8 @@ class BottomBar extends StatelessWidget {
                 },
               ),
             ),
-            endgameWidget(context, pitchCore),
+            // End game button
+            endgameWidget(context, pitchCore),            
           ],
         ),
       );

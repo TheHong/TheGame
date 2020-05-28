@@ -4,7 +4,6 @@ import 'package:game_app/models/user.dart';
 import 'package:game_app/screens/results.dart';
 
 Widget getSmallMedalResultItem(int rank, Result result) {
-  assert(rank <= 3, "One does not get a medal if the rank is more than 3");
   return Row(
     children: <Widget>[
       Padding(
@@ -53,7 +52,11 @@ Widget getMedalItem(int rank, double medalSize) {
 }
 
 Widget getResultItem(
-    {int rank, int index, Result result, int numDecPlaces, int indexBeEmphasized = -1}) {
+    {int rank,
+    int index,
+    Result result,
+    int numDecPlaces,
+    int indexBeEmphasized = -1}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
     child: Container(
@@ -82,9 +85,9 @@ Widget getResultItem(
             Padding(
               padding: const EdgeInsets.only(right: 15.0),
               child: rank <= 3
-                  ? getMedalItem(rank, 50)
+                  ? getMedalItem(rank, 25)
                   : Padding(
-                      padding: const EdgeInsets.only(left: 15.0),
+                      padding: const EdgeInsets.only(left: 5),
                       child: Text(
                         "$rank.",
                         style: TextStyle(
@@ -99,14 +102,14 @@ Widget getResultItem(
                 child: Text(
               result.name,
               style: TextStyle(
-                  fontSize: rank <= 3 ? 35 : 25,
+                  fontSize: rank <= 3 ? 25 : 20,
                   fontWeight: index == indexBeEmphasized
                       ? FontWeight.bold
                       : FontWeight.normal),
             )),
             Text("${result.score.toStringAsFixed(numDecPlaces)}",
                 style: TextStyle(
-                    fontSize: rank <= 3 ? 35 : 25,
+                    fontSize: rank <= 3 ? 25 : 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white))
           ],
@@ -117,7 +120,7 @@ Widget getResultItem(
 void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
   /* Creates a dialog on top of current screen to ask for name. */
 
-  double circleSize = 75;
+  double circleSize = 50;
   final _getNameFormKey = GlobalKey<FormState>();
   BuildContext prevContext =
       context; // Context of the current screen (below the dialog)
@@ -156,7 +159,7 @@ void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
                       Text(
                         "You made it onto the leaderboard!",
                         style: TextStyle(
-                          fontSize: 19.0,
+                          fontSize: MediaQuery.of(context).size.width / 25,
                           fontWeight: FontWeight.w700,
                         ),
                       ),

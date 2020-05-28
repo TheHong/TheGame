@@ -11,19 +11,20 @@ class _MiniKeyPressorState extends State<MiniKeyPressor> {
   @override
   Widget build(BuildContext context) {
     return Consumer<TheTrillCore>(builder: (context, trillCore, child) {
-      return Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Colors.purpleAccent[100], Colors.purple[200]]),
-          borderRadius: BorderRadius.all(
-            Radius.circular(30),
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Colors.purpleAccent[100], Colors.purple[200]]),
+            borderRadius: BorderRadius.all(
+              Radius.circular(30),
+            ),
           ),
-        ),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   RaisedButton(
@@ -61,8 +62,8 @@ class _MiniKeyPressorState extends State<MiniKeyPressor> {
                   )
                 ],
               ),
-            )
-          ],
+            ],
+          ),
         ),
       );
     });

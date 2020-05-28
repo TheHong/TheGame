@@ -25,12 +25,12 @@ class _KeyPressorState extends State<KeyPressor> {
             createKeyRow(
               keys: pitchCore.keyboard.blackKeys,
               gameInfo: pitchCore,
-              leftPadding: 30,
+              isPadLeft: true,
             ),
             createKeyRow(
               keys: pitchCore.keyboard.whiteKeys,
               gameInfo: pitchCore,
-              leftPadding: 0,
+              isPadLeft: false,
             )
           ],
         ),
@@ -39,13 +39,16 @@ class _KeyPressorState extends State<KeyPressor> {
   }
 
   Widget createKeyRow(
-      {List<SingleKey> keys, ThePitchCore gameInfo, double leftPadding}) {
+      {List<SingleKey> keys, ThePitchCore gameInfo, bool isPadLeft}) {
+    const double paddingLR = 10;
+    const double paddingKey = 1;
+    double keyDiameter = (MediaQuery.of(context).size.width - 2 * paddingLR) / 7; // 7 white keys
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+      padding: const EdgeInsets.fromLTRB(paddingLR, 0, paddingLR, 0),
       child: Container(
         color: gameInfo.isDebugMode ? Colors.black12 : Colors.transparent,
         height: 50.0,
-        padding: EdgeInsets.only(left: leftPadding),
+        padding: EdgeInsets.only(left: isPadLeft ? keyDiameter / 2 : 0),
         // Iterating through keys and building the buttons
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -53,31 +56,35 @@ class _KeyPressorState extends State<KeyPressor> {
             itemBuilder: (context, index) {
               SingleKey key = keys[index];
               return Visibility(
-                // To deactivate the disabled keys (e.g. E# key)
+                // To hide the disabled keys (e.g. E# key)
                 visible: !key.isDisabled,
                 maintainSize: true,
                 maintainState: true,
                 maintainAnimation: true,
                 child: Container(
-                  width: 55.0, // TODO: Change this so that not hardcoded (use MediaQuery)
+                  width: keyDiameter,
+                  padding: EdgeInsets.all(paddingKey),
                   child: FlatButton(
                     shape: CircleBorder(),
                     color: key.isSelected
                         ? Colors.black
                         : Theme.of(context).accentColor,
+                    padding: EdgeInsets.zero,
                     child: Text(
                       key.value,
                       style: TextStyle(
                         color: gameInfo.keyboard.isActive
                             ? Colors.white
                             : Colors.blueGrey,
+                        fontSize: keyDiameter / 2.75,
                       ),
                     ),
                     onPressed: () {
                       // Submit the first key selected if not submitted yet
                       if (gameInfo.keyboard.isActive) {
                         gameInfo.setSubmitTime(
-                            gameInfo.stopwatch.elapsedMicroseconds / pow(10, 6));
+                            gameInfo.stopwatch.elapsedMicroseconds /
+                                pow(10, 6));
 
                         setState(() {
                           gameInfo.keyboard.select(key);
@@ -94,4 +101,3 @@ class _KeyPressorState extends State<KeyPressor> {
     );
   }
 }
-

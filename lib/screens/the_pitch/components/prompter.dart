@@ -7,7 +7,7 @@ class Prompter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThePitchCore>(builder: (context, pitchCore, child) {
       return Padding(
-        padding: const EdgeInsets.only(bottom: 22.0),
+        padding: const EdgeInsets.only(bottom: 22.0, top: 22.0),
         child: Text(
           pitchCore.prompt,
           style: TextStyle(

@@ -15,7 +15,9 @@ class _NoteIconState extends State<NoteIcon> {
         return Container(
             color: pitchCore.isDebugMode ? Colors.black12 : Colors.transparent,
             child: Padding(
-              padding: const EdgeInsets.only(top:30.0, bottom: 20.0),
+              padding: const EdgeInsets.only(
+                top: 30.0,
+              ),
               child: OutlineButton(
                 padding: EdgeInsets.all(25),
                 shape: CircleBorder(),
@@ -28,7 +30,9 @@ class _NoteIconState extends State<NoteIcon> {
                   color: !pitchCore.keyboard.isActive && !pitchCore.isRoundDone
                       ? Colors.black
                       : pitchCore.isRoundDone
-                          ? (pitchCore.isCorrect ? Colors.lightGreenAccent[700] : Colors.redAccent[700])
+                          ? (pitchCore.isCorrect
+                              ? Colors.lightGreenAccent[700]
+                              : Colors.redAccent[700])
                           : Colors.blue,
                 ),
                 onPressed: !pitchCore.keyboard.isActive

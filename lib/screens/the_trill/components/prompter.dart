@@ -11,9 +11,10 @@ class Prompter extends StatefulWidget {
 class _PrompterState extends State<Prompter> {
   @override
   Widget build(BuildContext context) {
+    const double progressBarHeight = 20;
     return Consumer<TheTrillCore>(builder: (context, trillCore, child) {
       return Padding(
-        padding: const EdgeInsets.only(top: 10, bottom: 20),
+        padding: const EdgeInsets.only(top: progressBarHeight, bottom: 20),
         child: Column(
           children: <Widget>[
             Text(
@@ -21,14 +22,19 @@ class _PrompterState extends State<Prompter> {
               style: TextStyle(fontSize: 20.0),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 100.0, bottom: 50),
+              padding: EdgeInsets.only(
+                top:
+                    progressBarHeight + MediaQuery.of(context).size.height / 15,
+                bottom: 50,
+              ),
               child: Align(
                 alignment: Alignment.center,
                 child: ProgressBar(
                   score: trillCore.score,
                   centerCoords: [0, 0],
-                  height: 20,
-                  length: 300,
+                  height: progressBarHeight,
+                  length: (MediaQuery.of(context).size.width - 10 * 2) *
+                      0.9, // 10 is the side paddings
                   checkpoints: trillCore.getCheckpoints(),
                   numDecPlaces: trillCore.getNumDecPlaces(),
                 ),

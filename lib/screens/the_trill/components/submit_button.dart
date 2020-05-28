@@ -10,20 +10,6 @@ class SubmitButton extends StatelessWidget {
       return Container(
         child: Column(
           children: <Widget>[
-            // Debug Info
-            Visibility(
-              maintainSize: true,
-              maintainState: true,
-              maintainAnimation: true,
-              visible: trillCore.isDebugMode,
-              child: Text(
-                trillCore.getDebugInfo(),
-                style: TextStyle(
-                  fontSize: 12,
-                ),
-              ),
-            ),
-            // Actual Submit button
             endgameWidget(context, trillCore),
           ],
         ),

@@ -7,7 +7,6 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-// TODO: Navigation-related (disable back, pop off pages)
 class _HomeState extends State<Home> {
   // Results processing ==============================
   // These results to be replaced later by data from a database
@@ -17,88 +16,91 @@ class _HomeState extends State<Home> {
   // Building the home screen ====================================
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF21BFBD),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 0, top: 30.0),
-            child: Text(
-              "The Game",
-              style: TextStyle(
-                fontFamily: "Montserrat",
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 50.0,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 18.0),
-            child: Text(
-              "by The Hong",
-              style: TextStyle(
-                fontFamily: "Montserrat",
-                color: Colors.white,
-                fontSize: 25.0,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-                decoration: BoxDecoration(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Color(0xFF21BFBD),
+        body: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 0, top: 30.0),
+              child: Text(
+                "The Game",
+                style: TextStyle(
+                  fontFamily: "Montserrat",
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(75.0),
-                  ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 50.0,
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(75.0),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 18.0),
+              child: Text(
+                "by The Hong",
+                style: TextStyle(
+                  fontFamily: "Montserrat",
+                  color: Colors.white,
+                  fontSize: 25.0,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(75.0),
+                    ),
                   ),
-                  child: ListView(
-                    children: <Widget>[
-                      gameCard(
-                        name: "The Pitch",
-                        subtitle: "Practice perfect pitch",
-                        icon: Icons.music_note,
-                        routeStr: '/the_pitch',
-                        results: ppResults,
-                        numDecPlaces: 3,
-                        colorGradient: [Colors.blue[200], Colors.blue[100]],
-                      ),
-                      gameCard(
-                        name: "The Trill",
-                        subtitle: "How fast can you trill?",
-                        icon: Icons.autorenew,
-                        routeStr: '/the_trill',
-                        results: ppResults,
-                        numDecPlaces: 0,
-                        colorGradient: [Colors.green[200], Colors.green[100]],
-                      ),
-                      gameCard(
-                        name: "The Icon",
-                        subtitle: "Coming Soon",
-                        icon: Icons.face,
-                        routeStr: '/waiting_page',
-                        results: ppResults,
-                        numDecPlaces: 0,
-                        colorGradient: [Colors.red[200], Colors.red[100]],
-                      ),
-                      gameCard(
-                        name: "The Bored",
-                        subtitle: "Coming Soon",
-                        icon: Icons.nature_people,
-                        routeStr: '/waiting_page',
-                        results: ppResults,
-                        numDecPlaces: 0,
-                        colorGradient: [Colors.lime[200], Colors.lime[100]],
-                      ),
-                    ],
-                  ),
-                )),
-          ),
-        ],
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(75.0),
+                    ),
+                    child: ListView(
+                      children: <Widget>[
+                        gameCard(
+                          name: "The Pitch",
+                          subtitle: "Practice perfect pitch",
+                          icon: Icons.music_note,
+                          routeStr: '/the_pitch',
+                          results: ppResults,
+                          numDecPlaces: 3,
+                          colorGradient: [Colors.blue[200], Colors.blue[100]],
+                        ),
+                        gameCard(
+                          name: "The Trill",
+                          subtitle: "How fast can you trill?",
+                          icon: Icons.autorenew,
+                          routeStr: '/the_trill',
+                          results: ppResults,
+                          numDecPlaces: 0,
+                          colorGradient: [Colors.green[200], Colors.green[100]],
+                        ),
+                        gameCard(
+                          name: "The Icon",
+                          subtitle: "Coming Soon",
+                          icon: Icons.face,
+                          routeStr: '/waiting_page',
+                          results: ppResults,
+                          numDecPlaces: 0,
+                          colorGradient: [Colors.red[200], Colors.red[100]],
+                        ),
+                        gameCard(
+                          name: "The Bored",
+                          subtitle: "Coming Soon",
+                          icon: Icons.nature_people,
+                          routeStr: '/waiting_page',
+                          results: ppResults,
+                          numDecPlaces: 0,
+                          colorGradient: [Colors.lime[200], Colors.lime[100]],
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -178,14 +180,15 @@ class _HomeState extends State<Home> {
   }
 }
 
-void _showQuickResults(BuildContext context, List<Result> results, int numDecPlaces) {
+void _showQuickResults(
+    BuildContext context, List<Result> results, int numDecPlaces) {
   List<int> ranking = getRanking(results);
   showDialog(
     context: context,
     builder: (context) => SimpleDialog(
       title: Text(
           results.isNotEmpty
-              ? "Historical Results (${results[0].game})"
+              ? "Results (${results[0].game})"
               : "No records yet!",
           style: TextStyle(fontSize: 20)),
       children: [
@@ -199,10 +202,11 @@ void _showQuickResults(BuildContext context, List<Result> results, int numDecPla
                 itemCount: results.length,
                 itemBuilder: (context, index) {
                   return getResultItem(
-                      rank: ranking[index],
-                      index: index,
-                      result: results[index],
-                      numDecPlaces: numDecPlaces,);
+                    rank: ranking[index],
+                    index: index,
+                    result: results[index],
+                    numDecPlaces: numDecPlaces,
+                  );
                 }),
           ),
         ),

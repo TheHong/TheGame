@@ -13,7 +13,6 @@ class TrillGame extends StatefulWidget {
 
 class _TrillGameState extends State<TrillGame> {
   TheTrillCore trillCore = TheTrillCore();
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TheTrillCore>(
@@ -24,40 +23,22 @@ class _TrillGameState extends State<TrillGame> {
               title: Text("The Trill", style: TextStyle(color: Colors.black)),
               backgroundColor: Colors.green[100],
               elevation: 0,
-              actions: <Widget>[
-                Visibility(
-                  visible: trillCore.isDebugMode,
-                  child: IconButton(
-                    icon: Icon(Icons.directions_run),
-                    onPressed: () {
-                      trillCore.run();
-                    },
+            ),
+            body: ListView(
+              children: <Widget>[
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  child: Column(
+                    children: <Widget>[
+                      TitleBar(),
+                      Prompter(),
+                      MiniKeyPressor(),
+                      SubmitButton(),
+                    ],
                   ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.bug_report,
-                    color: trillCore.isDebugMode ? Colors.red : Colors.white,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      trillCore.isDebugMode = !trillCore.isDebugMode;
-                    });
-                  },
                 )
               ],
-            ),
-            body: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 25.0, horizontal: 50),
-              child: Column(
-                children: <Widget>[
-                  TitleBar(),
-                  Prompter(),
-                  MiniKeyPressor(),
-                  SubmitButton(),
-                ],
-              ),
             )));
   }
 }

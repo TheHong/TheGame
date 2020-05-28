@@ -66,18 +66,24 @@ class ResultsPage extends StatelessWidget {
             SizedBox(height: 15),
             Expanded(
               child: Container(
-                child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: gameCore.historicalResults.length,
-                    itemBuilder: (context, index) {
-                      return getResultItem(
-                        rank: ranking[index],
-                        index: index,
-                        result: gameCore.historicalResults[index],
-                        indexBeEmphasized: gameCore.newIndex,
-                        numDecPlaces: gameCore.getNumDecPlaces(),
-                      );
-                    }),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25.0),
+                    topRight: Radius.circular(25.0),
+                  ),
+                  child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: gameCore.historicalResults.length,
+                      itemBuilder: (context, index) {
+                        return getResultItem(
+                          rank: ranking[index],
+                          index: index,
+                          result: gameCore.historicalResults[index],
+                          indexBeEmphasized: gameCore.newIndex,
+                          numDecPlaces: gameCore.getNumDecPlaces(),
+                        );
+                      }),
+                ),
               ),
             ),
             // getResultItem(1, gameCore.historicalResults[0])

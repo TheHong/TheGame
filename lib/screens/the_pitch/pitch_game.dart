@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/components/result_widgets.dart';
 import 'package:game_app/models/game_core.dart';
-import 'package:game_app/screens/results.dart';
 import 'package:game_app/screens/the_pitch/components/game_title_bar.dart';
 import 'package:game_app/screens/the_pitch/components/key_pressor.dart';
 import 'package:game_app/screens/the_pitch/components/note_icon.dart';
@@ -17,8 +15,6 @@ class PitchGame extends StatefulWidget {
 class _PitchGameState extends State<PitchGame> {
   ThePitchCore pitchCore = ThePitchCore();
 
-  // TODO: Create submit button to finish game
-  // TODO: Organize perfect_pitch screen
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ThePitchCore>(
@@ -29,49 +25,6 @@ class _PitchGameState extends State<PitchGame> {
           title: Text("The Pitch"),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
-          actions: <Widget>[
-            Visibility( // TODO: to be removed
-              visible: pitchCore.isDebugMode,
-              child: IconButton(
-                icon: Icon(Icons.exit_to_app),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ResultsPage(pitchCore),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Visibility( // TODO: to be removed
-              visible: pitchCore.isDebugMode,
-              child: IconButton(
-                icon: Icon(Icons.indeterminate_check_box),
-                onPressed: () {
-                  processNewLeaderboardResult(context, pitchCore);
-                },
-              ),
-            ),
-            IconButton( // TODO: to be removed
-              icon: Icon(Icons.home),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            IconButton( // TODO: to be removed
-              icon: Icon(
-                Icons.bug_report,
-                color:
-                    pitchCore.isDebugMode ? Colors.greenAccent : Colors.white,
-              ),
-              onPressed: () {
-                setState(() {
-                  pitchCore.isDebugMode = !pitchCore.isDebugMode;
-                });
-              },
-            )
-          ],
         ),
         body: MediaQuery.removePadding(
           // Need this to remove the bottom listview padding
@@ -95,7 +48,11 @@ class _PitchGameState extends State<PitchGame> {
                     NoteIcon(),
                     Prompter(),
                     KeyPressor(),
+                    SizedBox(height: 20),
                     BottomBar(),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height /
+                            7), // Used to extend the container
                   ],
                 ),
               ),

@@ -8,7 +8,7 @@ class GameTitleBar extends StatelessWidget {
     return Consumer<ThePitchCore>(
       builder: (context, pitchCore, child) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 0),
           child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(

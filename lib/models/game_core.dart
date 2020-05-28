@@ -158,7 +158,6 @@ abstract class GameCore extends ChangeNotifier {
 
 class ThePitchCore extends GameCore {
   static int _numRounds = 1;
-  static int _timeBeforeStart = 5; // Duration for game to load
   static int _timePerRound = 5; // Duration of each round
   static int _timePerPreparation =
       3; // Duration of the countdown to the start of the round
