@@ -21,10 +21,10 @@ class _PrompterState extends State<Prompter> {
               style: TextStyle(fontSize: 20.0),
             ),
             Align(
-              alignment: Alignment.topLeft,
+              alignment: Alignment.center,
               child: ProgressBar(
                 score: trillCore.score,
-                topLeftCoords: [0, 0],
+                centerCoords: [0, 0],
                 height: 20,
                 length: 300,
                 checkpoints: [10, 20, 30, 40],

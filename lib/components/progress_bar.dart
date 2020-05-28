@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 Widget ProgressBar({
   double score,
-  List<double> topLeftCoords,
+  List<double> centerCoords,
   double height,
   double length,
   List<double> checkpoints,
@@ -12,7 +12,7 @@ Widget ProgressBar({
   return CustomPaint(
     foregroundPainter: ProgressBarPainter(
       score: score,
-      topLeftCoords: topLeftCoords,
+      centerCoords: centerCoords,
       height: height,
       length: length,
       checkpoints: checkpoints,
@@ -32,7 +32,7 @@ class ProgressBarPainter extends CustomPainter {
   ];
   double _barThicknessFactor = 0.25; // relative to height
 
-  List<double> topLeftCoords; // [horizontal, vertical] from top
+  List<double> centerCoords; // [horizontal, vertical] from top
   double score;
   double height;
   double length;
@@ -41,16 +41,17 @@ class ProgressBarPainter extends CustomPainter {
 
   ProgressBarPainter({
     this.score,
-    this.topLeftCoords,
+    this.centerCoords,
     this.height,
     this.length,
     this.checkpoints,
   });
 
-  getRectPaint(LinearGradient gradient, Rect rect) {
+  getRectPaint(LinearGradient gradient, Rect rect, bool isFill) {
     return Paint()
       ..strokeCap = StrokeCap.butt
-      ..style = PaintingStyle.fill
+      ..style = isFill? PaintingStyle.fill: PaintingStyle.stroke
+      ..strokeWidth = isFill? 0: rect.height * _barThicknessFactor
       ..shader = gradient.createShader(rect);
   }
 
@@ -74,9 +75,15 @@ class ProgressBarPainter extends CustomPainter {
     int progressIndex =
         1 + checkpoints.lastIndexWhere((chkpt) => score >= chkpt);
 
+    List<double> topLeftCoords = [
+      centerCoords[0] - length / 2,
+      centerCoords[1] - height / 2
+    ];
+
     // Forming the rectangles to be painted
-    Rect bar = 
-        Rect.fromLTWH(topLeftCoords[0], topLeftCoords[1], length, height);
+    Rect bar = Rect.fromCenter(
+        center: Offset(0, 0), width: length, height: height);
+    // Rect.fromLTWH(topLeftCoords[0], topLeftCoords[1], length, height);
     Rect progress = Rect.fromLTWH(
       topLeftCoords[0] + barThickness,
       topLeftCoords[1] + barThickness,
@@ -86,17 +93,16 @@ class ProgressBarPainter extends CustomPainter {
 
     // Getting the paint based on the progress and rectangles
     Paint barPaint =
-        getRectPaint(LinearGradient(colors: [barColour, barColour]), bar);
+        getRectPaint(LinearGradient(colors: [barColour, barColour]), bar, false);
     Paint progressPaint =
-        getRectPaint(progressGradients[progressIndex], progress);
+        getRectPaint(progressGradients[progressIndex], progress, true);
 
     // Draw bar
     canvas.drawRect(bar, barPaint);
     canvas.drawRect(progress, progressPaint);
 
-
     // Draw markers
-    double vertCoord = topLeftCoords[1] + height + 5;
+    double vertCoord = topLeftCoords[1] - 5;
     for (int i = 0; i < checkpoints.length; i++) {
       double chkpt = checkpoints[i];
       double horiCoord = topLeftCoords[0] +
@@ -104,7 +110,7 @@ class ProgressBarPainter extends CustomPainter {
           maxProgressLength * chkpt / checkpoints.last;
       canvas.drawLine(
         Offset(horiCoord, vertCoord),
-        Offset(horiCoord, vertCoord + 10),
+        Offset(horiCoord, vertCoord - 10),
         getLinePaint(progressGradients[i + 1].colors[1]),
       );
     }
