@@ -54,6 +54,7 @@ abstract class GameCore extends ChangeNotifier {
   int newRank = -1; // Actual rank. Starts at 1!
   String newName = "";
 
+  int getNumDecPlaces();
   String getGameName();
   String getGamePath();
   String getDebugInfo();
@@ -189,13 +190,9 @@ class ThePitchCore extends GameCore {
     // run();
   }
 
-  String getGameName() {
-    return "The Pitch";
-  }
-
-  String getGamePath() {
-    return "/the_pitch";
-  }
+  String getGameName() => "The Pitch";
+  String getGamePath() => "/the_pitch";
+  int getNumDecPlaces() => 3;
 
   @override
   Future _run() async {
@@ -292,10 +289,7 @@ class ThePitchCore extends GameCore {
 }
 
 class TheTrillCore extends GameCore {
-  static int _timeBeforeStart = 5; // Duration for game to load
-  static int _timePerRound = 11; // Duration of each round
-  static int _timePerPreparation =
-      5; // Duration of the countdown to the start of the round
+  static int _timePerRound = 5; // Duration of each round
   static int _timePerEnd =
       3; // Duration at the end of each round before the countdown of next round
 
@@ -307,13 +301,9 @@ class TheTrillCore extends GameCore {
     keyboard.activate();
   }
 
-  String getGameName() {
-    return "The Trill";
-  }
-
-  String getGamePath() {
-    return "/the_trill";
-  }
+  String getGameName() => "The Trill";
+  String getGamePath() => "/the_trill";
+  int getNumDecPlaces() => 0;
 
   Future _run() async {
     // Game  ----------------------------------------------------------------
@@ -327,7 +317,7 @@ class TheTrillCore extends GameCore {
     keyboard.deactivate();
 
     // Pause for user to get result feedback --------------------------------
-    prompt = "";
+    prompt = "Final Score: ${score.toStringAsFixed(0)}";
     isGameDone = true;
     notifyListeners();
     await counter.run(_timePerEnd, false);

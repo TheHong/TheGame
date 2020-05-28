@@ -64,6 +64,7 @@ class _HomeState extends State<Home> {
                         icon: Icons.music_note,
                         routeStr: '/the_pitch',
                         results: ppResults,
+                        numDecPlaces: 3,
                         colorGradient: [Colors.blue[200], Colors.blue[100]],
                       ),
                       gameCard(
@@ -72,6 +73,7 @@ class _HomeState extends State<Home> {
                         icon: Icons.autorenew,
                         routeStr: '/the_trill',
                         results: ppResults,
+                        numDecPlaces: 0,
                         colorGradient: [Colors.green[200], Colors.green[100]],
                       ),
                       gameCard(
@@ -80,6 +82,7 @@ class _HomeState extends State<Home> {
                         icon: Icons.face,
                         routeStr: '/waiting_page',
                         results: ppResults,
+                        numDecPlaces: 0,
                         colorGradient: [Colors.red[200], Colors.red[100]],
                       ),
                       gameCard(
@@ -88,6 +91,7 @@ class _HomeState extends State<Home> {
                         icon: Icons.nature_people,
                         routeStr: '/waiting_page',
                         results: ppResults,
+                        numDecPlaces: 0,
                         colorGradient: [Colors.lime[200], Colors.lime[100]],
                       ),
                     ],
@@ -105,6 +109,7 @@ class _HomeState extends State<Home> {
       IconData icon,
       String routeStr,
       List<Result> results,
+      int numDecPlaces,
       List<Color> colorGradient}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -155,7 +160,7 @@ class _HomeState extends State<Home> {
                 IconButton(
                   icon: Icon(Icons.list),
                   onPressed: () {
-                    _showQuickResults(context, results);
+                    _showQuickResults(context, results, numDecPlaces);
                   },
                 ),
                 IconButton(
@@ -173,9 +178,8 @@ class _HomeState extends State<Home> {
   }
 }
 
-void _showQuickResults(BuildContext context, List<Result> results) {
+void _showQuickResults(BuildContext context, List<Result> results, int numDecPlaces) {
   List<int> ranking = getRanking(results);
-  print(ranking);
   showDialog(
     context: context,
     builder: (context) => SimpleDialog(
@@ -197,7 +201,8 @@ void _showQuickResults(BuildContext context, List<Result> results) {
                   return getResultItem(
                       rank: ranking[index],
                       index: index,
-                      result: results[index]);
+                      result: results[index],
+                      numDecPlaces: numDecPlaces,);
                 }),
           ),
         ),

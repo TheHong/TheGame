@@ -57,7 +57,7 @@ class ResultsPage extends StatelessWidget {
                     style: TextStyle(color: Colors.black26, fontSize: 20),
                   ),
                   Text(
-                    "${gameCore.score.toStringAsFixed(3)}",
+                    "${gameCore.score.toStringAsFixed(gameCore.getNumDecPlaces())}",
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                 ],
@@ -75,6 +75,7 @@ class ResultsPage extends StatelessWidget {
                         index: index,
                         result: gameCore.historicalResults[index],
                         indexBeEmphasized: gameCore.newIndex,
+                        numDecPlaces: gameCore.getNumDecPlaces(),
                       );
                     }),
               ),

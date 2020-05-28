@@ -53,7 +53,7 @@ Widget getMedalItem(int rank, double medalSize) {
 }
 
 Widget getResultItem(
-    {int rank, int index, Result result, int indexBeEmphasized = -1}) {
+    {int rank, int index, Result result, int numDecPlaces, int indexBeEmphasized = -1}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
     child: Container(
@@ -104,7 +104,7 @@ Widget getResultItem(
                       ? FontWeight.bold
                       : FontWeight.normal),
             )),
-            Text("${result.score.toStringAsFixed(3)}",
+            Text("${result.score.toStringAsFixed(numDecPlaces)}",
                 style: TextStyle(
                     fontSize: rank <= 3 ? 35 : 25,
                     fontWeight: FontWeight.bold,

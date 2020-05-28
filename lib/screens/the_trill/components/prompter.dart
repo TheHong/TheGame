@@ -30,6 +30,7 @@ class _PrompterState extends State<Prompter> {
                   height: 20,
                   length: 300,
                   checkpoints: trillCore.getCheckpoints(),
+                  numDecPlaces: trillCore.getNumDecPlaces(),
                 ),
               ),
             ),

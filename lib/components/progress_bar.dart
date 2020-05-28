@@ -8,6 +8,7 @@ Widget ProgressBar({
   double height,
   double length,
   List<double> checkpoints,
+  int numDecPlaces,
 }) {
   // Regarding checkpoints.
   // They are of the following form: [lowest leaderboard score, bronze score, silver score, gold score]. 
@@ -28,6 +29,7 @@ Widget ProgressBar({
       height: height,
       length: length,
       checkpoints: checkpoints,
+      numDecPlaces: numDecPlaces,
     ),
   );
 }
@@ -49,6 +51,7 @@ class ProgressBarPainter extends CustomPainter {
   double height;
   double length;
   List<double> checkpoints;
+  int numDecPlaces;
 
   ProgressBarPainter({
     this.score,
@@ -56,6 +59,7 @@ class ProgressBarPainter extends CustomPainter {
     this.height,
     this.length,
     this.checkpoints,
+    this.numDecPlaces,
   });
 
   getRectPaint(LinearGradient gradient, Rect rect, bool isFill) {
@@ -128,7 +132,7 @@ class ProgressBarPainter extends CustomPainter {
     // Draw current number of taps
     TextPainter textPainter = TextPainter(
         text: TextSpan(
-          text: "${score.toStringAsFixed(0)}",
+          text: "${score.toStringAsFixed(numDecPlaces)}",
           style: TextStyle(color: Colors.black87),
         ),
         textDirection: TextDirection.ltr);
