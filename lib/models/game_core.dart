@@ -54,10 +54,19 @@ abstract class GameCore extends ChangeNotifier {
   int newRank = -1; // Actual rank. Starts at 1!
   String newName = "";
 
-  void run();
   String getGameName();
   String getGamePath();
   String getDebugInfo();
+  void _run();
+
+  void run() {
+    try {
+      //Used to deal with the case where user abruptly ends game by exiting
+      _run();
+    } on FlutterError {
+      print("Core safely came to an abrupt end.");
+    }
+  }
 
   void loadHistoricalResults() {
     // TODO: Load from firebase (kinda repeat from the home.dart)
@@ -167,79 +176,75 @@ class ThePitchCore extends GameCore {
   }
 
   @override
-  void run() async {
+  void _run() async {
     // Prepare for the game ---------------------------------------------------
     isGameStarted = true;
 
-    try {
-      for (int i = 0; i < _numRounds; i++) {
-        // Prepare for the round ------------------------------------------------
-        // Prevent user from guessing before round even begins
-        keyboard.deactivate();
+    for (int i = 0; i < _numRounds; i++) {
+      // Prepare for the round ------------------------------------------------
+      // Prevent user from guessing before round even begins
+      keyboard.deactivate();
 
-        // Reset variables
-        isRoundDone = false;
-        keyboard.reset();
-        selectedNote = "";
-        submitTime = -1;
+      // Reset variables
+      isRoundDone = false;
+      keyboard.reset();
+      selectedNote = "";
+      submitTime = -1;
 
-        // Update variables
-        prompt = _prompts["prep"];
-        currRound += 1;
+      // Update variables
+      prompt = _prompts["prep"];
+      currRound += 1;
 
-        // Get new note
-        notePlayer.randomizeNote();
-        currNote = notePlayer.currNoteAsStr;
-        keyboard.reset();
-        notifyListeners();
-
-        // Counts down for the user right before round begins
-        await counter.run(_timePerPreparation, notifyListeners,
-            isRedActive: false);
-
-        // Round ----------------------------------------------------------------
-        // Start Round
-        print("Round $currRound commencing");
-        prompt = _prompts["game"];
-        notifyListeners();
-
-        // Play the note for player automatically
-        notePlayer.play();
-
-        // Give user time to choose
-        keyboard.activate();
-        stopwatch
-            .start(); // Used in another widget to get the exact time user submits
-        await counter.run(_timePerRound, notifyListeners);
-        print(stopwatch.elapsedMicroseconds);
-        stopwatch.stop();
-        stopwatch.reset();
-        keyboard.deactivate();
-
-        // Evaluation -----------------------------------------------------------
-        // No answer was submitted or the answer is incorrect
-        if (submitTime == -1 || currNote != selectedNote) {
-          score += 0;
-          isCorrect = false;
-          prompt = "Incorrect!";
-        } else {
-          score += _timePerRound - submitTime;
-          isCorrect = true;
-          prompt = "Correct!";
-        }
-        isRoundDone = true;
-        isGameDone = i + 1 == _numRounds;
-        notifyListeners();
-
-        // Pause for user to get result feedback --------------------------------
-        await counter.run(_timePerEnd, false);
-      }
-      print("Done");
-      prompt = "";
+      // Get new note
+      notePlayer.randomizeNote();
+      currNote = notePlayer.currNoteAsStr;
+      keyboard.reset();
       notifyListeners();
-    } on FlutterError {
-      print("Core safely came to an abrupt end.");
+
+      // Counts down for the user right before round begins
+      await counter.run(_timePerPreparation, notifyListeners,
+          isRedActive: false);
+
+      // Round ----------------------------------------------------------------
+      // Start Round
+      print("Round $currRound commencing");
+      prompt = _prompts["game"];
+      notifyListeners();
+
+      // Play the note for player automatically
+      notePlayer.play();
+
+      // Give user time to choose
+      keyboard.activate();
+      stopwatch
+          .start(); // Used in another widget to get the exact time user submits
+      await counter.run(_timePerRound, notifyListeners);
+      print(stopwatch.elapsedMicroseconds);
+      stopwatch.stop();
+      stopwatch.reset();
+      keyboard.deactivate();
+
+      // Evaluation -----------------------------------------------------------
+      // No answer was submitted or the answer is incorrect
+      if (submitTime == -1 || currNote != selectedNote) {
+        score += 0;
+        isCorrect = false;
+        prompt = "Incorrect!";
+      } else {
+        score += _timePerRound - submitTime;
+        isCorrect = true;
+        prompt = "Correct!";
+      }
+      isRoundDone = true;
+      isGameDone = i + 1 == _numRounds;
+      notifyListeners();
+
+      // Pause for user to get result feedback --------------------------------
+      await counter.run(_timePerEnd, false);
     }
+    print("The Pitch Game Completed");
+    prompt = "";
+    notifyListeners();
   }
 
   void setSubmitTime(double newSubmit) {
@@ -276,7 +281,8 @@ class TheTrillCore extends GameCore {
 
   TheTrillCore() {
     loadHistoricalResults();
-    // run();
+    prompt = "Start tapping to start the game!";
+    keyboard.activate();
   }
 
   String getGameName() {
@@ -287,22 +293,11 @@ class TheTrillCore extends GameCore {
     return "/the_trill";
   }
 
-  void run() async {
-    // Prepare for the game ---------------------------------------------------
-    prompt = "Game is loading...";
-    notifyListeners();
-    await counter.run(_timeBeforeStart, notifyListeners, isRedActive: false);
-
-    prompt = "Get Ready!";
-    notifyListeners();
-
-    // Counts down for the user right before game begins
-    await counter.run(_timePerPreparation, notifyListeners, isRedActive: false);
-
+  void _run() async {
     // Game  ----------------------------------------------------------------
     // Start Round
+    isGameStarted = true;
     prompt = "TRILL!";
-    keyboard.activate();
     notifyListeners();
 
     // Give player a certain amount of time to do the trills
@@ -315,7 +310,7 @@ class TheTrillCore extends GameCore {
     notifyListeners();
     await counter.run(_timePerEnd, false);
 
-    print("Done");
+    print("The Trill Game Completed");
   }
 
   String getDebugInfo() {
