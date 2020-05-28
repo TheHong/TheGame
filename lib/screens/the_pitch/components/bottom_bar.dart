@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/components/result_widgets.dart';
+import 'package:game_app/components/endgame_widget.dart';
 import 'package:game_app/models/game_core.dart';
-import 'package:game_app/screens/results.dart';
 import 'package:provider/provider.dart';
 
 class BottomBar extends StatelessWidget {
@@ -34,30 +33,7 @@ class BottomBar extends StatelessWidget {
                 },
               ),
             ),
-            // Submit Button
-            Visibility(
-              visible: pitchCore.isGameDone,
-              maintainSize: true,
-              maintainState: true,
-              maintainAnimation: true,
-              child: FlatButton(
-                child: Text("End Game", style: TextStyle(fontSize: 25)),
-                onPressed: () {
-                  pitchCore.evaluateResult();
-                  if (pitchCore.newRank != -1) {
-                    // If player gets onto the leaderboard
-                    processNewLeaderboardResult(context, pitchCore);
-                  } else {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ResultsPage(pitchCore),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ),
+            endgameWidget(context, pitchCore),
           ],
         ),
       );

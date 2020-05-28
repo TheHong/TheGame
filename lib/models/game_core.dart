@@ -297,7 +297,7 @@ class TheTrillCore extends GameCore {
 
   TheTrillCore() {
     loadHistoricalResults();
-    prompt = "Start tapping to start the game!";
+    prompt = "Start trilling to start the game!";
     keyboard.activate();
   }
 
