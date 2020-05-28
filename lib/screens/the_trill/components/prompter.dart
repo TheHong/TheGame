@@ -13,21 +13,24 @@ class _PrompterState extends State<Prompter> {
   Widget build(BuildContext context) {
     return Consumer<TheTrillCore>(builder: (context, trillCore, child) {
       return Padding(
-        padding: const EdgeInsets.only(top: 50.0, bottom: 75),
+        padding: const EdgeInsets.only(top: 10, bottom: 20),
         child: Column(
           children: <Widget>[
             Text(
               trillCore.prompt,
               style: TextStyle(fontSize: 20.0),
             ),
-            Align(
-              alignment: Alignment.center,
-              child: ProgressBar(
-                score: trillCore.score,
-                centerCoords: [0, 0],
-                height: 20,
-                length: 300,
-                checkpoints: [10, 20, 30, 40],
+            Padding(
+              padding: const EdgeInsets.only(top: 100.0, bottom: 50),
+              child: Align(
+                alignment: Alignment.center,
+                child: ProgressBar(
+                  score: trillCore.score,
+                  centerCoords: [0, 0],
+                  height: 20,
+                  length: 300,
+                  checkpoints: trillCore.getCheckpoints(),
+                ),
               ),
             ),
           ],

@@ -9,6 +9,18 @@ Widget ProgressBar({
   double length,
   List<double> checkpoints,
 }) {
+  // Regarding checkpoints.
+  // They are of the following form: [lowest leaderboard score, bronze score, silver score, gold score]. 
+  // ^ For example, if the leaderboard is currently [8, 9, 11, 12, 13], then checkpoints is [8, 11, 12, 13].
+  // Put -1 if does not exist due to a tie. 
+  // ^ For example, if the leaderboard is currently [8, 9, 11, 13, 13], then checkpoints is [8, 11, -1, 13].
+  // Put a 0 if does not exist due to not enough entries
+  // ^ For example, if the leaderboard is currently [8, 9], then checkpoints is [0, 0, 8, 9].
+
+  assert (checkpoints.length == 4, "There must be 4 checkpoints.");
+  assert (checkpoints.last != -1, "Invalid checkpoints list. There must always be at least one gold.");
+
+
   return CustomPaint(
     foregroundPainter: ProgressBarPainter(
       score: score,
@@ -23,7 +35,7 @@ Widget ProgressBar({
 class ProgressBarPainter extends CustomPainter {
   Color barColour = Colors.black;
   List<LinearGradient> progressGradients = [
-    LinearGradient(colors: [Colors.purple, Colors.purple]), // Below leaderboard
+    LinearGradient(colors: [Colors.blueGrey, Colors.blueGrey]), // Below leaderboard
     LinearGradient(colors: [Colors.green, Colors.green]), // On leaderboard
     LinearGradient(colors: [Colors.brown, Colors.amber[900]]), // Bronze
     LinearGradient(colors: [Colors.grey[700], Colors.blueGrey[100]]), // Silver
@@ -36,8 +48,7 @@ class ProgressBarPainter extends CustomPainter {
   double score;
   double height;
   double length;
-  List<double>
-      checkpoints; // [lowest leaderboard score, bronze score, silver score, gold score]
+  List<double> checkpoints;
 
   ProgressBarPainter({
     this.score,
@@ -66,14 +77,13 @@ class ProgressBarPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Get progress information
-    assert(checkpoints.length == 4);
     double barThickness = height * _barThicknessFactor;
     double maxProgressLength = length - 2 * barThickness;
     double fractionComplete = score / checkpoints.last;
     double progressLength =
         min(maxProgressLength, maxProgressLength * fractionComplete);
-    int progressIndex =
-        1 + checkpoints.lastIndexWhere((chkpt) => score >= chkpt);
+    int progressIndex = 1 +
+        checkpoints.lastIndexWhere((chkpt) => chkpt != -1 && score >= chkpt);
 
     List<double> topLeftCoords = [
       centerCoords[0] - length / 2,
@@ -104,6 +114,8 @@ class ProgressBarPainter extends CustomPainter {
     double vertCoord = topLeftCoords[1] - 5;
     for (int i = 0; i < checkpoints.length; i++) {
       double chkpt = checkpoints[i];
+      if (chkpt == -1)
+        continue; // If a checkpoint does not exist because of a tie
       double horiCoord = topLeftCoords[0] +
           barThickness +
           maxProgressLength * chkpt / checkpoints.last;
@@ -121,8 +133,10 @@ class ProgressBarPainter extends CustomPainter {
         ),
         textDirection: TextDirection.ltr);
     textPainter.layout();
-    textPainter.paint(canvas,
-        Offset(topLeftCoords[0] + progressLength, topLeftCoords[1] + barThickness + height));
+    textPainter.paint(
+        canvas,
+        Offset(topLeftCoords[0] + progressLength,
+            topLeftCoords[1] + barThickness + height));
   }
 
   @override

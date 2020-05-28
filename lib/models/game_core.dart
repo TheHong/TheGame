@@ -43,7 +43,7 @@ abstract class GameCore extends ChangeNotifier {
   bool isGameDone = false; // Are all the rounds completed
   bool isDebugMode = false;
   bool isGameStarted = false; // Has the game started
-  List<Result> historicalResults;
+  List<Result> historicalResults = []; // From highest to lowest
   String prompt =
       "Welcome"; // Prompt to inform player of the current game status
 
@@ -72,6 +72,24 @@ abstract class GameCore extends ChangeNotifier {
     // TODO: Load from firebase (kinda repeat from the home.dart)
     // The following is temprorary
     historicalResults = getSampleResults();
+  }
+
+  List<double> getCheckpoints() {
+    assert(historicalResults.isNotEmpty,
+        "Historical results must be loaded before checkpoints can be generated.");
+
+    List<int> ranking = getRanking(historicalResults);
+    int numEntries = historicalResults.length;
+    return [
+      numEntries >= leaderboardSize ? historicalResults.last.score : 0,
+      ranking.contains(3)
+          ? historicalResults[ranking.indexOf(3)].score
+          : (numEntries >= 3 ? -1 : 0),
+      ranking.contains(2)
+          ? historicalResults[ranking.indexOf(2)].score
+          : (numEntries >= 2 ? -1 : 0),
+      historicalResults.first.score,
+    ];
   }
 
   void evaluateResult() {
