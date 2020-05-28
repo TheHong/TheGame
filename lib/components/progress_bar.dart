@@ -2,7 +2,25 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class ProgressBar extends CustomPainter {
+Widget ProgressBar({
+  double score,
+  List<double> topLeftCoords,
+  double height,
+  double length,
+  List<double> checkpoints,
+}) {
+  return CustomPaint(
+    foregroundPainter: ProgressBarPainter(
+      score: score,
+      topLeftCoords: topLeftCoords,
+      height: height,
+      length: length,
+      checkpoints: checkpoints,
+    ),
+  );
+}
+
+class ProgressBarPainter extends CustomPainter {
   Color barColour = Colors.black;
   List<LinearGradient> progressGradients = [
     LinearGradient(colors: [Colors.purple, Colors.purple]), // Below leaderboard
@@ -21,7 +39,7 @@ class ProgressBar extends CustomPainter {
   List<double>
       checkpoints; // [lowest leaderboard score, bronze score, silver score, gold score]
 
-  ProgressBar({
+  ProgressBarPainter({
     this.score,
     this.topLeftCoords,
     this.height,
@@ -47,6 +65,7 @@ class ProgressBar extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Get progress information
+    assert(checkpoints.length == 4);
     double barThickness = height * _barThicknessFactor;
     double maxProgressLength = length - 2 * barThickness;
     double fractionComplete = score / checkpoints.last;
@@ -56,7 +75,7 @@ class ProgressBar extends CustomPainter {
         1 + checkpoints.lastIndexWhere((chkpt) => score >= chkpt);
 
     // Forming the rectangles to be painted
-    Rect bar =
+    Rect bar = 
         Rect.fromLTWH(topLeftCoords[0], topLeftCoords[1], length, height);
     Rect progress = Rect.fromLTWH(
       topLeftCoords[0] + barThickness,
@@ -74,6 +93,7 @@ class ProgressBar extends CustomPainter {
     // Draw bar
     canvas.drawRect(bar, barPaint);
     canvas.drawRect(progress, progressPaint);
+
 
     // Draw markers
     double vertCoord = topLeftCoords[1] + height + 5;

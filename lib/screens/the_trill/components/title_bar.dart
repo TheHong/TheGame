@@ -26,11 +26,11 @@ class _TitleBarState extends State<TitleBar> {
               child: Column(
                 children: <Widget>[
                   SizedBox(height: 10),
-                  Text("Score",
+                  Text("Time Left",
                       style: TextStyle(color: Colors.black45, fontSize: 20)),
                   Text(
-                    "${trillCore.score.toStringAsFixed(0)}",
-                    style: TextStyle(fontSize: 100),
+                    "${trillCore.counter.currCount}",
+                    style: TextStyle(fontSize: 50),
                     textAlign: TextAlign.center,
                   ),
                 ],
