@@ -109,7 +109,7 @@ abstract class GameCore extends ChangeNotifier {
         }
       }
 
-      newRank = getRanking(historicalResults.sublist(0, j)).last;
+      newRank = getRanking(historicalResults.sublist(0, j + 1)).last;
       newIndex = j;
       // If there's still space for the player
     } else if (historicalResults.length < leaderboardSize) {
