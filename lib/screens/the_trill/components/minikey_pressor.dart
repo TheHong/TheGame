@@ -35,10 +35,9 @@ class _MiniKeyPressorState extends State<MiniKeyPressor> {
                     onPressed: trillCore.keyboard.isActive
                         ? () {
                             if (!trillCore.isGameStarted) trillCore.run();
-                            setState(() {
-                              trillCore.score +=
+                            trillCore.score +=
                                 trillCore.keyboard.press(0) ? 1 : 0;
-                            });
+                            trillCore.notifyListeners();
                           }
                         : null,
                   ),
@@ -54,10 +53,9 @@ class _MiniKeyPressorState extends State<MiniKeyPressor> {
                     onPressed: trillCore.keyboard.isActive
                         ? () {
                             if (!trillCore.isGameStarted) trillCore.run();
-                            setState(() {
-                              trillCore.score +=
+                            trillCore.score +=
                                 trillCore.keyboard.press(1) ? 1 : 0;
-                            });
+                            trillCore.notifyListeners();
                           }
                         : null,
                   )
