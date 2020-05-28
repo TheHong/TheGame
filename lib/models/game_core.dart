@@ -121,8 +121,12 @@ abstract class GameCore extends ChangeNotifier {
       }
 
       // TODO: Update firebase
+
+      // Update prompt
+      prompt = "Congrats! You are ranked $newRank!";
     } else {
       print("Not on leaderboard. No result to be updated");
+      prompt = "";
     }
   }
 

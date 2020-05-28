@@ -24,7 +24,8 @@ class ResultsPage extends StatelessWidget {
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text("Try Again"), // TODO: Should update the results so that when see results on next try, will have any new updates
+              child: Text(
+                  "Try Again"), // TODO: Should update the results so that when see results on next try, will have any new updates
               onPressed: () {
                 Navigator.popAndPushNamed(context, gameCore.getGamePath());
               },
@@ -33,11 +34,14 @@ class ResultsPage extends StatelessWidget {
         ),
         body: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                gameCore.newResult.score == -1 ? "" : gameCore.prompt,
-                style: TextStyle(color: Colors.black, fontSize: 25),
+            Visibility(
+              visible: gameCore.newIndex != -1,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  gameCore.prompt,
+                  style: TextStyle(color: Colors.black, fontSize: 25),
+                ),
               ),
             ),
             Container(
