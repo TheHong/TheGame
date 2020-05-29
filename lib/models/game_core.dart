@@ -8,7 +8,9 @@ class Counter {
   /* Starts counting down at startCount - 1 */
   int _currCount = 0;
   int get currCount => _currCount;
-  set currCount(int num) => num;
+  set currCount(int num) {
+    _currCount = num;
+  }
 
   Color defaultColour = Colors.black;
   Color urgentColour = Colors.red;
@@ -247,10 +249,13 @@ class ThePitchCore extends GameCore {
       if (submitTime == -1 || currNote != selectedNote) {
         score += 0;
         isCorrect = false;
+        keyboard.currKey.specialColor = Colors.red;
+        keyboard.keysByNote[currNote].specialColor = Colors.green;
         prompt = "Incorrect!";
       } else {
         score += _timePerRound - submitTime;
         isCorrect = true;
+        keyboard.currKey.specialColor = Colors.green;
         prompt = "Correct!";
       }
       isRoundDone = true;
@@ -297,6 +302,8 @@ class TheTrillCore extends GameCore {
   TheTrillCore() {
     loadHistoricalResults();
     prompt = "Start trilling to start the game!";
+    counter.currCount = _timePerRound;
+    print("${counter.currCount} and $_timePerRound");
     keyboard.activate();
   }
 

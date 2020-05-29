@@ -115,7 +115,7 @@ class _HomeState extends State<Home> {
       List<Color> colorGradient}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      child: Container(
+      child: Container( // TODO: Make this a button
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),

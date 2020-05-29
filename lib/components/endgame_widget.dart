@@ -3,13 +3,14 @@ import 'package:game_app/components/result_widgets.dart';
 import 'package:game_app/models/game_core.dart';
 import 'package:game_app/screens/results.dart';
 
-Widget endgameWidget(BuildContext context, GameCore gameCore) => Visibility(
+Widget endgameWidget(BuildContext context, GameCore gameCore, Color buttonColor) => Visibility(
       visible: gameCore.isGameDone,
       maintainSize: true,
       maintainState: true,
       maintainAnimation: true,
-      child: FlatButton(
+      child: RaisedButton(
         child: Text("End Game", style: TextStyle(fontSize: 25)),
+        color: buttonColor,
         onPressed: () {
           gameCore.evaluateResult();
           if (gameCore.newRank != -1) {

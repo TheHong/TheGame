@@ -10,7 +10,7 @@ class SubmitButton extends StatelessWidget {
       return Container(
         child: Column(
           children: <Widget>[
-            endgameWidget(context, trillCore),
+            endgameWidget(context, trillCore, Colors.pinkAccent[100]),
           ],
         ),
       );

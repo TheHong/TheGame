@@ -3,6 +3,7 @@ class SingleKey {
   int noteID;
   bool isSelected; // Whether or not selected by user
   bool isDisabled; // Whether or not to not display the key
+  dynamic specialColor = -1;
 
   SingleKey({this.value, this.noteID, this.isDisabled = false}) {
     isSelected = false;
@@ -17,6 +18,7 @@ class Keyboard {
       SingleKey(value: ""); // Key that indicates no music key is selected
   // static const double keyPadding = 0.0; // Padding between keys
   bool isActive = false;
+  Map keysByNote = Map();
 
   Keyboard() {
     // Define keys here
@@ -40,6 +42,9 @@ class Keyboard {
 
     // Set initial currKey
     currKey = nullKey;
+
+    // Creating a map that returns the SingleKey object corresponding to a note
+    for (SingleKey key in whiteKeys + blackKeys) keysByNote[key.value] = key;
   }
 
   void select(SingleKey key) {
@@ -72,6 +77,7 @@ class Keyboard {
   void reset() {
     currKey.isSelected = false;
     currKey = nullKey;
+    for (SingleKey key in whiteKeys + blackKeys) key.specialColor = -1;
   }
 
   void activate() {

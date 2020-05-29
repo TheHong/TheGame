@@ -42,7 +42,11 @@ class NotePlayer {
 
   void play() {
     /* Plays the instance's CURRENT note*/
-    _flutterMidi.playMidiNote(midi: currNote);
+    playNote(_currNote);
+  }
+
+  void playNote(int noteInt){
+    _flutterMidi.playMidiNote(midi: noteInt);
   }
 
   void _load(asset) async {

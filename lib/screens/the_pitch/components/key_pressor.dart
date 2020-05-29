@@ -18,18 +18,14 @@ class _KeyPressorState extends State<KeyPressor> {
       return Container(
         child: Column(
           children: <Widget>[
-            // Text(
-            //   gameInfo.keyboard.currKey.value,
-            //   style: TextStyle(fontSize: 50.0),
-            // ),
             createKeyRow(
               keys: pitchCore.keyboard.blackKeys,
-              gameInfo: pitchCore,
+              pitchCore: pitchCore,
               isPadLeft: true,
             ),
             createKeyRow(
               keys: pitchCore.keyboard.whiteKeys,
-              gameInfo: pitchCore,
+              pitchCore: pitchCore,
               isPadLeft: false,
             )
           ],
@@ -39,14 +35,15 @@ class _KeyPressorState extends State<KeyPressor> {
   }
 
   Widget createKeyRow(
-      {List<SingleKey> keys, ThePitchCore gameInfo, bool isPadLeft}) {
+      {List<SingleKey> keys, ThePitchCore pitchCore, bool isPadLeft}) {
     const double paddingLR = 10;
     const double paddingKey = 1;
-    double keyDiameter = (MediaQuery.of(context).size.width - 2 * paddingLR) / 7; // 7 white keys
+    double keyDiameter =
+        (MediaQuery.of(context).size.width - 2 * paddingLR) / 7; // 7 white keys
     return Padding(
       padding: const EdgeInsets.fromLTRB(paddingLR, 0, paddingLR, 0),
       child: Container(
-        color: gameInfo.isDebugMode ? Colors.black12 : Colors.transparent,
+        color: pitchCore.isDebugMode ? Colors.black12 : Colors.transparent,
         height: 50.0,
         padding: EdgeInsets.only(left: isPadLeft ? keyDiameter / 2 : 0),
         // Iterating through keys and building the buttons
@@ -66,14 +63,18 @@ class _KeyPressorState extends State<KeyPressor> {
                   padding: EdgeInsets.all(paddingKey),
                   child: FlatButton(
                     shape: CircleBorder(),
-                    color: key.isSelected
-                        ? Colors.black
-                        : Theme.of(context).accentColor,
+                    color: key.specialColor != -1
+                        ? key.specialColor
+                        : (key.isSelected
+                            ? Colors.black
+                            : Theme.of(context).accentColor),
                     padding: EdgeInsets.zero,
                     child: Text(
                       key.value,
                       style: TextStyle(
-                        color: gameInfo.keyboard.isActive
+                        // User can play notes before game starts and during game
+                        color: pitchCore.keyboard.isActive ||
+                                !pitchCore.isGameStarted
                             ? Colors.white
                             : Colors.blueGrey,
                         fontSize: keyDiameter / 2.75,
@@ -81,16 +82,20 @@ class _KeyPressorState extends State<KeyPressor> {
                     ),
                     onPressed: () {
                       // Submit the first key selected if not submitted yet
-                      if (gameInfo.keyboard.isActive) {
-                        gameInfo.setSubmitTime(
-                            gameInfo.stopwatch.elapsedMicroseconds /
+                      if (pitchCore.keyboard.isActive) {
+                        pitchCore.setSubmitTime(
+                            pitchCore.stopwatch.elapsedMicroseconds /
                                 pow(10, 6));
 
                         setState(() {
-                          gameInfo.keyboard.select(key);
-                          gameInfo.keyboard.deactivate();
-                          gameInfo.setSelected(key.isSelected ? key.value : "");
+                          pitchCore.keyboard.select(key);
+                          pitchCore.keyboard.deactivate();
+                          pitchCore
+                              .setSelected(key.isSelected ? key.value : "");
                         });
+                      } else if (!pitchCore.isGameStarted) {
+                        // User can play notes before game starts
+                        pitchCore.notePlayer.playNote(key.noteID);
                       }
                     },
                   ),

@@ -13,15 +13,16 @@ class BottomBar extends StatelessWidget {
             // Start button
             Visibility(
               visible: !pitchCore.isGameStarted,
-              child: FlatButton(
+              child: RaisedButton(
                 child: Text("Begin", style: TextStyle(fontSize: 25)),
+                color: Colors.pinkAccent[100],
                 onPressed: () {
                   pitchCore.run();
                 },
               ),
             ),
             // End game button
-            endgameWidget(context, pitchCore),            
+            endgameWidget(context, pitchCore, Colors.pinkAccent[100]),            
           ],
         ),
       );

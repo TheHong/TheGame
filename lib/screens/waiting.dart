@@ -12,7 +12,6 @@ class _WaitingPageState extends State<WaitingPage> {
   @override
   Widget build(BuildContext context) {
 
-    // return Consumer<GameInfo>(builder: (context, gameInfo, child) {
       return Container(
           color: Colors.blue[900],
           child: Center(
@@ -22,6 +21,5 @@ class _WaitingPageState extends State<WaitingPage> {
               size: 100.0,
             ),
           ));
-    // });
   }
 }
