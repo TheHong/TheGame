@@ -26,6 +26,7 @@ dependencies:
   flutter_midi: ^1.0.1
   provider: ^4.1.2
   flutter_spinkit: ^4.1.2+1
+  cloud_firestore: ^0.13.6
 
 
   # The following adds the Cupertino Icons font to your application.
