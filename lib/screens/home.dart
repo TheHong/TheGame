@@ -115,65 +115,70 @@ class _HomeState extends State<Home> {
       List<Color> colorGradient}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      child: Container( // TODO: Make this a button
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          gradient: LinearGradient(colors: colorGradient),
-        ),
-        child: Row(
-          children: <Widget>[
-            SizedBox(width: 20.0),
-            Icon(
-              icon,
-              size: 50.0,
-            ),
-            SizedBox(width: 20.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    name,
-                    style: TextStyle(fontSize: 30.0),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 2.0, bottom: 3.0),
-                    child: Text(
-                      subtitle,
-                      style: TextStyle(fontSize: 15.0, color: Colors.black26),
+      child: GestureDetector(
+        onTap: (){
+          Navigator.pushNamed(context, routeStr);
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            gradient: LinearGradient(colors: colorGradient),
+          ),
+          child: Row(
+            children: <Widget>[
+              SizedBox(width: 20.0),
+              Icon(
+                icon,
+                size: 50.0,
+              ),
+              SizedBox(width: 20.0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      name,
+                      style: TextStyle(fontSize: 30.0),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2.0, bottom: 3.0),
+                      child: Text(
+                        subtitle,
+                        style: TextStyle(fontSize: 15.0, color: Colors.black26),
+                      ),
+                    ),
+                    // Row(
+                    //   children: <Widget>[
+                    //     // This does not take into account more than 3 players on podium
+                    //     // Nor does it take into account there is less than 3 players
+                    //     getSmallMedalResultItem(1, results[0]),
+                    //     getSmallMedalResultItem(2, results[1]),
+                    //     getSmallMedalResultItem(3, results[2]),
+                    //   ],
+                    // ),
+                  ],
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.list),
+                    onPressed: () {
+                      _showQuickResults(context, results, numDecPlaces);
+                    },
                   ),
-                  // Row(
-                  //   children: <Widget>[
-                  //     // This does not take into account more than 3 players on podium
-                  //     // Nor does it take into account there is less than 3 players
-                  //     getSmallMedalResultItem(1, results[0]),
-                  //     getSmallMedalResultItem(2, results[1]),
-                  //     getSmallMedalResultItem(3, results[2]),
-                  //   ],
-                  // ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_forward),
+                    onPressed: () {
+                      Navigator.pushNamed(context, routeStr);
+                    },
+                  )
                 ],
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.list),
-                  onPressed: () {
-                    _showQuickResults(context, results, numDecPlaces);
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    Navigator.pushNamed(context, routeStr);
-                  },
-                )
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
