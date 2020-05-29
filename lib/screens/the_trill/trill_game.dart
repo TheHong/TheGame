@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/models/game_core.dart';
+import 'package:game_app/screens/instructions.dart';
 import 'package:game_app/screens/the_trill/components/prompter.dart';
 import 'package:game_app/screens/the_trill/components/minikey_pressor.dart';
 import 'package:game_app/screens/the_trill/components/submit_button.dart';
@@ -23,6 +24,19 @@ class _TrillGameState extends State<TrillGame> {
               title: Text("The Trill", style: TextStyle(color: Colors.black)),
               backgroundColor: Colors.green[100],
               elevation: 0,
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.help_outline),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => InstructionsPage(trillCore),
+                      ),
+                    );
+                  },
+                )
+              ],
             ),
             body: ListView(
               children: <Widget>[

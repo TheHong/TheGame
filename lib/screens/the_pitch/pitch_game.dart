@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/models/game_core.dart';
+import 'package:game_app/screens/instructions.dart';
 import 'package:game_app/screens/the_pitch/components/game_title_bar.dart';
 import 'package:game_app/screens/the_pitch/components/key_pressor.dart';
 import 'package:game_app/screens/the_pitch/components/note_icon.dart';
@@ -25,6 +26,19 @@ class _PitchGameState extends State<PitchGame> {
           title: Text("The Pitch"),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.help_outline),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => InstructionsPage(pitchCore),
+                  ),
+                );
+              },
+            )
+          ],
         ),
         body: MediaQuery.removePadding(
           // Need this to remove the bottom listview padding

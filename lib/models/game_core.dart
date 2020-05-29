@@ -60,6 +60,7 @@ abstract class GameCore extends ChangeNotifier {
   String getGameName();
   String getGamePath();
   String getDebugInfo();
+  String getInstructions();
   Future _run();
 
   void run() async {
@@ -159,7 +160,7 @@ abstract class GameCore extends ChangeNotifier {
 }
 
 class ThePitchCore extends GameCore {
-  static int _numRounds = 1;
+  static int _numRounds = 2;
   static int _timePerRound = 5; // Duration of each round
   static int _timePerPreparation =
       3; // Duration of the countdown to the start of the round
@@ -194,6 +195,15 @@ class ThePitchCore extends GameCore {
   String getGameName() => "The Pitch";
   String getGamePath() => "/the_pitch";
   int getNumDecPlaces() => 3;
+  String getInstructions() =>
+      "The point of this game is to be able to choose the note that corresponds to the note being played as quickly as possible." +
+      " For each round, one note will be played. You will have $_timePerRound seconds to guess the note by pressing one of the keys on the keyboard." +
+      " The faster you choose the note correctly, the more points you earn." +
+      " However, if the answer is incorrect, then no points will be awarded." +
+      " There will be $_numRounds rounds." +
+      " At the start of the game, the keyboard is activated and you may press the keys to hear what notes sound like." +
+      " To start the game, press the 'Begin' button below the keyboard." +
+      " Once the round starts and the note is played, you may press the giant musical note icon to replay the note.";
 
   @override
   Future _run() async {
@@ -310,6 +320,11 @@ class TheTrillCore extends GameCore {
   String getGameName() => "The Trill";
   String getGamePath() => "/the_trill";
   int getNumDecPlaces() => 0;
+  String getInstructions() =>
+      "The point of the game is to tap the two keys successively as many times as possible: " +
+      "this is the piano trill. The bar at the top gives an indication of where you are at with respect to the leaderboard." +
+      " The green marker represents level needed to make it onto the leaderboard. The other three represents the bronze, silver, and gold results." +
+      " You will have $_timePerRound seconds to do as many taps as possible.";
 
   Future _run() async {
     // Game  ----------------------------------------------------------------
