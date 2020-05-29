@@ -15,15 +15,15 @@ class _NoteIconState extends State<NoteIcon> {
         return Container(
             color: pitchCore.isDebugMode ? Colors.black12 : Colors.transparent,
             child: Padding(
-              padding: const EdgeInsets.only(
-                top: 30.0,
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height / 23,
               ),
               child: OutlineButton(
-                padding: EdgeInsets.all(25),
+                padding: EdgeInsets.all(MediaQuery.of(context).size.height / 28),
                 shape: CircleBorder(),
                 child: Icon(
                   Icons.music_note,
-                  size: 100,
+                  size: MediaQuery.of(context).size.height * 0.15,
                   // Inactive: Black
                   // Awaiting user answer: Blue
                   // Displaying result: Green or Red

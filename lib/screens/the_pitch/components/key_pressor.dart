@@ -36,8 +36,8 @@ class _KeyPressorState extends State<KeyPressor> {
 
   Widget createKeyRow(
       {List<SingleKey> keys, ThePitchCore pitchCore, bool isPadLeft}) {
-    const double paddingLR = 10;
-    const double paddingKey = 1;
+    const double paddingLR = 10; // Does not adapt with screen size
+    const double paddingKey = 1; // Does not adapt with screen size
     double keyDiameter =
         (MediaQuery.of(context).size.width - 2 * paddingLR) / 7; // 7 white keys
     return Padding(

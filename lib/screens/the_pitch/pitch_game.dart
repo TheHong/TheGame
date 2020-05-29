@@ -18,6 +18,7 @@ class _PitchGameState extends State<PitchGame> {
 
   @override
   Widget build(BuildContext context) {
+    Size screen = MediaQuery.of(context).size;
     return ChangeNotifierProvider<ThePitchCore>(
       create: (context) => pitchCore,
       child: Scaffold(
@@ -61,12 +62,13 @@ class _PitchGameState extends State<PitchGame> {
                   children: <Widget>[
                     NoteIcon(),
                     Prompter(),
-                    KeyPressor(),
-                    SizedBox(height: 20),
+                    KeyPressor(), // Contains parameters that do not adapt with screen size
+                    SizedBox(height: screen.height / 23),
                     BottomBar(),
                     SizedBox(
-                        height: MediaQuery.of(context).size.height /
-                            7), // Used to extend the container
+                      // Used to extend the container
+                      height: screen.height / 7,
+                    ),
                   ],
                 ),
               ),

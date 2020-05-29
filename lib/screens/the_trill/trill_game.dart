@@ -41,13 +41,14 @@ class _TrillGameState extends State<TrillGame> {
             body: ListView(
               children: <Widget>[
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  padding: EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: MediaQuery.of(context).size.width / 41),
                   child: Column(
                     children: <Widget>[
                       TitleBar(),
-                      Prompter(),
-                      MiniKeyPressor(),
+                      Prompter(), // Contains parameters that do not adapt with screen size
+                      MiniKeyPressor(), 
                       SubmitButton(),
                     ],
                   ),

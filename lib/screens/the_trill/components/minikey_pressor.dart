@@ -10,18 +10,20 @@ class MiniKeyPressor extends StatefulWidget {
 class _MiniKeyPressorState extends State<MiniKeyPressor> {
   @override
   Widget build(BuildContext context) {
+    Size screen = MediaQuery.of(context).size;
     return Consumer<TheTrillCore>(builder: (context, trillCore, child) {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+        padding:
+            EdgeInsets.symmetric(vertical: 0, horizontal: screen.width / 10),
         child: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.purpleAccent[100], Colors.purple[200]]),
+            gradient:
+                LinearGradient(colors: [Colors.brown[500], Colors.brown[200]]),
             borderRadius: BorderRadius.all(
               Radius.circular(30),
             ),
           ),
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(screen.height / 60),
           child: Column(
             children: <Widget>[
               Row(
@@ -29,8 +31,9 @@ class _MiniKeyPressorState extends State<MiniKeyPressor> {
                 children: <Widget>[
                   RaisedButton(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 60.0, horizontal: 40),
+                      padding: EdgeInsets.symmetric(
+                          vertical: screen.height / 11,
+                          horizontal: screen.width / 10),
                       child: Text(""),
                     ),
                     onPressed: trillCore.keyboard.isActive
@@ -43,12 +46,13 @@ class _MiniKeyPressorState extends State<MiniKeyPressor> {
                         : null,
                   ),
                   SizedBox(
-                    width: 35,
+                    width: screen.width / 12,
                   ),
                   RaisedButton(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 60.0, horizontal: 40),
+                      padding: EdgeInsets.symmetric(
+                          vertical: screen.height / 11,
+                          horizontal: screen.width / 10),
                       child: Text(""),
                     ),
                     onPressed: trillCore.keyboard.isActive

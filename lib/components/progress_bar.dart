@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-Widget ProgressBar({
+Widget progressBar({
   double score,
   List<double> centerCoords,
   double height,
