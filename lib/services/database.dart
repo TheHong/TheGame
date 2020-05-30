@@ -9,12 +9,13 @@ Collection: "The Game"
 */
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/results.dart';
 
 class DatabaseService {
   final DocumentReference onlineResults = Firestore.instance
-      .collection('The Bored')
-      .document("results"); // TODO: Change this
+      .collection(Constant.FIREBASE_COLLECTION_NAME)
+      .document(Constant.FIREBASE_DOCUMENT_NAME); 
 
   Future updateNonAtomic(String game, List<Result> newResults) async {
     return await onlineResults.setData(

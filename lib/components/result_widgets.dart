@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/game_core.dart';
 import 'package:game_app/models/results.dart';
 import 'package:game_app/screens/results_screen.dart';
@@ -233,10 +234,9 @@ void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
 Widget homeResultsStreamer(
     BuildContext context, String game, int numDecPlaces) {
   return StreamBuilder(
-      // TODO: To change "The Bored" to actual collection name
       stream: Firestore.instance
-          .collection("The Bored")
-          .document("results")
+          .collection(Constant.FIREBASE_COLLECTION_NAME)
+          .document(Constant.FIREBASE_DOCUMENT_NAME)
           .snapshots(),
       builder: (context, snapshot) {
         List<Result> results = getResultsFromAsyncSnapshot(game, snapshot);

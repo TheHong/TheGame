@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/results.dart';
 import 'package:game_app/services/database.dart';
 
@@ -15,12 +16,13 @@ class _TestingGroundState extends State<TestingGround> {
       appBar: AppBar(title: Text("Testing")),
       body: StreamBuilder(
           stream: Firestore.instance
-              .collection('The Bored')
-              .document('results')
+              .collection(Constant.FIREBASE_COLLECTION_NAME)
+              .document(Constant.FIREBASE_DOCUMENT_NAME)
               .snapshots(),
           builder: (context, snapshot) {
-            // if (!snapshot.hasData) return const Text("Loading...");
-
+            // if (!snapshot.hasData) return const Text("No data...");
+            if (snapshot.data == null || snapshot.data.data == null)
+              return const Text("No data...");
             List<Result> res =
                 getResultsFromAsyncSnapshot("The Pitch", snapshot);
             print("Amount of results => ${res.length}");
@@ -32,15 +34,31 @@ class _TestingGroundState extends State<TestingGround> {
             );
           }),
       floatingActionButton: Tooltip(
-        message: "Add data",
+        message:
+            "WARNING!!!!! MAKE SURE THE DATABASE OBJECT IS NOT A DatabaseService, but a DatabaseServiceTest." +
+                "Must not overwrite",
         child: IconButton(
           icon: Icon(Icons.shuffle),
           onPressed: () async {
-            await DatabaseService().updateNonAtomic("The Pitch", getSampleResults());
+            await DatabaseServiceTest()
+                .testUpdateasdfasdf("The Pitch", getSampleResults());
             print("Done");
           },
         ),
       ),
+    );
+  }
+}
+
+class DatabaseServiceTest {
+  final DocumentReference onlineResults =
+      Firestore.instance.collection("TEST_GROUND").document("TEST_RESULTS");
+
+  Future testUpdateasdfasdf(String game, List<Result> newResults) async {
+    return await onlineResults.setData(
+      {
+        game: newResults.map((result) => result.toMap()).toList(),
+      },
     );
   }
 }

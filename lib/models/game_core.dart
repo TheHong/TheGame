@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/the_pitch/keyboard.dart';
 import 'package:game_app/models/the_pitch/note_player.dart';
 import 'package:game_app/models/the_trill/mini_keyboard.dart';
@@ -40,7 +41,7 @@ class Counter {
 abstract class GameCore extends ChangeNotifier {
   DatabaseService databaseService = DatabaseService();
   final counter = Counter(); // To get time to be displayed
-  final leaderboardSize = 10;
+  final leaderboardSize = Constant.LEADERBOARD_SIZE;
 
   // TODO: Privatize if needed
   double score = 0.0;
@@ -182,13 +183,11 @@ abstract class GameCore extends ChangeNotifier {
 }
 
 class ThePitchCore extends GameCore {
-  static int _numRounds = 1;
-  static int _timePerRound = 5; // Duration of each round
-  static int _timePerPreparation =
-      3; // Duration of the countdown to the start of the round
-  static int _timePerEnd =
-      3; // Duration at the end of each round before the countdown of next round
-  static Map _prompts = {
+  static final int _numRounds = Constant.NUM_ROUNDS_PITCH;
+  static final int _timePerRound = Constant.TIME_PER_ROUND_PITCH;
+  static final int _timePerRoundStart = Constant.TIME_PER_ROUND_START_PITCH;
+  static final int _timePerRoundEnd = Constant.TIME_PER_ROUND_END_PITCH;
+  static final Map _prompts = {
     "loading": "Game is loading...",
     "prep": "Get Ready!",
     "game": "GO!",
@@ -213,15 +212,7 @@ class ThePitchCore extends GameCore {
   String getGameName() => "The Pitch";
   String getGamePath() => "/the_pitch";
   int getNumDecPlaces() => 3;
-  String getInstructions() =>
-      "The point of this game is to be able to choose the note that corresponds to the note being played as quickly as possible." +
-      " For each round, one note will be played. You will have $_timePerRound seconds to guess the note by pressing one of the keys on the keyboard." +
-      " The faster you choose the note correctly, the more points you earn." +
-      " However, if the answer is incorrect, then no points will be awarded." +
-      " There will be $_numRounds rounds." +
-      " At the start of the game, the keyboard is activated and you may press the keys to hear what notes sound like." +
-      " To start the game, press the 'Begin' button below the keyboard." +
-      " Once the round starts and the note is played, you may press the giant musical note icon to replay the note.";
+  String getInstructions() => Constant.INSTRUCTIONS_PITCH;
 
   @override
   Future _run() async {
@@ -251,8 +242,8 @@ class ThePitchCore extends GameCore {
       notifyListeners();
 
       // Counts down for the user right before round begins
-      await counter.run(_timePerPreparation, notifier: notifyListeners,
-          isRedActive: false);
+      await counter.run(_timePerRoundStart,
+          notifier: notifyListeners, isRedActive: false);
 
       // Round ----------------------------------------------------------------
       // Start Round
@@ -292,7 +283,7 @@ class ThePitchCore extends GameCore {
       notifyListeners();
 
       // Pause for user to get result feedback --------------------------------
-      await counter.run(_timePerEnd);
+      await counter.run(_timePerRoundEnd);
     }
     print("The Pitch Game Completed");
     isGameDone = true;
@@ -323,9 +314,8 @@ class ThePitchCore extends GameCore {
 }
 
 class TheTrillCore extends GameCore {
-  static int _timePerRound = 5; // Duration of each round
-  static int _timePerEnd =
-      3; // Duration at the end of each round before the countdown of next round
+  static int _timePerRound = Constant.TIME_PER_ROUND_TRILL;
+  static int _timePerRoundEnd = Constant.TIME_PER_ROUND_END_TRILL;
 
   MiniKeyboard keyboard = MiniKeyboard();
 
@@ -342,11 +332,7 @@ class TheTrillCore extends GameCore {
   String getGameName() => "The Trill";
   String getGamePath() => "/the_trill";
   int getNumDecPlaces() => 0;
-  String getInstructions() =>
-      "The point of the game is to tap the two keys successively as many times as possible: " +
-      "this is the piano trill. The bar at the top gives an indication of where you are at with respect to the leaderboard." +
-      " The green marker represents level needed to make it onto the leaderboard. The other three represents the bronze, silver, and gold results." +
-      " You will have $_timePerRound seconds to do as many taps as possible.";
+  String getInstructions() => Constant.INSTRUCTIONS_TRILL;
 
   Future _run() async {
     // Game  ----------------------------------------------------------------
@@ -363,7 +349,7 @@ class TheTrillCore extends GameCore {
     prompt = "Final Score: ${score.toStringAsFixed(getNumDecPlaces())}";
     isGameDone = true;
     notifyListeners();
-    await counter.run(_timePerEnd);
+    await counter.run(_timePerRoundEnd);
 
     print("The Trill Game Completed");
   }
