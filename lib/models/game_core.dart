@@ -75,7 +75,7 @@ abstract class GameCore extends ChangeNotifier {
       print("Core safely came to an abrupt end.");
     }
   }
- 
+
   Future loadHistoricalResults() async {
     // The following is temprorary
     // historicalResults = getSampleResults();
@@ -124,40 +124,54 @@ abstract class GameCore extends ChangeNotifier {
     }
   }
 
-  void updateResult({String name}) {
+  Future updateResult({String name}) async {
     /* Part of algorithm courtesy of Chi-Chung Cheung */
-    // Get most updated results and reevaluate rank and index
-    loadHistoricalResults();
-    evaluateResult();
+    await Firestore.instance.runTransaction((transaction) async {
+      // Get most updated results and reevaluate rank and index
+      await loadHistoricalResults();
+      evaluateResult();
 
-    // Perform leaderboard changes if needed
-    if (newRank > 0) {
-      // Insert at new index first
-      newResult = Result(game: getGameName(), name: newName, score: score, timestamp: Timestamp.now());
-      historicalResults.insert(newIndex, newResult);
+      // Perform leaderboard changes if needed
+      if (newRank > 0) {
+        // Insert at new index first
+        newResult = Result(
+          game: getGameName(),
+          name: newName,
+          score: score,
+          timestamp: Timestamp.now(),
+        );
+        historicalResults.insert(newIndex, newResult);
 
-      // Check validity of leaderboard
-      // Two checks below:
-      // Is leaderboard overflowing?
-      // Is there a tie at the supposed end of the leaderboard?
-      if (historicalResults.length > leaderboardSize) {
-        if (historicalResults[leaderboardSize] !=
-            historicalResults[leaderboardSize - 1]) {
-          historicalResults.removeRange(
-            leaderboardSize,
-            historicalResults.length,
-          );
+        // Check validity of leaderboard
+        // Two checks below:
+        // Is leaderboard overflowing?
+        // Is there a tie at the supposed end of the leaderboard?
+        if (historicalResults.length > leaderboardSize) {
+          if (historicalResults[leaderboardSize] !=
+              historicalResults[leaderboardSize - 1]) {
+            historicalResults.removeRange(
+              leaderboardSize,
+              historicalResults.length,
+            );
+          }
         }
+
+        // Update Firebase
+        databaseService.updateAtomic(
+          getGameName(),
+          historicalResults,
+          transaction,
+        );
+
+        // Update prompt
+        prompt = "Congrats! You are ranked $newRank!";
+        print("Inside: $prompt");
+      } else {
+        print("Not on leaderboard. No result to be updated");
+        prompt = "";
       }
-
-      // TODO: Update firebase    
-
-      // Update prompt
-      prompt = "Congrats! You are ranked $newRank!";
-    } else {
-      print("Not on leaderboard. No result to be updated");
-      prompt = "";
-    }
+    });
+    print("Outside: $prompt");
   }
 
   @override
@@ -168,7 +182,7 @@ abstract class GameCore extends ChangeNotifier {
 }
 
 class ThePitchCore extends GameCore {
-  static int _numRounds = 2;
+  static int _numRounds = 1;
   static int _timePerRound = 5; // Duration of each round
   static int _timePerPreparation =
       3; // Duration of the countdown to the start of the round
@@ -190,7 +204,7 @@ class ThePitchCore extends GameCore {
   double submitTime = -1; // Point in the COUNTDOWN that answer was submitted
 
   bool isCorrect = false; // Is the submitted answer correct
-  double scoreChange = 0; 
+  double scoreChange = 0;
 
   final notePlayer = NotePlayer(); // To play the tones
   final keyboard = Keyboard(); // Contains the information of the keys

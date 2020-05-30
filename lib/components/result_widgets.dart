@@ -131,102 +131,103 @@ void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
   BuildContext prevContext =
       context; // Context of the current screen (below the dialog)
   showDialog(
-      context: context,
-      builder: (context) => Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
+    context: context,
+    builder: (context) => Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      elevation: 0.0,
+      backgroundColor: Colors.transparent,
+      child: Stack(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: circleSize / 1.8),
+            padding: EdgeInsets.only(
+              top: circleSize / 2 + 10,
+              left: 10,
+              right: 10,
             ),
-            elevation: 0.0,
-            backgroundColor: Colors.transparent,
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: circleSize / 1.8),
-                  padding: EdgeInsets.only(
-                    top: circleSize / 2 + 10,
-                    left: 10,
-                    right: 10,
-                  ),
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(2),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 10.0,
-                        offset: const Offset(0.0, 10.0),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min, // Ensuring compactness
-                    children: <Widget>[
-                      Text(
-                        "You made it onto the leaderboard!",
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 25,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      SizedBox(height: 16.0),
-                      Form(
-                        key: _getNameFormKey,
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.words,
-                          cursorColor: Colors.green,
-                          decoration: InputDecoration(
-                            filled: true,
-                            icon: const Icon(Icons.person),
-                            hintText: "e.g. SKULE",
-                            labelText: "Enter a name",
-                          ),
-                          onSaved: (value) {
-                            gameCore.newName = value;
-                          },
-                          validator: (value) => value.isEmpty
-                              ? "Must enter something"
-                              : (value.startsWith(" ") || value.endsWith(" ")
-                                  ? "Must not start or end with a space"
-                                  : null),
-                        ),
-                      ),
-                      SizedBox(height: 24.0),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: FlatButton(
-                          onPressed: () {
-                            if (_getNameFormKey.currentState.validate()) {
-                              _getNameFormKey.currentState.save();
-                              gameCore.updateResult();
-                              Navigator.pop(
-                                  prevContext); // This removes the screen underneath
-                              Navigator.pushReplacement(
-                                // This removes the dialog and navigates to results
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ResultsPage(gameCore),
-                                ),
-                              );
-                            }
-                          },
-                          child: Text("Submit"),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    gameCore.newRank <= 3
-                        ? getMedalItem(gameCore.newRank, circleSize)
-                        : Text(""),
-                  ],
+            decoration: new BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(2),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10.0,
+                  offset: const Offset(0.0, 10.0),
                 ),
               ],
             ),
-          ));
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Ensuring compactness
+              children: <Widget>[
+                Text(
+                  "You made it onto the leaderboard!",
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width / 25,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                Form(
+                  key: _getNameFormKey,
+                  child: TextFormField(
+                    textCapitalization: TextCapitalization.words,
+                    cursorColor: Colors.green,
+                    decoration: InputDecoration(
+                      filled: true,
+                      icon: const Icon(Icons.person),
+                      hintText: "e.g. SKULE",
+                      labelText: "Enter a name",
+                    ),
+                    onSaved: (value) {
+                      gameCore.newName = value;
+                    },
+                    validator: (value) => value.isEmpty
+                        ? "Must enter something"
+                        : (value.startsWith(" ") || value.endsWith(" ")
+                            ? "Must not start or end with a space"
+                            : null),
+                  ),
+                ),
+                SizedBox(height: 24.0),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: FlatButton(
+                    onPressed: () async {
+                      if (_getNameFormKey.currentState.validate()) {
+                        _getNameFormKey.currentState.save();
+                        await gameCore.updateResult();
+                        Navigator.pop(
+                            prevContext); // This removes the screen underneath
+                        Navigator.pushReplacement(
+                          // This removes the dialog and navigates to results
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ResultsPage(gameCore),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text("Submit"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              gameCore.newRank <= 3
+                  ? getMedalItem(gameCore.newRank, circleSize)
+                  : Text(""),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 Widget homeResultsStreamer(

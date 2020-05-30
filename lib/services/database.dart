@@ -16,7 +16,7 @@ class DatabaseService {
       .collection('The Bored')
       .document("results"); // TODO: Change this
 
-  Future update(String game, List<Result> newResults) async {
+  Future updateNonAtomic(String game, List<Result> newResults) async {
     return await onlineResults.setData(
       {
         game: newResults.map((result) => result.toMap()).toList(),
@@ -24,7 +24,15 @@ class DatabaseService {
     );
   }
 
+  Future updateAtomic(
+      String game, List<Result> newResults, Transaction transaction) async {
+    await transaction.update(onlineResults, {
+      game: newResults.map((result) => result.toMap()).toList(),
+    });
+  }
+
   Future updateSample() async {
+    bool done = false;
     Firestore.instance.runTransaction((transaction) async {
       // final results = await getResults("The Pitch");
       List newResults = getSampleResults();
@@ -32,6 +40,7 @@ class DatabaseService {
         "The Pitch": newResults.map((result) => result.toMap()).toList(),
       });
       print("Transaction done!");
+      done = true;
     });
   }
 
