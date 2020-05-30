@@ -24,6 +24,17 @@ class DatabaseService {
     );
   }
 
+  Future updateSample() async {
+    Firestore.instance.runTransaction((transaction) async {
+      // final results = await getResults("The Pitch");
+      List newResults = getSampleResults();
+      await transaction.update(onlineResults, {
+        "The Pitch": newResults.map((result) => result.toMap()).toList(),
+      });
+      print("Transaction done!");
+    });
+  }
+
   Future<List<Result>> getResults(game) async {
     DocumentSnapshot resultsDocument = await onlineResults.get();
     return getResultsFromDocSnapshot(game, resultsDocument);

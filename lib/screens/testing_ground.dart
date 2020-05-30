@@ -36,7 +36,8 @@ class _TestingGroundState extends State<TestingGround> {
         child: IconButton(
           icon: Icon(Icons.shuffle),
           onPressed: () async {
-            await DatabaseService().update("The Pitch", getSampleResults());
+            await DatabaseService().updateSample();
+            // await DatabaseService().update("The Pitch", getSampleResults());
             print("Done");
           },
         ),
