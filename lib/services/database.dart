@@ -12,19 +12,17 @@ import 'package:flutter/material.dart';
 import 'package:game_app/models/user.dart';
 
 class DatabaseService {
-  final CollectionReference onlineResults =
-      Firestore.instance.collection('The Bored'); // TODO: Change this
+  final DocumentReference onlineResults = Firestore.instance
+      .collection('The Bored')
+      .document("results"); // TODO: Change this
 
   Future update() async {
     //List<Result> newResults) async{
-    return await onlineResults
-        .document("new")
-        .setData({'name': "Anna", 'score': 55});
+    return await onlineResults.setData({'name': "Anna", 'score': 55});
   }
 
   Future<List<Result>> getResults(game) async {
-    QuerySnapshot documentsSnapshot = await onlineResults.getDocuments();
-    DocumentSnapshot resultsDocument = documentsSnapshot.documents[0];
+    DocumentSnapshot resultsDocument = await onlineResults.get();
     return getResultsFromDocSnapshot(game, resultsDocument);
   }
 }
@@ -34,7 +32,7 @@ List<Result> getResultsFromAsyncSnapshot(String game, AsyncSnapshot snapshot) {
   if (!snapshot.hasData) return [];
 
   // Extracting the results from the snapshot
-  DocumentSnapshot resultsDocument = snapshot.data.documents[0];
+  DocumentSnapshot resultsDocument = snapshot.data;
   return getResultsFromDocSnapshot(game, resultsDocument);
 }
 

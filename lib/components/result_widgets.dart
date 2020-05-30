@@ -229,7 +229,7 @@ Widget homeResultsStreamer(
     BuildContext context, String game, int numDecPlaces) {
   return StreamBuilder(
       // TODO: To change "The Bored" to actual collection name
-      stream: Firestore.instance.collection('The Bored').snapshots(),
+      stream: Firestore.instance.collection("The Bored").document("results").snapshots(),
       builder: (context, snapshot) {
         List<Result> results = getResultsFromAsyncSnapshot(game, snapshot);
         List<int> ranking = getRanking(results);
