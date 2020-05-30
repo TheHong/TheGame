@@ -147,8 +147,8 @@ abstract class GameCore extends ChangeNotifier {
         // Is leaderboard overflowing?
         // Is there a tie at the supposed end of the leaderboard?
         if (historicalResults.length > leaderboardSize) {
-          if (historicalResults[leaderboardSize] !=
-              historicalResults[leaderboardSize - 1]) {
+          if (historicalResults[leaderboardSize].score !=
+              historicalResults[leaderboardSize - 1].score) {
             historicalResults.removeRange(
               leaderboardSize,
               historicalResults.length,
