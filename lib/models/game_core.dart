@@ -76,10 +76,12 @@ abstract class GameCore extends ChangeNotifier {
     }
   }
 
-  Future loadHistoricalResults() async {
+  Future loadHistoricalResults({Function onDone}) async {
     // The following is temprorary
     // historicalResults = getSampleResults();
     historicalResults = await databaseService.getResults(getGameName());
+    notifyListeners();
+    if (onDone != null) onDone();
   }
 
   List<double> getCheckpoints() {
@@ -210,10 +212,6 @@ class ThePitchCore extends GameCore {
   final keyboard = Keyboard(); // Contains the information of the keys
   final stopwatch = Stopwatch(); // To measure time
 
-  ThePitchCore() {
-    loadHistoricalResults();
-  }
-
   String getGameName() => "The Pitch";
   String getGamePath() => "/the_pitch";
   int getNumDecPlaces() => 3;
@@ -334,11 +332,13 @@ class TheTrillCore extends GameCore {
   MiniKeyboard keyboard = MiniKeyboard();
 
   TheTrillCore() {
-    loadHistoricalResults();
-    prompt = "Start trilling to start the game!";
-    counter.currCount = _timePerRound;
-    print("${counter.currCount} and $_timePerRound");
-    keyboard.activate();
+    prompt = "Loading Game...";
+    keyboard.deactivate();
+    loadHistoricalResults(onDone: () {
+      prompt = "Start trilling to start the game!";
+      counter.currCount = _timePerRound;
+      keyboard.activate();
+    });
   }
 
   String getGameName() => "The Trill";
