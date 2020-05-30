@@ -20,7 +20,7 @@ class _TestingGroundState extends State<TestingGround> {
           builder: (context, snapshot) {
             // if (!snapshot.hasData) return const Text("Loading...");
 
-            List<Result> res = processSnapshot("The Pitch", snapshot);
+            List<Result> res = getResultsFromAsyncSnapshot("The Pitch", snapshot);
             print(res.length);
             return Text(res[0].name);
 

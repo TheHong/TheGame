@@ -3,7 +3,7 @@ class Result {
   String game;
   double score;
   Result({this.name, this.game, this.score});
-}
+} // TODO: ADD TIME STAMP
 
 List<Result> getSampleResults() {
   return [

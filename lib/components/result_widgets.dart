@@ -231,7 +231,7 @@ Widget homeResultsStreamer(
       // TODO: To change "The Bored" to actual collection name
       stream: Firestore.instance.collection('The Bored').snapshots(),
       builder: (context, snapshot) {
-        List<Result> results = processSnapshot(game, snapshot);
+        List<Result> results = getResultsFromAsyncSnapshot(game, snapshot);
         List<int> ranking = getRanking(results);
         return results.isNotEmpty
             ? ListView.builder(

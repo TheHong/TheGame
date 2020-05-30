@@ -19,7 +19,7 @@ Widget progressBar({
   // ^ For example, if the leaderboard is currently [8, 9], then checkpoints is [0, 0, 8, 9].
 
   assert (checkpoints.length == 4, "There must be 4 checkpoints.");
-  assert (checkpoints.last != -1, "Invalid checkpoints list. There must always be at least one gold.");
+  assert (checkpoints.last != -1, "Invalid checkpoints list. Impossible for a tie to result in no gold.");
 
 
   return CustomPaint(

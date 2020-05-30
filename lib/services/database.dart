@@ -13,7 +13,7 @@ import 'package:game_app/models/user.dart';
 
 class DatabaseService {
   final CollectionReference onlineResults =
-      Firestore.instance.collection('The Bored');
+      Firestore.instance.collection('The Bored'); // TODO: Change this
 
   Future update() async {
     //List<Result> newResults) async{
@@ -22,18 +22,24 @@ class DatabaseService {
         .setData({'name': "Anna", 'score': 55});
   }
 
-  Stream<QuerySnapshot> get res {
-    return onlineResults.snapshots();
+  Future<List<Result>> getResults(game) async {
+    QuerySnapshot documentsSnapshot = await onlineResults.getDocuments();
+    DocumentSnapshot resultsDocument = documentsSnapshot.documents[0];
+    return getResultsFromDocSnapshot(game, resultsDocument);
   }
 }
 
-List<Result> processSnapshot(String game, AsyncSnapshot snapshot) {
+List<Result> getResultsFromAsyncSnapshot(String game, AsyncSnapshot snapshot) {
   // Looking for data
   if (!snapshot.hasData) return [];
 
   // Extracting the results from the snapshot
   DocumentSnapshot resultsDocument = snapshot.data.documents[0];
-  Map results = resultsDocument.data;
+  return getResultsFromDocSnapshot(game, resultsDocument);
+}
+
+List<Result> getResultsFromDocSnapshot(String game, DocumentSnapshot snapshot) {
+  Map results = snapshot.data;
   if (!results.containsKey(game)) return []; // If no data for game
 
   // Storing and returning the results

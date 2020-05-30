@@ -14,6 +14,7 @@ class TrillGame extends StatefulWidget {
 
 class _TrillGameState extends State<TrillGame> {
   TheTrillCore trillCore = TheTrillCore();
+  
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TheTrillCore>(

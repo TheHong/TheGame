@@ -3,6 +3,7 @@ import 'package:game_app/models/the_pitch/keyboard.dart';
 import 'package:game_app/models/the_pitch/note_player.dart';
 import 'package:game_app/models/the_trill/mini_keyboard.dart';
 import 'package:game_app/models/user.dart';
+import 'package:game_app/services/database.dart';
 
 class Counter {
   /* Starts counting down at startCount - 1 */
@@ -36,6 +37,7 @@ class Counter {
 }
 
 abstract class GameCore extends ChangeNotifier {
+  DatabaseService databaseService = DatabaseService();
   final counter = Counter(); // To get time to be displayed
   final leaderboardSize = 10;
 
@@ -66,34 +68,34 @@ abstract class GameCore extends ChangeNotifier {
   void run() async {
     try {
       //Used to deal with the case where user abruptly ends game by exiting
+      await loadHistoricalResults();
       await _run();
     } on FlutterError {
       print("Core safely came to an abrupt end.");
     }
   }
 
-  void loadHistoricalResults() {
-    // TODO: Load from firebase (kinda repeat from the home.dart)
+  Future loadHistoricalResults() async {
     // The following is temprorary
-    historicalResults = getSampleResults();
+    // historicalResults = getSampleResults();
+    historicalResults = await databaseService.getResults(getGameName());
   }
 
   List<double> getCheckpoints() {
-    assert(historicalResults.isNotEmpty,
-        "Historical results must be loaded before checkpoints can be generated.");
-
     List<int> ranking = getRanking(historicalResults);
     int numEntries = historicalResults.length;
-    return [
-      numEntries >= leaderboardSize ? historicalResults.last.score : 0,
-      ranking.contains(3)
-          ? historicalResults[ranking.indexOf(3)].score
-          : (numEntries >= 3 ? -1 : 0),
-      ranking.contains(2)
-          ? historicalResults[ranking.indexOf(2)].score
-          : (numEntries >= 2 ? -1 : 0),
-      historicalResults.first.score,
-    ];
+    return ranking.isNotEmpty
+        ? [
+            numEntries >= leaderboardSize ? historicalResults.last.score : 0,
+            ranking.contains(3)
+                ? historicalResults[ranking.indexOf(3)].score
+                : (numEntries >= 3 ? -1 : 0),
+            ranking.contains(2)
+                ? historicalResults[ranking.indexOf(2)].score
+                : (numEntries >= 2 ? -1 : 0),
+            historicalResults.first.score,
+          ]
+        : [0, 0, 0, 0]; // TODO: FIX THIS
   }
 
   void evaluateResult() {
@@ -189,7 +191,6 @@ class ThePitchCore extends GameCore {
 
   ThePitchCore() {
     loadHistoricalResults();
-    // run();
   }
 
   String getGameName() => "The Pitch";
