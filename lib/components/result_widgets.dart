@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:game_app/models/game_core.dart';
 import 'package:game_app/models/user.dart';
 import 'package:game_app/screens/results.dart';
+import 'package:game_app/services/database.dart';
 
 Widget getSmallMedalResultItem(int rank, Result result) {
   return Row(
@@ -221,4 +223,34 @@ void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
               ],
             ),
           ));
+}
+
+Widget homeResultsStreamer(
+    BuildContext context, String game, int numDecPlaces) {
+  return StreamBuilder(
+      // TODO: To change "The Bored" to actual collection name
+      stream: Firestore.instance.collection('The Bored').snapshots(),
+      builder: (context, snapshot) {
+        List<Result> results = processSnapshot(game, snapshot);
+        List<int> ranking = getRanking(results);
+        return results.isNotEmpty
+            ? ListView.builder(
+                // Put stream
+                scrollDirection: Axis.vertical,
+                itemCount: results.length,
+                itemBuilder: (context, index) {
+                  return getResultItem(
+                    rank: ranking[index],
+                    index: index,
+                    result: results[index],
+                    numDecPlaces: numDecPlaces,
+                  );
+                })
+            : Center(
+              child: Text(
+                  "No records yet!",
+                  style: TextStyle(fontSize: 20),
+                ),
+            );
+      });
 }

@@ -7,8 +7,8 @@ Collection: "The Game"
 -->Field: "The Trill"
 ...
 */
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:game_app/models/user.dart';
 
 class DatabaseService {
@@ -27,18 +27,26 @@ class DatabaseService {
   }
 }
 
-List<Result> processSnapshot(String game, DocumentSnapshot snapshot) {
-  List onlineResult = snapshot.data[game];
+List<Result> processSnapshot(String game, AsyncSnapshot snapshot) {
+  // Looking for data
+  if (!snapshot.hasData) return [];
+
+  // Extracting the results from the snapshot
+  DocumentSnapshot resultsDocument = snapshot.data.documents[0];
+  Map results = resultsDocument.data;
+  if (!results.containsKey(game)) return []; // If no data for game
+
+  // Storing and returning the results
+  List gameResults = results[game];
   List<Result> historicalResults = List();
-  for (int i = 0; i < onlineResult.length; i++) {
+  for (int i = 0; i < gameResults.length; i++) {
     historicalResults.add(
       Result(
         game: game,
-        name: onlineResult[i]["name"],
-        score: onlineResult[i]["score"] * 1.0,
+        name: gameResults[i]["name"],
+        score: gameResults[i]["score"] * 1.0,
       ),
     );
   }
   return historicalResults;
 }
-

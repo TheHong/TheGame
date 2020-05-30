@@ -18,10 +18,9 @@ class _TestingGroundState extends State<TestingGround> {
       body: StreamBuilder(
           stream: Firestore.instance.collection('The Bored').snapshots(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) return const Text("Loading...");
-            DocumentSnapshot resultsSnapshot = snapshot.data.documents[0];
+            // if (!snapshot.hasData) return const Text("Loading...");
 
-            List<Result> res = processSnapshot("The Pitch", resultsSnapshot);
+            List<Result> res = processSnapshot("The Pitch", snapshot);
             print(res.length);
             return Text(res[0].name);
 

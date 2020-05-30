@@ -116,7 +116,7 @@ class _HomeState extends State<Home> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           Navigator.pushNamed(context, routeStr);
         },
         child: Container(
@@ -166,7 +166,8 @@ class _HomeState extends State<Home> {
                   IconButton(
                     icon: Icon(Icons.list),
                     onPressed: () {
-                      _showQuickResults(context, results, numDecPlaces);
+                      _showQuickResults(context, name, numDecPlaces);
+                      // _showQuickResultsFromResults(context, results, numDecPlaces);
                     },
                   ),
                   IconButton(
@@ -185,7 +186,23 @@ class _HomeState extends State<Home> {
   }
 }
 
-void _showQuickResults(
+void _showQuickResults(BuildContext context, String game, int numDecPlaces) {
+  showDialog(
+    context: context,
+    builder: (context) => SimpleDialog(
+      title: Text("Results ($game)", style: TextStyle(fontSize: 20)),
+      children: [
+        Container(
+          width: 300,
+          height: 300,
+          child: homeResultsStreamer(context, game, numDecPlaces),
+        ),
+      ],
+    ),
+  );
+}
+
+void _showQuickResultsFromResults(
     BuildContext context, List<Result> results, int numDecPlaces) {
   List<int> ranking = getRanking(results);
   showDialog(
@@ -203,6 +220,7 @@ void _showQuickResults(
             width: 300,
             height: 300,
             child: ListView.builder(
+                // Put stream
                 scrollDirection: Axis.vertical,
                 itemCount: results.length,
                 itemBuilder: (context, index) {
