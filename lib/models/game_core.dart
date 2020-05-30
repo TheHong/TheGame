@@ -18,8 +18,8 @@ class Counter {
   Color urgentColour = Colors.red;
   Color colour = Colors.black;
 
-  Future run(int startCount, dynamic notifier,
-      {bool isRedActive = true}) async {
+  Future run(int startCount,
+      {Function notifier, bool isRedActive = true}) async {
     try {
       for (int i = startCount - 1; i >= 0; i--) {
         // _currCount is only updated if other widgets are notified
@@ -81,7 +81,7 @@ abstract class GameCore extends ChangeNotifier {
     // historicalResults = getSampleResults();
     historicalResults = await databaseService.getResults(getGameName());
     notifyListeners();
-    if (onDone != null) onDone();
+    if (onDone is Function) onDone();
   }
 
   List<double> getCheckpoints() {
@@ -167,13 +167,11 @@ abstract class GameCore extends ChangeNotifier {
 
         // Update prompt
         prompt = "Congrats! You are ranked $newRank!";
-        print("Inside: $prompt");
       } else {
         print("Not on leaderboard. No result to be updated");
         prompt = "";
       }
     });
-    print("Outside: $prompt");
   }
 
   @override
@@ -253,7 +251,7 @@ class ThePitchCore extends GameCore {
       notifyListeners();
 
       // Counts down for the user right before round begins
-      await counter.run(_timePerPreparation, notifyListeners,
+      await counter.run(_timePerPreparation, notifier: notifyListeners,
           isRedActive: false);
 
       // Round ----------------------------------------------------------------
@@ -269,7 +267,7 @@ class ThePitchCore extends GameCore {
       keyboard.activate();
       stopwatch
           .start(); // Used in another widget to get the exact time user submits
-      await counter.run(_timePerRound, notifyListeners);
+      await counter.run(_timePerRound, notifier: notifyListeners);
       print(stopwatch.elapsedMicroseconds);
       stopwatch.stop();
       stopwatch.reset();
@@ -294,7 +292,7 @@ class ThePitchCore extends GameCore {
       notifyListeners();
 
       // Pause for user to get result feedback --------------------------------
-      await counter.run(_timePerEnd, false);
+      await counter.run(_timePerEnd);
     }
     print("The Pitch Game Completed");
     isGameDone = true;
@@ -358,14 +356,14 @@ class TheTrillCore extends GameCore {
     notifyListeners();
 
     // Give player a certain amount of time to do the trills
-    await counter.run(_timePerRound, notifyListeners);
+    await counter.run(_timePerRound, notifier: notifyListeners);
     keyboard.deactivate();
 
     // Pause for user to get result feedback --------------------------------
     prompt = "Final Score: ${score.toStringAsFixed(getNumDecPlaces())}";
     isGameDone = true;
     notifyListeners();
-    await counter.run(_timePerEnd, false);
+    await counter.run(_timePerEnd);
 
     print("The Trill Game Completed");
   }

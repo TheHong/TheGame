@@ -25,7 +25,7 @@ class ResultsPage extends StatelessWidget {
           actions: <Widget>[
             FlatButton(
               child: Text(
-                  "Try Again"), // TODO: Should update the results so that when see results on next try, will have any new updates
+                  "Try Again"),
               onPressed: () {
                 Navigator.popAndPushNamed(context, gameCore.getGamePath());
               },
@@ -86,7 +86,6 @@ class ResultsPage extends StatelessWidget {
                 ),
               ),
             ),
-            // getResultItem(1, gameCore.historicalResults[0])
           ],
         ));
   }

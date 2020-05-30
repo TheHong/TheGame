@@ -202,38 +202,38 @@ void _showQuickResults(BuildContext context, String game, int numDecPlaces) {
   );
 }
 
-void _showQuickResultsFromResults(
-    BuildContext context, List<Result> results, int numDecPlaces) {
-  List<int> ranking = getRanking(results);
-  showDialog(
-    context: context,
-    builder: (context) => SimpleDialog(
-      title: Text(
-          results.isNotEmpty
-              ? "Results (${results[0].game})"
-              : "No records yet!",
-          style: TextStyle(fontSize: 20)),
-      children: [
-        Visibility(
-          visible: results.isNotEmpty,
-          child: Container(
-            width: 300,
-            height: 300,
-            child: ListView.builder(
-                // Put stream
-                scrollDirection: Axis.vertical,
-                itemCount: results.length,
-                itemBuilder: (context, index) {
-                  return getResultItem(
-                    rank: ranking[index],
-                    index: index,
-                    result: results[index],
-                    numDecPlaces: numDecPlaces,
-                  );
-                }),
-          ),
-        ),
-      ],
-    ),
-  );
-}
+// void _showQuickResultsFromResults(
+//     BuildContext context, List<Result> results, int numDecPlaces) {
+//   List<int> ranking = getRanking(results);
+//   showDialog(
+//     context: context,
+//     builder: (context) => SimpleDialog(
+//       title: Text(
+//           results.isNotEmpty
+//               ? "Results (${results[0].game})"
+//               : "No records yet!",
+//           style: TextStyle(fontSize: 20)),
+//       children: [
+//         Visibility(
+//           visible: results.isNotEmpty,
+//           child: Container(
+//             width: 300,
+//             height: 300,
+//             child: ListView.builder(
+//                 // Put stream
+//                 scrollDirection: Axis.vertical,
+//                 itemCount: results.length,
+//                 itemBuilder: (context, index) {
+//                   return getResultItem(
+//                     rank: ranking[index],
+//                     index: index,
+//                     result: results[index],
+//                     numDecPlaces: numDecPlaces,
+//                   );
+//                 }),
+//           ),
+//         ),
+//       ],
+//     ),
+//   );
+// }

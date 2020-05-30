@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData getTheme({String name}) {
+  /* Currently mainly used by The Pitch */
   Map themes = {
     "futuristic": ThemeData(
       backgroundColor: Colors.blueGrey[100],
