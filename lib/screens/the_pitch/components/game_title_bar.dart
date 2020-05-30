@@ -38,7 +38,9 @@ class GameTitleBar extends StatelessWidget {
                     child: Center(
                       child: Text(
                         !pitchCore.isGameDone
-                            ? "${pitchCore.counter.currCount}"
+                            ? !pitchCore.isRoundDone
+                                ? "${pitchCore.counter.currCount}"
+                                : ""
                             : "Final Score: ${pitchCore.score.toStringAsFixed(3)}",
                         style: TextStyle(
                             fontSize: 30.0, color: pitchCore.counter.colour),
