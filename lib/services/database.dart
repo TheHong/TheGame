@@ -16,17 +16,12 @@ class DatabaseService {
       .collection('The Bored')
       .document("results"); // TODO: Change this
 
-  Future update() async {
-    //List<Result> newResults) async{
-    return await onlineResults.setData({
-      "The Pitch": [
-        {
-          'name': "Anna",
-          'score': 55,
-          'timestamp': Timestamp.now(),
-        }
-      ]
-    });
+  Future update(String game, List<Result> newResults) async {
+    return await onlineResults.setData(
+      {
+        game: newResults.map((result) => result.toMap()).toList(),
+      },
+    );
   }
 
   Future<List<Result>> getResults(game) async {

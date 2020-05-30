@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:game_app/models/user.dart';
 import 'package:game_app/services/database.dart';
-import 'package:provider/provider.dart';
 
 class TestingGround extends StatefulWidget {
   @override
@@ -37,7 +36,7 @@ class _TestingGroundState extends State<TestingGround> {
         child: IconButton(
           icon: Icon(Icons.shuffle),
           onPressed: () async {
-            await DatabaseService().update();
+            await DatabaseService().update("The Pitch", getSampleResults());
             print("Done");
           },
         ),

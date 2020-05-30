@@ -6,6 +6,7 @@ class Result {
   double score;
   Timestamp timestamp;
   Result({this.name, this.game, this.score, this.timestamp});
+  Map toMap() => {"name": name, "score": score, "timestamp": timestamp};
 } 
 
 List<Result> getSampleResults() {
