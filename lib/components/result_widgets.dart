@@ -62,7 +62,7 @@ Widget getResultItem(
     int numDecPlaces,
     int indexBeEmphasized = -1}) {
   return Tooltip(
-    message: DateFormat.yMd().add_jms().format(result.timestamp.toDate()),
+    message: DateFormat.yMMMMd('en_US').add_jms().format(result.timestamp.toDate()),
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Container(
