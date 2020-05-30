@@ -12,29 +12,35 @@ class TestingGround extends StatefulWidget {
 class _TestingGroundState extends State<TestingGround> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(title: Text("Testing")),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('The Bored').document('results').snapshots(),
+          stream: Firestore.instance
+              .collection('The Bored')
+              .document('results')
+              .snapshots(),
           builder: (context, snapshot) {
             // if (!snapshot.hasData) return const Text("Loading...");
 
-            List<Result> res = getResultsFromAsyncSnapshot("The Pitch", snapshot);
-            print(res.length);
+            List<Result> res =
+                getResultsFromAsyncSnapshot("The Pitch", snapshot);
+            print("Amount of results => ${res.length}");
 
             return ListView.builder(
               itemCount: res.length,
-              itemBuilder: (context, index) =>
-                  Text("${res[index].name} => ${res[index].score} (${res[index].timestamp.toDate()})"),
+              itemBuilder: (context, index) => Text(
+                  "${res[index].name} => ${res[index].score} (${res[index].timestamp.toDate()})"),
             );
           }),
-      floatingActionButton: IconButton(
-        icon: Icon(Icons.shuffle),
-        onPressed: () async {
-          await DatabaseService().update();
-          print("Done");
-        },
+      floatingActionButton: Tooltip(
+        message: "Add data",
+        child: IconButton(
+          icon: Icon(Icons.shuffle),
+          onPressed: () async {
+            await DatabaseService().update();
+            print("Done");
+          },
+        ),
       ),
     );
   }

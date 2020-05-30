@@ -4,6 +4,7 @@ import 'package:game_app/models/game_core.dart';
 import 'package:game_app/models/user.dart';
 import 'package:game_app/screens/results.dart';
 import 'package:game_app/services/database.dart';
+import 'package:intl/intl.dart';
 
 Widget getSmallMedalResultItem(int rank, Result result) {
   return Row(
@@ -59,63 +60,66 @@ Widget getResultItem(
     Result result,
     int numDecPlaces,
     int indexBeEmphasized = -1}) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-    child: Container(
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          boxShadow: index == indexBeEmphasized
-              ? [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 10,
-                      blurRadius: 7,
-                      offset: Offset(0, 3))
-                ]
-              : [],
-          gradient: LinearGradient(
-            colors: rank % 2 == 0
-                ? [Colors.deepPurple[50], Colors.deepPurple[100]]
-                : [Colors.indigo[50], Colors.indigo[100]],
-          ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
-          ),
-        ),
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 15.0),
-              child: rank <= 3
-                  ? getMedalItem(rank, 25)
-                  : Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Text(
-                        "$rank.",
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: index == indexBeEmphasized
-                                ? FontWeight.bold
-                                : FontWeight.normal),
-                      ),
-                    ),
+  return Tooltip(
+    message: DateFormat.yMd().add_jms().format(result.timestamp.toDate()),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            boxShadow: index == indexBeEmphasized
+                ? [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 10,
+                        blurRadius: 7,
+                        offset: Offset(0, 3))
+                  ]
+                : [],
+            gradient: LinearGradient(
+              colors: rank % 2 == 0
+                  ? [Colors.deepPurple[50], Colors.deepPurple[100]]
+                  : [Colors.indigo[50], Colors.indigo[100]],
             ),
-            Expanded(
-                child: Text(
-              result.name,
-              style: TextStyle(
-                  fontSize: rank <= 3 ? 25 : 20,
-                  fontWeight: index == indexBeEmphasized
-                      ? FontWeight.bold
-                      : FontWeight.normal),
-            )),
-            Text("${result.score.toStringAsFixed(numDecPlaces)}",
+            borderRadius: BorderRadius.all(
+              Radius.circular(10.0),
+            ),
+          ),
+          child: Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 15.0),
+                child: rank <= 3
+                    ? getMedalItem(rank, 25)
+                    : Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Text(
+                          "$rank.",
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: index == indexBeEmphasized
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
+                        ),
+                      ),
+              ),
+              Expanded(
+                  child: Text(
+                result.name,
                 style: TextStyle(
                     fontSize: rank <= 3 ? 25 : 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white))
-          ],
-        )),
+                    fontWeight: index == indexBeEmphasized
+                        ? FontWeight.bold
+                        : FontWeight.normal),
+              )),
+              Text("${result.score.toStringAsFixed(numDecPlaces)}",
+                  style: TextStyle(
+                      fontSize: rank <= 3 ? 25 : 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white))
+            ],
+          )),
+    ),
   );
 }
 
@@ -229,7 +233,10 @@ Widget homeResultsStreamer(
     BuildContext context, String game, int numDecPlaces) {
   return StreamBuilder(
       // TODO: To change "The Bored" to actual collection name
-      stream: Firestore.instance.collection("The Bored").document("results").snapshots(),
+      stream: Firestore.instance
+          .collection("The Bored")
+          .document("results")
+          .snapshots(),
       builder: (context, snapshot) {
         List<Result> results = getResultsFromAsyncSnapshot(game, snapshot);
         List<int> ranking = getRanking(results);
@@ -247,10 +254,10 @@ Widget homeResultsStreamer(
                   );
                 })
             : Center(
-              child: Text(
+                child: Text(
                   "No records yet!",
                   style: TextStyle(fontSize: 20),
                 ),
-            );
+              );
       });
 }
