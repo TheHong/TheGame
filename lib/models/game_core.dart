@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:game_app/models/the_pitch/keyboard.dart';
 import 'package:game_app/models/the_pitch/note_player.dart';
@@ -127,7 +128,7 @@ abstract class GameCore extends ChangeNotifier {
     /* Algorithm courtesy of Chi-Chung Cheung */
     if (newRank > 0) {
       // Insert at new index first
-      newResult = Result(game: getGameName(), name: newName, score: score);
+      newResult = Result(game: getGameName(), name: newName, score: score, timestamp: Timestamp.now());
       historicalResults.insert(newIndex, newResult);
 
       // Check validity of leaderboard

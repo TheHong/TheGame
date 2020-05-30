@@ -18,7 +18,15 @@ class DatabaseService {
 
   Future update() async {
     //List<Result> newResults) async{
-    return await onlineResults.setData({'name': "Anna", 'score': 55});
+    return await onlineResults.setData({
+      "The Pitch": [
+        {
+          'name': "Anna",
+          'score': 55,
+          'timestamp': Timestamp.now(),
+        }
+      ]
+    });
   }
 
   Future<List<Result>> getResults(game) async {
@@ -49,6 +57,7 @@ List<Result> getResultsFromDocSnapshot(String game, DocumentSnapshot snapshot) {
         game: game,
         name: gameResults[i]["name"],
         score: gameResults[i]["score"] * 1.0,
+        timestamp: gameResults[i]["timestamp"],
       ),
     );
   }

@@ -1,18 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Result {
   String name;
   String game;
   double score;
-  Result({this.name, this.game, this.score});
-} // TODO: ADD TIME STAMP
+  Timestamp timestamp;
+  Result({this.name, this.game, this.score, this.timestamp});
+} 
 
 List<Result> getSampleResults() {
+  Timestamp stamp = Timestamp.now();
   return [
-    Result(name: "Anna", score: 10, game: "The Pitch?"),
-    Result(name: "Bob", score: 9, game: "The Pitch?"),
-    Result(name: "Carl", score: 8, game: "The Pitch?"),
-    Result(name: "Carl", score: 7, game: "The Pitch?"),
-    Result(name: "Diana", score: 6, game: "The Pitch?"),
-    Result(name: "Anna", score: 1, game: "The Pitch?"),
+    Result(name: "Anna", score: 10, game: "The Game", timestamp: stamp),
+    Result(name: "Bob", score: 9, game: "The Game", timestamp: stamp),
+    Result(name: "Carl", score: 8, game: "The Game", timestamp: stamp),
+    Result(name: "Carl", score: 7, game: "The Game", timestamp: stamp),
+    Result(name: "Diana", score: 6, game: "The Game", timestamp: stamp),
+    Result(name: "Anna", score: 1, game: "The Game", timestamp: stamp),
   ];
 }
 

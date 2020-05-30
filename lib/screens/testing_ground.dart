@@ -16,26 +16,24 @@ class _TestingGroundState extends State<TestingGround> {
     return Scaffold(
       appBar: AppBar(title: Text("Testing")),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('The Bored').snapshots(),
+          stream: Firestore.instance.collection('The Bored').document('results').snapshots(),
           builder: (context, snapshot) {
             // if (!snapshot.hasData) return const Text("Loading...");
 
             List<Result> res = getResultsFromAsyncSnapshot("The Pitch", snapshot);
             print(res.length);
-            return Text(res[0].name);
 
-
-            // return ListView.builder(
-            //   itemCount: snapshot.data.documents.length,
-            //   itemBuilder: (context, index) =>
-            //       Text("${snapshot.data.documents[index]['name']}"),
-            // );
+            return ListView.builder(
+              itemCount: res.length,
+              itemBuilder: (context, index) =>
+                  Text("${res[index].name} => ${res[index].score} (${res[index].timestamp.toDate()})"),
+            );
           }),
       floatingActionButton: IconButton(
         icon: Icon(Icons.shuffle),
         onPressed: () async {
-          // await DatabaseService().update();
-          // print("Done");
+          await DatabaseService().update();
+          print("Done");
         },
       ),
     );
