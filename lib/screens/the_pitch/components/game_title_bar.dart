@@ -47,26 +47,35 @@ class GameTitleBar extends StatelessWidget {
                   ),
                   Visibility(
                     visible: !pitchCore.isGameDone,
-                    child: pitchCore.isRoundDone
-                        ? Text(
-                            "+${pitchCore.scoreChange.toStringAsFixed(pitchCore.getNumDecPlaces())}",
-                            style: TextStyle(
-                              color: pitchCore.isCorrect
-                                  ? Colors.lightGreenAccent[700]
-                                  : Colors.redAccent[700],
-                            ))
-                        : (Column(
-                            children: <Widget>[
-                              Text(
-                                "Score",
-                                style: TextStyle(fontSize: 10.0),
-                              ),
-                              Text(
-                                "${pitchCore.score.toStringAsFixed(3)}",
-                                style: TextStyle(fontSize: 15.0),
-                              ),
-                            ],
-                          )),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          "Score",
+                          style: TextStyle(fontSize: 10.0),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              !pitchCore.isRoundDone
+                                  ? "${pitchCore.score.toStringAsFixed(3)}"
+                                  : "${(pitchCore.score - pitchCore.scoreChange).toStringAsFixed(3)}",
+                              style: TextStyle(fontSize: 15.0),
+                            ),
+                            Visibility(
+                              visible: pitchCore.isRoundDone,
+                              child: Text(
+                                  " + ${pitchCore.scoreChange.toStringAsFixed(pitchCore.getNumDecPlaces())}",
+                                  style: TextStyle(
+                                    color: pitchCore.isCorrect
+                                        ? Colors.lightGreenAccent[700]
+                                        : Colors.redAccent[700],
+                                  )),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               )),
