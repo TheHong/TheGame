@@ -11,16 +11,16 @@ Widget progressBar({
   int numDecPlaces,
 }) {
   // Regarding checkpoints.
-  // They are of the following form: [lowest leaderboard score, bronze score, silver score, gold score]. 
+  // They are of the following form: [lowest leaderboard score, bronze score, silver score, gold score].
   // ^ For example, if the leaderboard is currently [8, 9, 11, 12, 13], then checkpoints is [8, 11, 12, 13].
-  // Put -1 if does not exist due to a tie. 
+  // Put -1 if does not exist due to a tie.
   // ^ For example, if the leaderboard is currently [8, 9, 11, 13, 13], then checkpoints is [8, 11, -1, 13].
   // Put a 0 if does not exist due to not enough entries
   // ^ For example, if the leaderboard is currently [8, 9], then checkpoints is [0, 0, 8, 9].
 
-  assert (checkpoints.length == 4, "There must be 4 checkpoints.");
-  assert (checkpoints.last != -1, "Invalid checkpoints list. Impossible for a tie to result in no gold.");
-
+  assert(checkpoints.length == 4, "There must be 4 checkpoints.");
+  assert(checkpoints.last != -1,
+      "Invalid checkpoints list. Impossible for a tie to result in no gold.");
 
   return CustomPaint(
     foregroundPainter: ProgressBarPainter(
@@ -37,7 +37,8 @@ Widget progressBar({
 class ProgressBarPainter extends CustomPainter {
   Color barColour = Colors.black;
   List<LinearGradient> progressGradients = [
-    LinearGradient(colors: [Colors.blueGrey, Colors.blueGrey]), // Below leaderboard
+    LinearGradient(
+        colors: [Colors.blueGrey, Colors.blueGrey]), // Below leaderboard
     LinearGradient(colors: [Colors.green, Colors.green]), // On leaderboard
     LinearGradient(colors: [Colors.brown, Colors.amber[900]]), // Bronze
     LinearGradient(colors: [Colors.grey[700], Colors.blueGrey[100]]), // Silver
@@ -83,7 +84,9 @@ class ProgressBarPainter extends CustomPainter {
     // Get progress information
     double barThickness = height * _barThicknessFactor;
     double maxProgressLength = length - 2 * barThickness;
-    double fractionComplete = score / checkpoints.last;
+    double fractionComplete = checkpoints.last > 0
+        ? score / checkpoints.last
+        : 1; // Deal with case of empty leaderboard
     double progressLength =
         min(maxProgressLength, maxProgressLength * fractionComplete);
     int progressIndex = 1 +
@@ -122,7 +125,10 @@ class ProgressBarPainter extends CustomPainter {
         continue; // If a checkpoint does not exist because of a tie
       double horiCoord = topLeftCoords[0] +
           barThickness +
-          maxProgressLength * chkpt / checkpoints.last;
+          maxProgressLength *
+              (checkpoints.last > 0
+                  ? chkpt / checkpoints.last
+                  : 1); // Deal with case of empty leaderboard
       canvas.drawLine(
         Offset(horiCoord, vertCoord),
         Offset(horiCoord, vertCoord - 10),

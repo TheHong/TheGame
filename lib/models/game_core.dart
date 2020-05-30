@@ -95,7 +95,7 @@ abstract class GameCore extends ChangeNotifier {
                 : (numEntries >= 2 ? -1 : 0),
             historicalResults.first.score,
           ]
-        : [0, 0, 0, 0]; // TODO: FIX THIS
+        : [0, 0, 0, 0];
   }
 
   void evaluateResult() {
