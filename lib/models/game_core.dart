@@ -75,7 +75,7 @@ abstract class GameCore extends ChangeNotifier {
       print("Core safely came to an abrupt end.");
     }
   }
-
+ 
   Future loadHistoricalResults() async {
     // The following is temprorary
     // historicalResults = getSampleResults();
@@ -100,8 +100,8 @@ abstract class GameCore extends ChangeNotifier {
   }
 
   void evaluateResult() {
+    /* Evaluates result based on the historical results of the instant that they were loaded.*/
     /* In case of ties, the new player will have same rank, but will be earlier in the list */
-
     if (historicalResults.isEmpty) {
       newRank = 1;
       newIndex = 0;
@@ -125,7 +125,12 @@ abstract class GameCore extends ChangeNotifier {
   }
 
   void updateResult({String name}) {
-    /* Algorithm courtesy of Chi-Chung Cheung */
+    /* Part of algorithm courtesy of Chi-Chung Cheung */
+    // Get most updated results and reevaluate rank and index
+    loadHistoricalResults();
+    evaluateResult();
+
+    // Perform leaderboard changes if needed
     if (newRank > 0) {
       // Insert at new index first
       newResult = Result(game: getGameName(), name: newName, score: score, timestamp: Timestamp.now());
@@ -145,7 +150,7 @@ abstract class GameCore extends ChangeNotifier {
         }
       }
 
-      // TODO: Update firebase
+      // TODO: Update firebase    
 
       // Update prompt
       prompt = "Congrats! You are ranked $newRank!";
