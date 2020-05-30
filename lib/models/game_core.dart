@@ -7,6 +7,12 @@ import 'package:game_app/models/the_trill/mini_keyboard.dart';
 import 'package:game_app/models/results.dart';
 import 'package:game_app/services/database.dart';
 
+class BoolInterrupt{
+  bool isDone = false;
+  void raise(){isDone = true;}
+  void reset(){isDone = false;}
+}
+
 class Counter {
   /* Starts counting down at startCount - 1 */
   int _currCount = 0;
@@ -20,7 +26,7 @@ class Counter {
   Color colour = Colors.black;
 
   Future run(int startCount,
-      {Function notifier, bool isRedActive = true}) async {
+      {Function notifier, BoolInterrupt boolInterrupt, bool isRedActive = true}) async {
     try {
       for (int i = startCount - 1; i >= 0; i--) {
         // _currCount is only updated if other widgets are notified
@@ -30,6 +36,7 @@ class Counter {
           notifier();
         }
         await Future.delayed(Duration(seconds: 1), () {});
+        if (boolInterrupt is BoolInterrupt && boolInterrupt.isDone) break;
       }
     } on FlutterError {
       print("Counter safely came to an abrupt end.");
@@ -42,6 +49,7 @@ abstract class GameCore extends ChangeNotifier {
   DatabaseService databaseService = DatabaseService();
   final counter = Counter(); // To get time to be displayed
   final leaderboardSize = Constant.LEADERBOARD_SIZE;
+  final boolInterrupt = BoolInterrupt();
 
   // TODO: Privatize if needed
   double score = 0.0;
@@ -230,6 +238,7 @@ class ThePitchCore extends GameCore {
       selectedNote = "";
       submitTime = -1;
       scoreChange = 0;
+      boolInterrupt.reset();
 
       // Update variables
       prompt = _prompts["prep"];
@@ -258,7 +267,7 @@ class ThePitchCore extends GameCore {
       keyboard.activate();
       stopwatch
           .start(); // Used in another widget to get the exact time user submits
-      await counter.run(_timePerRound, notifier: notifyListeners);
+      await counter.run(_timePerRound, notifier: notifyListeners, boolInterrupt: boolInterrupt);
       print(stopwatch.elapsedMicroseconds);
       stopwatch.stop();
       stopwatch.reset();

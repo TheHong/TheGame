@@ -92,6 +92,7 @@ class _KeyPressorState extends State<KeyPressor> {
                           pitchCore.keyboard.deactivate();
                           pitchCore
                               .setSelected(key.isSelected ? key.value : "");
+                          pitchCore.boolInterrupt.raise(); // To stop the counter
                         });
                       } else if (!pitchCore.isGameStarted) {
                         // User can play notes before game starts
