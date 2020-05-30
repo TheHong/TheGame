@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:game_app/models/game_core.dart';
-import 'package:game_app/models/user.dart';
-import 'package:game_app/screens/results.dart';
+import 'package:game_app/models/results.dart';
+import 'package:game_app/screens/results_screen.dart';
 import 'package:game_app/services/database.dart';
 import 'package:intl/intl.dart';
 

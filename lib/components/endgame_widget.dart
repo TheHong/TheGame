@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/components/result_widgets.dart';
 import 'package:game_app/models/game_core.dart';
-import 'package:game_app/screens/results.dart';
+import 'package:game_app/screens/results_screen.dart';
 
 Widget endgameWidget(BuildContext context, GameCore gameCore, Color buttonColor) => Visibility(
       visible: gameCore.isGameDone,

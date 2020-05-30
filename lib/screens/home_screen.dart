@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/components/result_widgets.dart';
-import 'package:game_app/models/user.dart';
+import 'package:game_app/models/results.dart';
 
 class Home extends StatefulWidget {
   @override

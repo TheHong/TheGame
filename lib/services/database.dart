@@ -9,7 +9,7 @@ Collection: "The Game"
 */
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:game_app/models/user.dart';
+import 'package:game_app/models/results.dart';
 
 class DatabaseService {
   final DocumentReference onlineResults = Firestore.instance

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:game_app/models/the_pitch/keyboard.dart';
 import 'package:game_app/models/the_pitch/note_player.dart';
 import 'package:game_app/models/the_trill/mini_keyboard.dart';
-import 'package:game_app/models/user.dart';
+import 'package:game_app/models/results.dart';
 import 'package:game_app/services/database.dart';
 
 class Counter {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/models/game_core.dart';
-import 'package:game_app/screens/instructions.dart';
+import 'package:game_app/screens/instructions_screen.dart';
 import 'package:game_app/screens/the_pitch/components/game_title_bar.dart';
 import 'package:game_app/screens/the_pitch/components/key_pressor.dart';
 import 'package:game_app/screens/the_pitch/components/note_icon.dart';

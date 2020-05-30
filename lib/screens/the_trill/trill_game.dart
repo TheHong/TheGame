@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/models/game_core.dart';
-import 'package:game_app/screens/instructions.dart';
+import 'package:game_app/screens/instructions_screen.dart';
 import 'package:game_app/screens/the_trill/components/prompter.dart';
 import 'package:game_app/screens/the_trill/components/minikey_pressor.dart';
 import 'package:game_app/screens/the_trill/components/submit_button.dart';
