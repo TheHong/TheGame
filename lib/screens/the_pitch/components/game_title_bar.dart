@@ -8,7 +8,8 @@ class GameTitleBar extends StatelessWidget {
     return Consumer<ThePitchCore>(
       builder: (context, pitchCore, child) {
         return Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 0),
+          padding: const EdgeInsets.only(
+              left: 16.0, right: 16.0, bottom: 16.0, top: 0),
           child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -39,24 +40,33 @@ class GameTitleBar extends StatelessWidget {
                         !pitchCore.isGameDone
                             ? "${pitchCore.counter.currCount}"
                             : "Final Score: ${pitchCore.score.toStringAsFixed(3)}",
-                        style: TextStyle(fontSize: 30.0, color: pitchCore.counter.colour),
+                        style: TextStyle(
+                            fontSize: 30.0, color: pitchCore.counter.colour),
                       ),
                     ),
                   ),
                   Visibility(
                     visible: !pitchCore.isGameDone,
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          "Score",
-                          style: TextStyle(fontSize: 10.0),
-                        ),
-                        Text(
-                          "${pitchCore.score.toStringAsFixed(3)}",
-                          style: TextStyle(fontSize: 15.0),
-                        ),
-                      ],
-                    ),
+                    child: pitchCore.isRoundDone
+                        ? Text(
+                            "+${pitchCore.scoreChange.toStringAsFixed(pitchCore.getNumDecPlaces())}",
+                            style: TextStyle(
+                              color: pitchCore.isCorrect
+                                  ? Colors.lightGreenAccent[700]
+                                  : Colors.redAccent[700],
+                            ))
+                        : (Column(
+                            children: <Widget>[
+                              Text(
+                                "Score",
+                                style: TextStyle(fontSize: 10.0),
+                              ),
+                              Text(
+                                "${pitchCore.score.toStringAsFixed(3)}",
+                                style: TextStyle(fontSize: 15.0),
+                              ),
+                            ],
+                          )),
                   ),
                 ],
               )),

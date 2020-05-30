@@ -184,6 +184,7 @@ class ThePitchCore extends GameCore {
   double submitTime = -1; // Point in the COUNTDOWN that answer was submitted
 
   bool isCorrect = false; // Is the submitted answer correct
+  double scoreChange = 0; 
 
   final notePlayer = NotePlayer(); // To play the tones
   final keyboard = Keyboard(); // Contains the information of the keys
@@ -221,6 +222,7 @@ class ThePitchCore extends GameCore {
       keyboard.reset();
       selectedNote = "";
       submitTime = -1;
+      scoreChange = 0;
 
       // Update variables
       prompt = _prompts["prep"];
@@ -264,19 +266,20 @@ class ThePitchCore extends GameCore {
         keyboard.keysByNote[currNote].specialColor = Colors.green;
         prompt = "Incorrect!";
       } else {
-        score += _timePerRound - submitTime;
+        scoreChange = _timePerRound - submitTime;
+        score += scoreChange;
         isCorrect = true;
         keyboard.currKey.specialColor = Colors.green;
         prompt = "Correct!";
       }
       isRoundDone = true;
-      isGameDone = i + 1 == _numRounds;
       notifyListeners();
 
       // Pause for user to get result feedback --------------------------------
       await counter.run(_timePerEnd, false);
     }
     print("The Pitch Game Completed");
+    isGameDone = true;
     prompt = "";
     notifyListeners();
   }
@@ -339,7 +342,7 @@ class TheTrillCore extends GameCore {
     keyboard.deactivate();
 
     // Pause for user to get result feedback --------------------------------
-    prompt = "Final Score: ${score.toStringAsFixed(0)}";
+    prompt = "Final Score: ${score.toStringAsFixed(getNumDecPlaces())}";
     isGameDone = true;
     notifyListeners();
     await counter.run(_timePerEnd, false);
