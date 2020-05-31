@@ -1,11 +1,11 @@
 class Constant {
   // Overall ==================================================================
-  static String VERSION = "Version 1.0.0";
+  static String VERSION = "Version 1.1.0";
   static const int LEADERBOARD_SIZE = 10;
   static const List<String> GAMES = ["The Pitch", "The Trill", "The Icon", "The Bored"];
 
   // Firebase =================================================================
-  static const String FIREBASE_COLLECTION_NAME = "The Bored"; //"The Game v1.0";
+  static const String FIREBASE_COLLECTION_NAME = "The Game v1.0"; // <= Change during debug
   static const String FIREBASE_RESULTS_DOCUMENT_NAME = "results";
   static const String FIREBASE_STATS_DOCUMENT_NAME = "stats";
   static const String FIREBASE_CONTROL_DOCUMENT_NAME = "control";
@@ -34,7 +34,7 @@ class Constant {
           " Once the round starts and the note is played, you may press the giant musical note icon to replay the note.";
 
   // The Trill ================================================================
-  static const int TIME_PER_ROUND_TRILL = 5;
+  static const int TIME_PER_ROUND_TRILL = 15;
   static const int TIME_PER_ROUND_END_TRILL = 3;
   static const String INSTRUCTIONS_TRILL =
       "The point of the game is to tap the two keys successively as many times as possible: " +
