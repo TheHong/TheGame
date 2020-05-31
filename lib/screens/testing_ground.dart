@@ -82,9 +82,9 @@ List<Result> getResultsFromDocSnapshot(String game, DocumentSnapshot snapshot) {
     historicalResults.add(
       Result(
         game: game,
-        name: gameResults[i]["name"],
-        score: gameResults[i]["score"] * 1.0,
-        timestamp: gameResults[i]["timestamp"],
+        name: gameResults[i][Constant.FIREBASE_RESULTS_NAME_KEY],
+        score: gameResults[i][Constant.FIREBASE_RESULTS_SCORE_KEY] * 1.0,
+        timestamp: gameResults[i][Constant.FIREBASE_RESULTS_TIMESTAMP_KEY],
       ),
     );
   }

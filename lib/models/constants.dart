@@ -10,7 +10,7 @@ class Constant {
   static const String FIREBASE_STATS_DOCUMENT_NAME = "stats";
   static const String FIREBASE_CONTROL_DOCUMENT_NAME = "control";
 
-  static const String FIREBASE_RESULTS_NAME_KEY = "name"; //TODO: Refactor these results constants
+  static const String FIREBASE_RESULTS_NAME_KEY = "name";
   static const String FIREBASE_RESULTS_SCORE_KEY = "score";
   static const String FIREBASE_RESULTS_TIMESTAMP_KEY = "timestamp";
   static const String FIREBASE_CONTROL_GAME_ACTIVATED_KEY = "game activated";

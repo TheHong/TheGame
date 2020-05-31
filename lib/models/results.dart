@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:game_app/models/constants.dart';
 
 class Result {
   String name;
@@ -6,8 +7,12 @@ class Result {
   double score;
   Timestamp timestamp;
   Result({this.name, this.game, this.score, this.timestamp});
-  Map toMap() => {"name": name, "score": score, "timestamp": timestamp};
-} 
+  Map toMap() => {
+        Constant.FIREBASE_RESULTS_NAME_KEY: name,
+        Constant.FIREBASE_RESULTS_SCORE_KEY: score,
+        Constant.FIREBASE_RESULTS_TIMESTAMP_KEY: timestamp
+      };
+}
 
 List<Result> getSampleResults() {
   Timestamp stamp = Timestamp.now();
