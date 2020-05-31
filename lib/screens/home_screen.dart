@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                             .snapshots(),
                         builder: (context, snapshot) {
                           Map controlCommands =
-                              getGameControlFromAsyncSnapshot(snapshot);
+                              getGameControlFromSnapshot(snapshot);
                           Map<String, bool> gameActivations = Map.fromIterable(
                               Constant.GAMES,
                               key: (game) => game,

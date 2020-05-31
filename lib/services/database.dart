@@ -29,6 +29,9 @@ class DatabaseService {
   final DocumentReference onlineStats = Firestore.instance
       .collection(Constant.FIREBASE_COLLECTION_NAME)
       .document(Constant.FIREBASE_STATS_DOCUMENT_NAME);
+  final DocumentReference onlineControl = Firestore.instance
+      .collection(Constant.FIREBASE_COLLECTION_NAME)
+      .document(Constant.FIREBASE_CONTROL_DOCUMENT_NAME);
 
   Future updateNonAtomic(String game, List<Result> newResults) async {
     return await onlineResults.setData(
@@ -36,6 +39,10 @@ class DatabaseService {
         game: newResults.map((result) => result.toMap()).toList(),
       },
     );
+  }
+
+  Future updateStats(String game) async {
+    onlineStats.updateData({game: FieldValue.increment(1)});
   }
 
   Future updateResults(
@@ -50,14 +57,17 @@ class DatabaseService {
     return getResultsFromDocSnapshot(game, resultsDocument);
   }
 
-  Future updateStats(String game) async {
-    onlineStats.updateData({game: FieldValue.increment(1)});
+  Future<Map> getSingleGameControl(game) async {
+    DocumentSnapshot controlDocument = await onlineControl.get();
+    Map controls = getGameControlFromSnapshot(controlDocument);
+    return controls.containsKey(game) ? controls[game] : {};
   }
 }
 
-Map getGameControlFromAsyncSnapshot(AsyncSnapshot snapshot) {
+Map getGameControlFromSnapshot(dynamic snapshot) {
   try {
-    DocumentSnapshot controlDocument = snapshot.data;
+    DocumentSnapshot controlDocument =
+        snapshot is AsyncSnapshot ? snapshot.data : snapshot;
     Map controlCommands = controlDocument.data;
     assert(controlCommands != null,
         "Make sure ${Constant.FIREBASE_COLLECTION_NAME}/${Constant.FIREBASE_CONTROL_DOCUMENT_NAME} exists in Firestore.");

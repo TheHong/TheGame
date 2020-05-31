@@ -65,6 +65,8 @@ abstract class GameCore extends ChangeNotifier {
   bool isDebugMode = false;
   bool isGameStarted = false; // Has the game started
   List<Result> historicalResults = []; // From highest to lowest
+  Map controlCommands = {}; // Developer commands from firestore
+  bool isResultsActivated = false; //Is result update activated
   String prompt =
       "Welcome"; // Prompt to inform player of the current game status
 
@@ -85,17 +87,21 @@ abstract class GameCore extends ChangeNotifier {
   void run() async {
     try {
       //Used to deal with the case where user abruptly ends game by exiting
-      await loadHistoricalResults();
+      await loadFirestoreData();
       await _run();
     } on FlutterError {
       print("Core safely came to an abrupt end.");
     }
   }
 
-  Future loadHistoricalResults({Function onDone}) async {
+  Future loadFirestoreData({Function onDone}) async {
     // The following is temprorary
     // historicalResults = getSampleResults();
     historicalResults = await databaseService.getResults(getGameName());
+    controlCommands = await databaseService.getSingleGameControl(getGameName());
+    isResultsActivated =
+        controlCommands[Constant.FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY] ??
+            false;
     notifyListeners();
     if (onDone is Function) onDone();
   }
@@ -146,7 +152,7 @@ abstract class GameCore extends ChangeNotifier {
     /* Part of algorithm courtesy of Chi-Chung Cheung */
     await Firestore.instance.runTransaction((transaction) async {
       // Get most updated results and reevaluate rank and index
-      await loadHistoricalResults();
+      await loadFirestoreData();
       evaluateResult();
 
       // Perform leaderboard changes if needed
@@ -339,7 +345,7 @@ class TheTrillCore extends GameCore {
   TheTrillCore() {
     prompt = "Loading Game...";
     keyboard.deactivate();
-    loadHistoricalResults(onDone: () {
+    loadFirestoreData(onDone: () {
       prompt = "Start trilling to start the game!";
       counter.currCount = _timePerRound;
       keyboard.activate();
