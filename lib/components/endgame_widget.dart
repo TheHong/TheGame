@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/components/result_widgets.dart';
-import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/game_core.dart';
 import 'package:game_app/screens/results_screen.dart';
 
@@ -20,7 +19,7 @@ Widget endgameWidget(
               if (gameCore.isResultsActivated) {
                 gameCore.evaluateResult();
                 gameCore.databaseService.updateStats(gameCore.getGameName());
-              }else{
+              } else {
                 print("Results not updated");
               }
               if (gameCore.newRank != -1 && gameCore.isResultsActivated) {

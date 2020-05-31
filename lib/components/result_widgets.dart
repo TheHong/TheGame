@@ -62,7 +62,8 @@ Widget getResultItem(
     int numDecPlaces,
     int indexBeEmphasized = -1}) {
   return Tooltip(
-    message: DateFormat.yMMMMd('en_US').add_jms().format(result.timestamp.toDate()),
+    message:
+        DateFormat.yMMMMd('en_US').add_jms().format(result.timestamp.toDate()),
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Container(
@@ -131,6 +132,7 @@ void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
   final _getNameFormKey = GlobalKey<FormState>();
   BuildContext prevContext =
       context; // Context of the current screen (below the dialog)
+  bool _isNameSubmitted = false;
   showDialog(
     context: context,
     builder: (context) => Dialog(
@@ -197,18 +199,25 @@ void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
                   alignment: Alignment.bottomRight,
                   child: FlatButton(
                     onPressed: () async {
-                      if (_getNameFormKey.currentState.validate()) {
-                        _getNameFormKey.currentState.save();
-                        await gameCore.updateResult();
-                        Navigator.pop(
-                            prevContext); // This removes the screen underneath
-                        Navigator.pushReplacement(
-                          // This removes the dialog and navigates to results
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ResultsPage(gameCore),
-                          ),
-                        );
+                      if (!_isNameSubmitted) {
+                        _isNameSubmitted = true;
+                        if (_getNameFormKey.currentState.validate()) {
+                          _getNameFormKey.currentState.save();
+                          await gameCore.updateResult();
+                          Navigator.pop(
+                              prevContext); // This removes the screen underneath
+                          Navigator.pushReplacement(
+                            // This removes the dialog and navigates to results
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ResultsPage(gameCore),
+                            ),
+                          );
+                        }else{
+                          _isNameSubmitted = false;
+                        }
+                      }else{
+                        print("Detected double press");
                       }
                     },
                     child: Text("Submit"),

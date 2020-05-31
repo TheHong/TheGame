@@ -5,7 +5,7 @@ class Constant {
   static const List<String> GAMES = ["The Pitch", "The Trill", "The Icon", "The Bored"];
 
   // Firebase =================================================================
-  static const String FIREBASE_COLLECTION_NAME = "The Game v1.0"; // <= Change during debug
+  static const String FIREBASE_COLLECTION_NAME = "The Bored";//"The Game v1.0"; // <= Change during debug
   static const String FIREBASE_RESULTS_DOCUMENT_NAME = "results";
   static const String FIREBASE_STATS_DOCUMENT_NAME = "stats";
   static const String FIREBASE_CONTROL_DOCUMENT_NAME = "control";
@@ -17,7 +17,7 @@ class Constant {
   static const String FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY = "results activated";
 
   // The Pitch ================================================================
-  static const int NUM_ROUNDS_PITCH = 10;
+  static const int NUM_ROUNDS_PITCH = 1;
   static const int TIME_PER_ROUND_PITCH = 10; // Duration of each round
   static const int TIME_PER_ROUND_START_PITCH =
       3; // Duration of the countdown to the start of the round

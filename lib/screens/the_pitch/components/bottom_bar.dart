@@ -17,12 +17,16 @@ class BottomBar extends StatelessWidget {
                 child: Text("Begin", style: TextStyle(fontSize: 25)),
                 color: Colors.pinkAccent[100],
                 onPressed: () {
-                  pitchCore.run();
+                  if (!pitchCore.isGameStarted) {
+                    pitchCore.run();
+                  } else {
+                    print("Detected double press");
+                  }
                 },
               ),
             ),
             // End game button
-            endgameWidget(context, pitchCore, Colors.pinkAccent[100]),            
+            endgameWidget(context, pitchCore, Colors.pinkAccent[100]),
           ],
         ),
       );
