@@ -15,7 +15,10 @@ import 'package:game_app/models/results.dart';
 class DatabaseService {
   final DocumentReference onlineResults = Firestore.instance
       .collection(Constant.FIREBASE_COLLECTION_NAME)
-      .document(Constant.FIREBASE_DOCUMENT_NAME); 
+      .document(Constant.FIREBASE_RESULTS_DOCUMENT_NAME);
+  final DocumentReference onlineStats = Firestore.instance
+      .collection(Constant.FIREBASE_COLLECTION_NAME)
+      .document(Constant.FIREBASE_STATS_DOCUMENT_NAME);
 
   Future updateNonAtomic(String game, List<Result> newResults) async {
     return await onlineResults.setData(
@@ -25,7 +28,7 @@ class DatabaseService {
     );
   }
 
-  Future updateAtomic(
+  Future updateResults(
       String game, List<Result> newResults, Transaction transaction) async {
     await transaction.update(onlineResults, {
       game: newResults.map((result) => result.toMap()).toList(),
@@ -35,6 +38,10 @@ class DatabaseService {
   Future<List<Result>> getResults(game) async {
     DocumentSnapshot resultsDocument = await onlineResults.get();
     return getResultsFromDocSnapshot(game, resultsDocument);
+  }
+
+  Future updateStats(String game) async {
+    onlineStats.updateData({game: FieldValue.increment(1)});
   }
 }
 
@@ -49,7 +56,10 @@ List<Result> getResultsFromAsyncSnapshot(String game, AsyncSnapshot snapshot) {
 
 List<Result> getResultsFromDocSnapshot(String game, DocumentSnapshot snapshot) {
   Map results = snapshot.data;
-  if (!results.containsKey(game)) return []; // If no data for game
+  assert(results != null,
+      "Make sure 'The Game/results' and 'The Game/stats' are already made in Firestore");
+  if (!results.containsKey(game))
+    return []; // If no data for game
 
   // Storing and returning the results
   List gameResults = results[game];
