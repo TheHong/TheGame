@@ -36,14 +36,15 @@ class Counter {
       bool isRedActive = true}) async {
     try {
       for (int i = startCount - 1; i >= 0; i--) {
+        if (boolInterrupt is BoolInterrupt && boolInterrupt.isDone) break;
         // _currCount is only updated if other widgets are notified
         if (notifier is Function) {
           _currCount = i;
           colour = isRedActive && i <= 3 ? urgentColour : defaultColour;
           notifier();
         }
-        await Future.delayed(Duration(seconds: 1), () {});
         if (boolInterrupt is BoolInterrupt && boolInterrupt.isDone) break;
+        await Future.delayed(Duration(seconds: 1), () {});
       }
     } on FlutterError {
       print("Counter safely came to an abrupt end.");
@@ -199,7 +200,9 @@ abstract class GameCore extends ChangeNotifier {
   @override
   void dispose() {
     super.dispose();
-    print("$this successfully disposed.}");
+    isGameDone = true; // Ensure background processes end
+    boolInterrupt.raise(); // Ensure background processes end
+    print("$this successfully disposed.");
   }
 }
 
@@ -268,6 +271,12 @@ class ThePitchCore extends GameCore {
           notifier: notifyListeners, isRedActive: false);
 
       // Round ----------------------------------------------------------------
+      // Just in case this async function does not end when game abruptly ends
+      if (isGameDone) {
+        print("Run process came to abrupt end.");
+        break;
+      } 
+
       // Start Round
       print("Round $currRound commencing");
       prompt = _prompts["game"];
@@ -365,7 +374,7 @@ class TheTrillCore extends GameCore {
     notifyListeners();
 
     // Give player a certain amount of time to do the trills
-    await counter.run(_timePerRound, notifier: notifyListeners);
+    await counter.run(_timePerRound, notifier: notifyListeners, boolInterrupt: boolInterrupt);
     keyboard.deactivate();
 
     // Pause for user to get result feedback --------------------------------

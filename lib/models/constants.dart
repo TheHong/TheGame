@@ -16,7 +16,7 @@ class Constant {
   static const String FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY = "results activated";
 
   // The Pitch ================================================================
-  static const int NUM_ROUNDS_PITCH = 1;
+  static const int NUM_ROUNDS_PITCH = 10;
   static const int TIME_PER_ROUND_PITCH = 10; // Duration of each round
   static const int TIME_PER_ROUND_START_PITCH =
       3; // Duration of the countdown to the start of the round
