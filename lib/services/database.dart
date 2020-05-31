@@ -47,9 +47,42 @@ class DatabaseService {
 
   Future updateResults(
       String game, List<Result> newResults, Transaction transaction) async {
-    await transaction.update(onlineResults, {
-      game: newResults.map((result) => result.toMap()).toList(),
-    });
+    await transaction.update(
+      onlineResults,
+      {
+        game: newResults.map((result) => result.toMap()).toList(),
+      },
+    );
+    // bool repeat = false;
+    // for (int i = 0; i < newResults.length - 1; i++) {
+    //   // If there's repeats, they would be adjacent
+    //   if (newResults[i].name == newResults[i + 1].name &&
+    //       newResults[i].score == newResults[i + 1].score) {
+    //     // Same name and score
+    //     int timeSeperation =
+    //         newResults[i + 1].timestamp.millisecondsSinceEpoch -
+    //             newResults[i].timestamp.millisecondsSinceEpoch;
+
+    //     print("SEP: $timeSeperation");
+    //     print("Potential repeat found");
+    //     if (timeSeperation.abs() < 3000) { // Within 3 seconds from each other
+    //       print("Repeat found!");
+    //       newResults.removeAt(i);
+    //       repeat = true;
+    //       break;
+    //     }else{
+    //       print("Not a repeat");
+    //     }
+    //   }
+    // }
+    // if (!repeat) {
+    //   await transaction.update(
+    //     onlineResults,
+    //     {
+    //       game: newResults.map((result) => result.toMap()).toList(),
+    //     },
+    //   );
+    // }
   }
 
   Future<List<Result>> getResults(game) async {

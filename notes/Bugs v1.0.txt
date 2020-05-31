@@ -1,3 +1,8 @@
 -When minimize app during name prompting, after submitting, new entry is repeated (same timestamp, name, and score)
+	=> Can't recreate, but have code ready just in case still a bug
 -Another entry was also repeated. It's a repeat bronze. The previous repeat might also be repeat bronze.
+	=> See above
 -When click fast in The Pitch or something, notes keep playing in background. (happened twice)
+	=> Fixed. It was due to async still running
+-The trill, sometimes final score shown in prompt is not correct.
+	=> TODO

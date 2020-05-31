@@ -238,6 +238,8 @@ class ThePitchCore extends GameCore {
   int getNumDecPlaces() => 3;
   String getInstructions() => Constant.INSTRUCTIONS_PITCH;
 
+  ThePitchCore(){print("$this Initiated");}
+
   @override
   Future _run() async {
     // Prepare for the game ---------------------------------------------------
@@ -359,6 +361,7 @@ class TheTrillCore extends GameCore {
       counter.currCount = _timePerRound;
       keyboard.activate();
     });
+    print("$this Initiated");
   }
 
   String getGameName() => "The Trill";
