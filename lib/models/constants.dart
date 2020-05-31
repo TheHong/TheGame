@@ -3,7 +3,7 @@ class Constant {
   static const int LEADERBOARD_SIZE = 10;
 
   // Firebase =================================================================
-  static const String FIREBASE_COLLECTION_NAME = "The Game";
+  static const String FIREBASE_COLLECTION_NAME = "The Game v1.0";
   static const String FIREBASE_RESULTS_DOCUMENT_NAME = "results";
   static const String FIREBASE_STATS_DOCUMENT_NAME = "stats";
 
