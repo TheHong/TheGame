@@ -3,36 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:game_app/components/result_widgets.dart';
 import 'package:game_app/models/constants.dart';
 import 'package:game_app/services/database.dart';
-import 'package:package_info/package_info.dart';
 
-class AppInfo{
-  PackageInfo info;
-  String version = "";
-  void loadInfo () async{
-    info  = await PackageInfo.fromPlatform();
-    version = info.version;
-  }
-
-  Stream<String> get v {
-    yield version;
-  }
-}
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
-  AppInfo appInfo = AppInfo();
-  
-
+class _HomeState extends State<Home> { 
   // Results processing ==============================
   // Done within the gameCards as stream and in the respective games
 
   // Building the home screen ====================================
   @override
   Widget build(BuildContext context) {
-    appInfo.loadInfo();
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -42,17 +25,17 @@ class _HomeState extends State<Home> {
             Padding(
               padding: const EdgeInsets.only(left: 0, top: 30.0),
               child: Text(
-                appInfo.version,
+                Constant.VERSION,
                 style: TextStyle(
                   fontFamily: "Montserrat",
-                  color: Colors.black26,
+                  color: Colors.cyan[700],
                   fontWeight: FontWeight.bold,
                   fontSize: 10.0,
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 0, top: 30.0),
+              padding: const EdgeInsets.only(left: 0, top: 0),
               child: Text(
                 "The Game",
                 style: TextStyle(
