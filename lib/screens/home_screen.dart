@@ -227,7 +227,7 @@ void _processNavigation(
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text("Game is currently unavailable",
           style: TextStyle(fontSize: 15.0)),
-      duration: Duration(seconds: 1),
+      duration: Duration(seconds: 2),
     ));
   }
 }
