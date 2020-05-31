@@ -4,10 +4,11 @@ class Constant {
 
   // Firebase =================================================================
   static const String FIREBASE_COLLECTION_NAME = "The Bored";
-  static const String FIREBASE_DOCUMENT_NAME = "results";
+  static const String FIREBASE_RESULTS_DOCUMENT_NAME = "results";
+  static const String FIREBASE_STATS_DOCUMENT_NAME = "stats";
 
   // The Pitch ================================================================
-  static const int NUM_ROUNDS_PITCH = 10;
+  static const int NUM_ROUNDS_PITCH = 1;
   static const int TIME_PER_ROUND_PITCH = 10; // Duration of each round
   static const int TIME_PER_ROUND_START_PITCH =
       3; // Duration of the countdown to the start of the round
@@ -24,7 +25,7 @@ class Constant {
           " Once the round starts and the note is played, you may press the giant musical note icon to replay the note.";
 
   // The Trill ================================================================
-  static const int TIME_PER_ROUND_TRILL = 15;
+  static const int TIME_PER_ROUND_TRILL = 3;
   static const int TIME_PER_ROUND_END_TRILL = 3;
   static const String INSTRUCTIONS_TRILL =
       "The point of the game is to tap the two keys successively as many times as possible: " +

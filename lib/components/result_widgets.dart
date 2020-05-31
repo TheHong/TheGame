@@ -236,7 +236,7 @@ Widget homeResultsStreamer(
   return StreamBuilder(
       stream: Firestore.instance
           .collection(Constant.FIREBASE_COLLECTION_NAME)
-          .document(Constant.FIREBASE_DOCUMENT_NAME)
+          .document(Constant.FIREBASE_RESULTS_DOCUMENT_NAME)
           .snapshots(),
       builder: (context, snapshot) {
         List<Result> results = getResultsFromAsyncSnapshot(game, snapshot);

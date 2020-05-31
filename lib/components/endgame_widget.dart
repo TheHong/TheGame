@@ -13,6 +13,7 @@ Widget endgameWidget(BuildContext context, GameCore gameCore, Color buttonColor)
         color: buttonColor,
         onPressed: () {
           gameCore.evaluateResult();
+          // gameCore.databaseService.updateStats(gameCore.getGameName());
           if (gameCore.newRank != -1) {
             // If player gets onto the leaderboard
             processNewLeaderboardResult(context, gameCore);

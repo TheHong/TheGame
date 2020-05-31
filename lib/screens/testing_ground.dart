@@ -16,7 +16,7 @@ class _TestingGroundState extends State<TestingGround> {
       body: StreamBuilder(
           stream: Firestore.instance
               .collection(Constant.FIREBASE_COLLECTION_NAME)
-              .document(Constant.FIREBASE_DOCUMENT_NAME)
+              .document(Constant.FIREBASE_RESULTS_DOCUMENT_NAME)
               .snapshots(),
           builder: (context, snapshot) {
             // if (!snapshot.hasData) return const Text("No data...");
@@ -73,7 +73,7 @@ List<Result> getResultsFromAsyncSnapshot(String game, AsyncSnapshot snapshot) {
 
 List<Result> getResultsFromDocSnapshot(String game, DocumentSnapshot snapshot) {
   Map results = snapshot.data;
-  if (!results.containsKey(game)) return []; // If no data for game
+  if (results == null || !results.containsKey(game)) return []; // If no data for game
 
   // Storing and returning the results
   List gameResults = results[game];
