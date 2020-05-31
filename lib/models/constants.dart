@@ -1,5 +1,6 @@
 class Constant {
   // Overall ==================================================================
+  static String VERSION = "";
   static const int LEADERBOARD_SIZE = 10;
   static const List<String> GAMES = ["The Pitch", "The Trill", "The Icon", "The Bored"];
 
