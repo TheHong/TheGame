@@ -1,11 +1,19 @@
 class Constant {
   // Overall ==================================================================
   static const int LEADERBOARD_SIZE = 10;
+  static const List<String> GAMES = ["The Pitch", "The Trill", "The Icon", "The Bored"];
 
   // Firebase =================================================================
-  static const String FIREBASE_COLLECTION_NAME = "The Game v1.0";
+  static const String FIREBASE_COLLECTION_NAME = "The Bored"; //"The Game v1.0";
   static const String FIREBASE_RESULTS_DOCUMENT_NAME = "results";
   static const String FIREBASE_STATS_DOCUMENT_NAME = "stats";
+  static const String FIREBASE_CONTROL_DOCUMENT_NAME = "control";
+
+  static const String FIREBASE_RESULTS_NAME_KEY = "name"; //TODO: Refactor these results constants
+  static const String FIREBASE_RESULTS_SCORE_KEY = "score";
+  static const String FIREBASE_RESULTS_TIMESTAMP_KEY = "timestamp";
+  static const String FIREBASE_CONTROL_GAME_ACTIVATED_KEY = "game activated";
+  // static const String FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY = "results activated";
 
   // The Pitch ================================================================
   static const int NUM_ROUNDS_PITCH = 10;

@@ -1,9 +1,19 @@
 /*
+Most of the names below are stored in constants.dart.
+
 Results are stored as follows:
 Collection: "The Game"
 ->Document: "results"
 -->Field: "The Pitch"
-          ^[{"name": _, "score": _}, ...]
+          ^[{"name": String, "score": double, "timestamp": Timestamp}, ...]
+-->Field: "The Trill"
+...
+
+Control Commands are stored as follows:
+Collection: "The Game"
+->Document: "control"
+-->Field: "The Pitch"
+          ^{"game activated": bool, "results activated": bool}
 -->Field: "The Trill"
 ...
 */
@@ -45,6 +55,19 @@ class DatabaseService {
   }
 }
 
+Map getGameControlFromAsyncSnapshot(AsyncSnapshot snapshot) {
+  try {
+    DocumentSnapshot controlDocument = snapshot.data;
+    Map controlCommands = controlDocument.data;
+    assert(controlCommands != null,
+        "Make sure ${Constant.FIREBASE_COLLECTION_NAME}/${Constant.FIREBASE_CONTROL_DOCUMENT_NAME} exists in Firestore.");
+    return controlCommands;
+  } on NoSuchMethodError {
+    // Occurs when the getter 'data' is called on null
+    return {};
+  }
+}
+
 List<Result> getResultsFromAsyncSnapshot(String game, AsyncSnapshot snapshot) {
   // Looking for data
   if (!snapshot.hasData) return [];
@@ -58,8 +81,7 @@ List<Result> getResultsFromDocSnapshot(String game, DocumentSnapshot snapshot) {
   Map results = snapshot.data;
   assert(results != null,
       "Make sure 'The Game/results' and 'The Game/stats' are already made in Firestore");
-  if (!results.containsKey(game))
-    return []; // If no data for game
+  if (!results.containsKey(game)) return []; // If no data for game
 
   // Storing and returning the results
   List gameResults = results[game];

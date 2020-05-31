@@ -1,0 +1,3 @@
+-When minimize app during name prompting, after submitting, new entry is repeated (same timestamp, name, and score)
+-Another entry was also repeated. It's a repeat bronze. The previous repeat might also be repeat bronze.
+-When click fast in The Pitch or something, notes keep playing in background. (happened twice)
