@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    bool _isRunPressed = false;
     return Consumer<ThePitchCore>(builder: (context, pitchCore, child) {
       return Container(
         child: Column(
@@ -17,7 +18,8 @@ class BottomBar extends StatelessWidget {
                 child: Text("Begin", style: TextStyle(fontSize: 25)),
                 color: Colors.pinkAccent[100],
                 onPressed: () {
-                  if (!pitchCore.isGameStarted) {
+                  if (!_isRunPressed) {
+                    _isRunPressed = true;
                     pitchCore.run();
                   } else {
                     print("Detected double press");
