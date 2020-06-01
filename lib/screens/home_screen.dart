@@ -9,7 +9,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> { 
+class _HomeState extends State<Home> {
   // Results processing ==============================
   // Done within the gameCards as stream and in the respective games
 
@@ -25,18 +25,6 @@ class _HomeState extends State<Home> {
             Padding(
               padding: const EdgeInsets.only(left: 0, top: 30.0),
               child: Text(
-                Constant.VERSION,
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  color: Colors.cyan[700],
-                  fontWeight: FontWeight.bold,
-                  fontSize: 10.0,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 0, top: 0),
-              child: Text(
                 "The Game",
                 style: TextStyle(
                   fontFamily: "Montserrat",
@@ -47,13 +35,28 @@ class _HomeState extends State<Home> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 18.0),
+              padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
                 "by The Hong",
                 style: TextStyle(
                   fontFamily: "Montserrat",
                   color: Colors.white,
                   fontSize: 25.0,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 1.0),
+                child: Text(
+                  Constant.VERSION,
+                  style: TextStyle(
+                    fontFamily: "Montserrat",
+                    color: Colors.blueGrey[700],
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10.0,
+                  ),
                 ),
               ),
             ),
@@ -77,13 +80,21 @@ class _HomeState extends State<Home> {
                         builder: (context, snapshot) {
                           Map controlCommands =
                               getGameControlFromSnapshot(snapshot);
-                          Map<String, bool> gameActivations = Map.fromIterable(
-                              Constant.GAMES,
-                              key: (game) => game,
-                              value: (game) =>
+                          Map<String, Map<String, bool>> gameCommands =
+                              Map.fromIterable(
+                            Constant.GAMES,
+                            key: (game) => game,
+                            value: (game) => {
+                              Constant.FIREBASE_CONTROL_GAME_ACTIVATED_KEY:
                                   controlCommands.containsKey(game) &&
-                                  controlCommands[game][Constant
-                                      .FIREBASE_CONTROL_GAME_ACTIVATED_KEY]);
+                                      controlCommands[game][Constant
+                                          .FIREBASE_CONTROL_GAME_ACTIVATED_KEY],
+                              Constant.FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY:
+                                  controlCommands.containsKey(game) &&
+                                      controlCommands[game][Constant
+                                          .FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY]
+                            },
+                          );
 
                           return ListView(
                             children: <Widget>[
@@ -97,7 +108,7 @@ class _HomeState extends State<Home> {
                                   Colors.blue[200],
                                   Colors.blue[100]
                                 ],
-                                isGameActivated: gameActivations["The Pitch"],
+                                gameCommands: gameCommands["The Pitch"],
                               ),
                               gameCard(
                                 name: "The Trill",
@@ -109,7 +120,7 @@ class _HomeState extends State<Home> {
                                   Colors.green[200],
                                   Colors.green[100]
                                 ],
-                                isGameActivated: gameActivations["The Trill"],
+                                gameCommands: gameCommands["The Trill"],
                               ),
                               gameCard(
                                 name: "The Icon",
@@ -121,7 +132,7 @@ class _HomeState extends State<Home> {
                                   Colors.red[200],
                                   Colors.red[100]
                                 ],
-                                isGameActivated: gameActivations["The Icon"],
+                                gameCommands: gameCommands["The Icon"],
                               ),
                               gameCard(
                                 name: "The Bored",
@@ -133,7 +144,7 @@ class _HomeState extends State<Home> {
                                   Colors.lime[200],
                                   Colors.lime[100]
                                 ],
-                                isGameActivated: gameActivations["The Bored"],
+                                gameCommands: gameCommands["The Bored"],
                               ),
                             ],
                           );
@@ -153,13 +164,18 @@ class _HomeState extends State<Home> {
       String routeStr,
       int numDecPlaces,
       List<Color> colorGradient,
-      bool isGameActivated}) {
+      Map<String, bool> gameCommands}) {
     return Builder(
       builder: (context) => Padding(
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
         child: GestureDetector(
           onTap: () {
-            _processNavigation(context, isGameActivated, routeStr);
+            if (_evaluateWithFalseSnackbar(
+              context: context,
+              condition:
+                  gameCommands[Constant.FIREBASE_CONTROL_GAME_ACTIVATED_KEY],
+              text: "Game is currently unavailable",
+            )) Navigator.pushNamed(context, routeStr);
           },
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
@@ -179,9 +195,34 @@ class _HomeState extends State<Home> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        name,
-                        style: TextStyle(fontSize: 30.0),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              name,
+                              style: TextStyle(fontSize: 30.0),
+                            ),
+                          ),
+                          Visibility(
+                            // Only warn if game is activated but result updates are not
+                            visible: !gameCommands[Constant
+                                    .FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY] &&
+                                gameCommands[Constant
+                                    .FIREBASE_CONTROL_GAME_ACTIVATED_KEY],
+                            child: GestureDetector(
+                              child: Icon(Icons.error,
+                                  color: Colors.red, size: 30),
+                              onTap: () {
+                                _evaluateWithFalseSnackbar(
+                                  context: context,
+                                  condition: false,
+                                  text: "Game can still be played, but result update" +
+                                      " with leaderboard is currently unavailable.",
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 2.0, bottom: 3.0),
@@ -215,9 +256,17 @@ class _HomeState extends State<Home> {
                     ),
                     IconButton(
                       icon: Icon(Icons.arrow_forward),
-                      color: isGameActivated ? Colors.black : Colors.black26,
+                      color: gameCommands[
+                              Constant.FIREBASE_CONTROL_GAME_ACTIVATED_KEY]
+                          ? Colors.black
+                          : Colors.black26,
                       onPressed: () {
-                        _processNavigation(context, isGameActivated, routeStr);
+                        if (_evaluateWithFalseSnackbar(
+                          context: context,
+                          condition: gameCommands[
+                              Constant.FIREBASE_CONTROL_GAME_ACTIVATED_KEY],
+                          text: "Game is currently unavailable",
+                        )) Navigator.pushNamed(context, routeStr);
                       },
                     ),
                   ],
@@ -231,16 +280,17 @@ class _HomeState extends State<Home> {
   }
 }
 
-void _processNavigation(
-    BuildContext context, bool isGameActivated, String routeStr) {
-  if (isGameActivated) {
-    Navigator.pushNamed(context, routeStr);
+bool _evaluateWithFalseSnackbar(
+    {BuildContext context, bool condition, String text}) {
+  if (condition) {
+    return true;
   } else {
+    Scaffold.of(context).removeCurrentSnackBar();
     Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text("Game is currently unavailable",
-          style: TextStyle(fontSize: 15.0)),
+      content: Text(text, style: TextStyle(fontSize: 15.0)),
       duration: Duration(seconds: 2),
     ));
+    return false;
   }
 }
 

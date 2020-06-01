@@ -5,6 +5,7 @@ import 'package:game_app/screens/the_trill/components/prompter.dart';
 import 'package:game_app/screens/the_trill/components/minikey_pressor.dart';
 import 'package:game_app/screens/the_trill/components/submit_button.dart';
 import 'package:game_app/screens/the_trill/components/title_bar.dart';
+import 'package:game_app/components/updator_back_button.dart';
 import 'package:provider/provider.dart';
 
 class TrillGame extends StatefulWidget {
@@ -14,7 +15,7 @@ class TrillGame extends StatefulWidget {
 
 class _TrillGameState extends State<TrillGame> {
   TheTrillCore trillCore = TheTrillCore();
-  
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TheTrillCore>(
@@ -25,6 +26,7 @@ class _TrillGameState extends State<TrillGame> {
               title: Text("The Trill", style: TextStyle(color: Colors.black)),
               backgroundColor: Colors.green[100],
               elevation: 0,
+              leading: UpdatorBackButton(context, trillCore),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.help_outline),
@@ -49,7 +51,7 @@ class _TrillGameState extends State<TrillGame> {
                     children: <Widget>[
                       TitleBar(),
                       Prompter(), // Contains parameters that do not adapt with screen size
-                      MiniKeyPressor(), 
+                      MiniKeyPressor(),
                       SubmitButton(),
                     ],
                   ),

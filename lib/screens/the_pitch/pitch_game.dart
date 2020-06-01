@@ -6,6 +6,7 @@ import 'package:game_app/screens/the_pitch/components/key_pressor.dart';
 import 'package:game_app/screens/the_pitch/components/note_icon.dart';
 import 'package:game_app/screens/the_pitch/components/prompter.dart';
 import 'package:game_app/screens/the_pitch/components/bottom_bar.dart';
+import 'package:game_app/components/updator_back_button.dart';
 import 'package:provider/provider.dart';
 
 class PitchGame extends StatefulWidget {
@@ -27,6 +28,7 @@ class _PitchGameState extends State<PitchGame> {
           title: Text("The Pitch"),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
+          leading: UpdatorBackButton(context, pitchCore),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.help_outline),

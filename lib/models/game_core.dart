@@ -86,11 +86,12 @@ abstract class GameCore extends ChangeNotifier {
   Future _run();
 
   void run() async {
+    print("${getGameName()} is running!");
     try {
-      //Used to deal with the case where user abruptly ends game by exiting
       await loadFirestoreData();
       await _run();
     } on FlutterError {
+      //Used to deal with the case where user abruptly ends game by exiting
       print("Core safely came to an abrupt end.");
     }
   }
@@ -238,7 +239,9 @@ class ThePitchCore extends GameCore {
   int getNumDecPlaces() => 3;
   String getInstructions() => Constant.INSTRUCTIONS_PITCH;
 
-  ThePitchCore(){print("$this Initiated");}
+  ThePitchCore() {
+    print("$this Initiated");
+  }
 
   @override
   Future _run() async {
@@ -277,7 +280,7 @@ class ThePitchCore extends GameCore {
       if (isGameDone) {
         print("Run process came to abrupt end.");
         break;
-      } 
+      }
 
       // Start Round
       print("Round $currRound commencing");
@@ -377,7 +380,8 @@ class TheTrillCore extends GameCore {
     notifyListeners();
 
     // Give player a certain amount of time to do the trills
-    await counter.run(_timePerRound, notifier: notifyListeners, boolInterrupt: boolInterrupt);
+    await counter.run(_timePerRound,
+        notifier: notifyListeners, boolInterrupt: boolInterrupt);
     keyboard.deactivate();
 
     // Pause for user to get result feedback --------------------------------

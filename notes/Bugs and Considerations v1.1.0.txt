@@ -1,8 +1,14 @@
 Consider put version somewhere
+	=> Done
 Bar is could be improved
 Warning sign in home screen if results disabled
+	=> Done
 Consider having the game stats count happen when game end, not submit
+	=> Done
 The Trill have cases where final score in prompt not same as current score
 	=> Possibly because did not update fast enough?
 Repeat happened, but this time with old entry. Happened when there was a pause in internet connectivity. Now afterwards, when looked at results, it's repeat, but not with old entry, but with the new.
 	=> EIther internet problem or algorithm problem.
+	=> Fixed
+Add in results history
+	=> For now not needed

@@ -43,6 +43,7 @@ class DatabaseService {
 
   Future updateStats(String game) async {
     onlineStats.updateData({game: FieldValue.increment(1)});
+    print("Stats updated");
   }
 
   Future updateResults(
@@ -53,6 +54,8 @@ class DatabaseService {
         game: newResults.map((result) => result.toMap()).toList(),
       },
     );
+    print("Results updated");
+    // To check for double results (may be deleted later)
     // bool repeat = false;
     // for (int i = 0; i < newResults.length - 1; i++) {
     //   // If there's repeats, they would be adjacent

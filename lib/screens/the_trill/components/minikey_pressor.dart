@@ -11,6 +11,7 @@ class _MiniKeyPressorState extends State<MiniKeyPressor> {
   @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
+    bool _isRunPressed = false;
     return Consumer<TheTrillCore>(builder: (context, trillCore, child) {
       return Padding(
         padding:
@@ -38,7 +39,10 @@ class _MiniKeyPressorState extends State<MiniKeyPressor> {
                     ),
                     onPressed: trillCore.keyboard.isActive
                         ? () {
-                            if (!trillCore.isGameStarted) trillCore.run();
+                            if (!_isRunPressed) {
+                              _isRunPressed = true;
+                              trillCore.run();
+                            }
                             trillCore.score +=
                                 trillCore.keyboard.press(0) ? 1 : 0;
                             trillCore.notifyListeners();
@@ -57,7 +61,10 @@ class _MiniKeyPressorState extends State<MiniKeyPressor> {
                     ),
                     onPressed: trillCore.keyboard.isActive
                         ? () {
-                            if (!trillCore.isGameStarted) trillCore.run();
+                            if (!_isRunPressed) {
+                              _isRunPressed = true;
+                              trillCore.run();
+                            }
                             trillCore.score +=
                                 trillCore.keyboard.press(1) ? 1 : 0;
                             trillCore.notifyListeners();
