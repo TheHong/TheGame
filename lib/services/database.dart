@@ -70,17 +70,38 @@ class DatabaseService {
 }
 
 Map getGameControlFromSnapshot(dynamic snapshot) {
+  // Get raw map of the commands
+  Map controlCommands;
   try {
     DocumentSnapshot controlDocument =
         snapshot is AsyncSnapshot ? snapshot.data : snapshot;
-    Map controlCommands = controlDocument.data;
+    controlCommands = controlDocument.data;
     assert(controlCommands != null,
         "Make sure ${Constant.FIREBASE_COLLECTION_NAME}/${Constant.FIREBASE_CONTROL_DOCUMENT_NAME} exists in Firestore.");
-    return controlCommands;
   } on NoSuchMethodError {
     // Occurs when the getter 'data' is called on null
-    return {};
+    controlCommands = {};
   }
+
+  // Getting the commands for all the games
+  const String gameActivatedKey = Constant.FIREBASE_CONTROL_GAME_ACTIVATED_KEY;
+  const String resultsActivatedKey =
+      Constant.FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY;
+  Map<String, Map<String, bool>> gameCommands = Map.fromIterable(
+    Constant.GAMES,
+    key: (game) => game,
+    value: (game) => {
+      // If null, then false (basically defaults to false unless control says otherwise)
+      gameActivatedKey: controlCommands.containsKey(game)
+          ? controlCommands[game][gameActivatedKey] ?? false
+          : false,
+      resultsActivatedKey: controlCommands.containsKey(game)
+          ? controlCommands[game][resultsActivatedKey] ?? false
+          : false,
+    },
+  );
+
+  return gameCommands;
 }
 
 List<Result> getResultsFromAsyncSnapshot(String game, AsyncSnapshot snapshot) {

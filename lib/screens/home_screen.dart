@@ -78,24 +78,8 @@ class _HomeState extends State<Home> {
                             .document(Constant.FIREBASE_CONTROL_DOCUMENT_NAME)
                             .snapshots(),
                         builder: (context, snapshot) {
-                          Map controlCommands =
+                          Map gameCommands =
                               getGameControlFromSnapshot(snapshot);
-                          Map<String, Map<String, bool>> gameCommands =
-                              Map.fromIterable(
-                            Constant.GAMES,
-                            key: (game) => game,
-                            value: (game) => {
-                              Constant.FIREBASE_CONTROL_GAME_ACTIVATED_KEY:
-                                  controlCommands.containsKey(game) &&
-                                      controlCommands[game][Constant
-                                          .FIREBASE_CONTROL_GAME_ACTIVATED_KEY],
-                              Constant.FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY:
-                                  controlCommands.containsKey(game) &&
-                                      controlCommands[game][Constant
-                                          .FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY]
-                            },
-                          );
-
                           return ListView(
                             children: <Widget>[
                               gameCard(

@@ -1,1 +1,3 @@
 Keep in mind that stats still update even when results disabled
+Home screen game cards don't load when a field without both game commands is added in firestore (because null is used as boolean)
+	=> Fixed
