@@ -61,11 +61,13 @@ abstract class GameCore extends ChangeNotifier {
 
   // TODO: Privatize if needed
   double score = 0.0;
+  double additionalScore = Constant.DEFAULT_NO_ADDITIONAL_SCORE;
+  List<Result> historicalResults = []; // From highest to lowest
+
   bool isRoundDone = false; // Is the round completed
   bool isGameDone = false; // Are all the rounds completed
   bool isDebugMode = false;
   bool isGameStarted = false; // Has the game started
-  List<Result> historicalResults = []; // From highest to lowest
   Map controlCommands = {}; // Developer commands from firestore
   bool isResultsActivated = false; //Is result update activated
   String prompt =
@@ -165,6 +167,7 @@ abstract class GameCore extends ChangeNotifier {
           name: newName,
           score: score,
           timestamp: Timestamp.now(),
+          additionalScore: additionalScore,
         );
         historicalResults.insert(newIndex, newResult);
 
@@ -229,6 +232,7 @@ class ThePitchCore extends GameCore {
 
   bool isCorrect = false; // Is the submitted answer correct
   double scoreChange = 0;
+  double additionalScore = 0; // WIll count how many correct
 
   final notePlayer = NotePlayer(); // To play the tones
   final keyboard = Keyboard(); // Contains the information of the keys
@@ -304,7 +308,9 @@ class ThePitchCore extends GameCore {
       // Evaluation -----------------------------------------------------------
       // No answer was submitted or the answer is incorrect
       if (submitTime == -1 || currNote != selectedNote) {
-        score += 0;
+        scoreChange =
+            0; // This and the next line are not needed. They are just for clarity
+        score += scoreChange;
         isCorrect = false;
         keyboard.currKey.specialColor = Colors.red;
         keyboard.keysByNote[currNote].specialColor = Colors.green;
@@ -314,6 +320,7 @@ class ThePitchCore extends GameCore {
         score += scoreChange;
         isCorrect = true;
         keyboard.currKey.specialColor = Colors.green;
+        additionalScore += 1; // num_correct
         prompt = "Correct!";
       }
       isRoundDone = true;

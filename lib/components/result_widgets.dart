@@ -114,11 +114,24 @@ Widget getResultItem(
                         ? FontWeight.bold
                         : FontWeight.normal),
               )),
-              Text("${result.score.toStringAsFixed(numDecPlaces)}",
-                  style: TextStyle(
-                      fontSize: rank <= 3 ? 25 : 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white))
+              Column(
+                children: <Widget>[
+                  Text("${result.score.toStringAsFixed(numDecPlaces)}",
+                      style: TextStyle(
+                          fontSize: rank <= 3 ? 25 : 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white)),
+                  Visibility(
+                    visible: result.additionalScore !=
+                        Constant.DEFAULT_NO_ADDITIONAL_SCORE,
+                    child: Text("(${result.additionalScore.toStringAsFixed(0)})",
+                        style: TextStyle(
+                            fontSize: rank <= 3 ? 15 : 10,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
+                  ),
+                ],
+              )
             ],
           )),
     ),
@@ -213,10 +226,10 @@ void processNewLeaderboardResult(BuildContext context, GameCore gameCore) {
                               builder: (context) => ResultsPage(gameCore),
                             ),
                           );
-                        }else{
+                        } else {
                           _isNameSubmitted = false;
                         }
-                      }else{
+                      } else {
                         print("Detected double press");
                       }
                     },

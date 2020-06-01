@@ -55,37 +55,6 @@ class DatabaseService {
       },
     );
     print("Results updated");
-    // To check for double results (may be deleted later)
-    // bool repeat = false;
-    // for (int i = 0; i < newResults.length - 1; i++) {
-    //   // If there's repeats, they would be adjacent
-    //   if (newResults[i].name == newResults[i + 1].name &&
-    //       newResults[i].score == newResults[i + 1].score) {
-    //     // Same name and score
-    //     int timeSeperation =
-    //         newResults[i + 1].timestamp.millisecondsSinceEpoch -
-    //             newResults[i].timestamp.millisecondsSinceEpoch;
-
-    //     print("SEP: $timeSeperation");
-    //     print("Potential repeat found");
-    //     if (timeSeperation.abs() < 3000) { // Within 3 seconds from each other
-    //       print("Repeat found!");
-    //       newResults.removeAt(i);
-    //       repeat = true;
-    //       break;
-    //     }else{
-    //       print("Not a repeat");
-    //     }
-    //   }
-    // }
-    // if (!repeat) {
-    //   await transaction.update(
-    //     onlineResults,
-    //     {
-    //       game: newResults.map((result) => result.toMap()).toList(),
-    //     },
-    //   );
-    // }
   }
 
   Future<List<Result>> getResults(game) async {
@@ -125,8 +94,11 @@ List<Result> getResultsFromAsyncSnapshot(String game, AsyncSnapshot snapshot) {
 
 List<Result> getResultsFromDocSnapshot(String game, DocumentSnapshot snapshot) {
   Map results = snapshot.data;
-  assert(results != null,
-      "Make sure 'The Game/results' and 'The Game/stats' are already made in Firestore");
+  assert(
+      results != null,
+      "Make sure ${Constant.FIREBASE_COLLECTION_NAME}/${Constant.FIREBASE_RESULTS_DOCUMENT_NAME} " +
+          "and ${Constant.FIREBASE_COLLECTION_NAME}/${Constant.FIREBASE_STATS_DOCUMENT_NAME} " +
+          "are already made in Firestore");
   if (!results.containsKey(game)) return []; // If no data for game
 
   // Storing and returning the results
@@ -135,11 +107,15 @@ List<Result> getResultsFromDocSnapshot(String game, DocumentSnapshot snapshot) {
   for (int i = 0; i < gameResults.length; i++) {
     historicalResults.add(
       Result(
-        game: game,
-        name: gameResults[i][Constant.FIREBASE_RESULTS_NAME_KEY],
-        score: gameResults[i][Constant.FIREBASE_RESULTS_SCORE_KEY] * 1.0,
-        timestamp: gameResults[i][Constant.FIREBASE_RESULTS_TIMESTAMP_KEY],
-      ),
+          game: game,
+          name: gameResults[i][Constant.FIREBASE_RESULTS_NAME_KEY],
+          score: gameResults[i][Constant.FIREBASE_RESULTS_SCORE_KEY] * 1.0,
+          timestamp: gameResults[i][Constant.FIREBASE_RESULTS_TIMESTAMP_KEY],
+          additionalScore:
+              // The containskey check is to deal with previous versions of gameResults. Can remove in future versions
+              gameResults[i].containsKey(Constant.FIREBASE_RESULTS_SCORE2_KEY)
+                  ? gameResults[i][Constant.FIREBASE_RESULTS_SCORE2_KEY] * 1.0
+                  : Constant.DEFAULT_NO_ADDITIONAL_SCORE),
     );
   }
   return historicalResults;

@@ -5,12 +5,20 @@ class Result {
   String name;
   String game;
   double score;
+  double additionalScore;
   Timestamp timestamp;
-  Result({this.name, this.game, this.score, this.timestamp});
+  Result({
+    this.name,
+    this.game,
+    this.score,
+    this.timestamp,
+    this.additionalScore = Constant.DEFAULT_NO_ADDITIONAL_SCORE,
+  });
   Map toMap() => {
         Constant.FIREBASE_RESULTS_NAME_KEY: name,
         Constant.FIREBASE_RESULTS_SCORE_KEY: score,
-        Constant.FIREBASE_RESULTS_TIMESTAMP_KEY: timestamp
+        Constant.FIREBASE_RESULTS_TIMESTAMP_KEY: timestamp,
+        Constant.FIREBASE_RESULTS_SCORE2_KEY: additionalScore
       };
 }
 

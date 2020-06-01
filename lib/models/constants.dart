@@ -2,10 +2,17 @@ class Constant {
   // Overall ==================================================================
   static String VERSION = "Version 1.1.0";
   static const int LEADERBOARD_SIZE = 10;
-  static const List<String> GAMES = ["The Pitch", "The Trill", "The Icon", "The Bored"];
+  static const List<String> GAMES = [
+    "The Pitch",
+    "The Trill",
+    "The Icon",
+    "The Bored"
+  ];
+  static const double DEFAULT_NO_ADDITIONAL_SCORE = -1;
 
   // Firebase =================================================================
-  static const String FIREBASE_COLLECTION_NAME = "The Bored";//"The Game v1.0"; // <= Change during debug
+  static const String FIREBASE_COLLECTION_NAME =
+      "The Bored"; //"The Game v1.0"; // <= Change during debug
   static const String FIREBASE_RESULTS_DOCUMENT_NAME = "results";
   static const String FIREBASE_STATS_DOCUMENT_NAME = "stats";
   static const String FIREBASE_CONTROL_DOCUMENT_NAME = "control";
@@ -13,8 +20,10 @@ class Constant {
   static const String FIREBASE_RESULTS_NAME_KEY = "name";
   static const String FIREBASE_RESULTS_SCORE_KEY = "score";
   static const String FIREBASE_RESULTS_TIMESTAMP_KEY = "timestamp";
+  static const String FIREBASE_RESULTS_SCORE2_KEY = "additional score";
   static const String FIREBASE_CONTROL_GAME_ACTIVATED_KEY = "game activated";
-  static const String FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY = "results activated";
+  static const String FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY =
+      "results activated";
 
   // The Pitch ================================================================
   static const int NUM_ROUNDS_PITCH = 1;
