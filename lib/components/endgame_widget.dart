@@ -18,7 +18,10 @@ Widget endgameWidget(
             onPressed: () {
               if (gameCore.isResultsActivated) {
                 gameCore.evaluateResult();
-                gameCore.databaseService.updateStats(gameCore.getGameName());
+                if (!gameCore.isStatsUpdated) {
+                  gameCore.databaseService.updateStats(gameCore.getGameName());
+                  gameCore.isStatsUpdated = true;
+                }
               } else {
                 print("Results not updated");
               }

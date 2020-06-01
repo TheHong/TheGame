@@ -70,6 +70,7 @@ abstract class GameCore extends ChangeNotifier {
   bool isGameStarted = false; // Has the game started
   Map controlCommands = {}; // Developer commands from firestore
   bool isResultsActivated = false; //Is result update activated
+  bool isStatsUpdated = false; // Is the stat stored in firestore updated
   String prompt =
       "Welcome"; // Prompt to inform player of the current game status
 
@@ -138,9 +139,7 @@ abstract class GameCore extends ChangeNotifier {
     else if (score >= historicalResults.last.score) {
       int j;
       for (j = 0; j < historicalResults.length; j++) {
-        if (score >= historicalResults[j].score) {
-          break;
-        }
+        if (score >= historicalResults[j].score) break;
       }
 
       newRank = getRanking(historicalResults.sublist(0, j + 1)).last;
@@ -206,7 +205,8 @@ abstract class GameCore extends ChangeNotifier {
     super.dispose();
     isGameDone = true; // Ensure background processes end
     boolInterrupt.raise(); // Ensure background processes end
-    print("$this successfully disposed.");
+    print(
+        "$this successfully disposed. (Stats${isStatsUpdated ? " " : " not "}updated)");
   }
 }
 

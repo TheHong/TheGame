@@ -135,7 +135,7 @@ class _HomeState extends State<Home> {
                                 gameCommands: gameCommands["The Bored"],
                               ),
                               Visibility(
-                                visible: Constant.IS_DEBUG,
+                                visible: Constant.IS_DEBUG || Constant.IS_DEVELOPER,
                                 child: gameCard(
                                   name: "Developer's Suite",
                                   subtitle: "For developers",

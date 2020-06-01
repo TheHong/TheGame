@@ -1,6 +1,8 @@
 class Constant {
   // Overall ==================================================================
   static const bool IS_DEBUG = true; // Should always be true except for release
+  static const bool IS_DEVELOPER =
+      false; // Only true if want to grant access to developer suite. IS_DEBUG will also activate the suite
   static const String VERSION = "Version 1.2.0";
   static const int LEADERBOARD_SIZE = 10;
   static const List<String> GAMES = [
