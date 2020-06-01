@@ -1,5 +1,6 @@
 class Constant {
   // Overall ==================================================================
+  static const bool IS_DEBUG = true; // Should always be true except for release
   static const String VERSION = "Version 1.2.0";
   static const int LEADERBOARD_SIZE = 10;
   static const List<String> GAMES = [
@@ -11,8 +12,8 @@ class Constant {
   static const double DEFAULT_NO_ADDITIONAL_SCORE = -1;
 
   // Firebase =================================================================
-  static const String FIREBASE_COLLECTION_NAME = 
-      "The Game v1.0"; // <= Change to "The Bored" during debug
+  static const String FIREBASE_COLLECTION_NAME =
+      IS_DEBUG ? "The Bored" : "The Game v1.0";
   static const String FIREBASE_RESULTS_DOCUMENT_NAME = "results";
   static const String FIREBASE_STATS_DOCUMENT_NAME = "stats";
   static const String FIREBASE_CONTROL_DOCUMENT_NAME = "control";
@@ -26,7 +27,7 @@ class Constant {
       "results activated";
 
   // The Pitch ================================================================
-  static const int NUM_ROUNDS_PITCH = 10;
+  static const int NUM_ROUNDS_PITCH = IS_DEBUG ? 1 : 10;
   static const int TIME_PER_ROUND_PITCH = 10; // Duration of each round
   static const int TIME_PER_ROUND_START_PITCH =
       3; // Duration of the countdown to the start of the round
@@ -43,7 +44,7 @@ class Constant {
           " Once the round starts and the note is played, you may press the giant musical note icon to replay the note.";
 
   // The Trill ================================================================
-  static const int TIME_PER_ROUND_TRILL = 15;
+  static const int TIME_PER_ROUND_TRILL = IS_DEBUG ? 3 : 15;
   static const int TIME_PER_ROUND_END_TRILL = 3;
   static const String INSTRUCTIONS_TRILL =
       "The point of the game is to tap the two keys successively as many times as possible: " +

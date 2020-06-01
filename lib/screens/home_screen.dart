@@ -138,7 +138,9 @@ class _HomeState extends State<Home> {
                                 name: "The Bored",
                                 subtitle: "Coming Soon",
                                 icon: Icons.nature_people,
-                                routeStr: '/waiting_page',
+                                routeStr: Constant.IS_DEBUG
+                                    ? '/developers_screen'
+                                    : '/waiting_page',
                                 numDecPlaces: 0,
                                 colorGradient: [
                                   Colors.lime[200],
