@@ -4,3 +4,4 @@ Home screen game cards don't load when a field without both game commands is add
 Can click end game many times (and update stats) if prompted for name
 	=> Fixed
 Double click may not be solved
+	=> Checked and it's fine
