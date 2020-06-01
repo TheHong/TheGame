@@ -1,13 +1,11 @@
 class SingleKey {
   String value; // Music note value
   int noteID;
-  bool isSelected; // Whether or not selected by user
+  bool isSelected = false; // Whether or not selected by user
   bool isDisabled; // Whether or not to not display the key
   dynamic specialColor = -1; // For no special colour, set this to -1
 
-  SingleKey({this.value, this.noteID, this.isDisabled = false}) {
-    isSelected = false;
-  }
+  SingleKey({this.value, this.noteID, this.isDisabled = false});
 }
 
 class Keyboard {

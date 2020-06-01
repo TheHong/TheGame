@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
+
 class Constant {
   // Overall ==================================================================
-  static const bool IS_DEBUG = false; // Should always be true except for release
+  static const bool IS_DEBUG = !kReleaseMode;
   static const bool IS_DEVELOPER =
-      false; // Only true if want to grant access to developer suite. IS_DEBUG will also activate the suite
+      false; // Only true if want to grant access to developer suite in release mode
   static const String VERSION = "Version 1.2.1";
   static const int LEADERBOARD_SIZE = 10;
   static const List<String> GAMES = [

@@ -58,6 +58,7 @@ class NotePlayer {
   void randomizeNote() {
     /* Changes the current note to a random note. */
     _currNote = _low + _random.nextInt(_hi - _low);
+    print("Now playing ${getNoteAsStr(_currNote)}");
   }
 
   String getNoteAsStr(int note) {
