@@ -9,24 +9,49 @@ class DevelopersScreen extends StatefulWidget {
 
 class _DevelopersScreenState extends State<DevelopersScreen> {
   final DatabaseBackupService databaseBackupService = DatabaseBackupService();
-
+  String state = "Welcome";
+  bool _isPressed = false;
   @override
   Widget build(BuildContext context) {
-    String state = "";
-    bool _isPressed = false;
     return Scaffold(
       appBar: AppBar(title: Text("Developer's Screen")),
-      body: Container(
-        padding: EdgeInsets.all(50),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(75.0),
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 25.0),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25.0),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        state,
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
       floatingActionButton: RaisedButton(
-        child: Text("Backup"),
+        child: Text(
+          "Backup",
+          style: TextStyle(
+            color: _isPressed ? Colors.black26 : Colors.green,
+          ),
+        ),
         onPressed: () async {
           if (!_isPressed) {
             _isPressed = true;
@@ -60,7 +85,8 @@ class DatabaseBackupService {
     DocumentSnapshot resultsDocument = await onlineDataDoc.get();
     backupData = resultsDocument.data;
     DocumentSnapshot statsDocument = await onlineStatsDoc.get();
-    backupData.addAll(resultsDocument.data);
+    for (String key in statsDocument.data.keys)
+      backupData["$key Stats"] = statsDocument.data[key];
     return await backupDataDoc.setData(backupData);
   }
 }

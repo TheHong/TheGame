@@ -25,6 +25,10 @@ class Constant {
   static const String FIREBASE_CONTROL_GAME_ACTIVATED_KEY = "game activated";
   static const String FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY =
       "results activated";
+  static const Map<String, bool> FIREBASE_GAME_FULL_ACCESS = {
+    FIREBASE_CONTROL_GAME_ACTIVATED_KEY: true,
+    FIREBASE_CONTROL_RESULTS_ACTIVATED_KEY: true,
+  };
 
   // The Pitch ================================================================
   static const int NUM_ROUNDS_PITCH = IS_DEBUG ? 1 : 10;

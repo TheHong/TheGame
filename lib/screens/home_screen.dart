@@ -16,6 +16,10 @@ class _HomeState extends State<Home> {
   // Building the home screen ====================================
   @override
   Widget build(BuildContext context) {
+    print(
+        "============= Currently in ${Constant.IS_DEBUG ? "DEBUG" : "RELEASE"} mode =============");
+    print(
+        ">>> Connected to the '${Constant.FIREBASE_COLLECTION_NAME}' firestore collection <<<");
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -122,15 +126,28 @@ class _HomeState extends State<Home> {
                                 name: "The Bored",
                                 subtitle: "Coming Soon",
                                 icon: Icons.nature_people,
-                                routeStr: Constant.IS_DEBUG
-                                    ? '/developers_screen'
-                                    : '/waiting_page',
+                                routeStr: '/waiting_page',
                                 numDecPlaces: 0,
                                 colorGradient: [
                                   Colors.lime[200],
                                   Colors.lime[100]
                                 ],
                                 gameCommands: gameCommands["The Bored"],
+                              ),
+                              Visibility(
+                                visible: Constant.IS_DEBUG,
+                                child: gameCard(
+                                  name: "Developer's Suite",
+                                  subtitle: "For developers",
+                                  icon: Icons.android,
+                                  routeStr: '/developers_screen',
+                                  numDecPlaces: 0,
+                                  colorGradient: [
+                                    Colors.blueGrey[200],
+                                    Colors.blueGrey[100]
+                                  ],
+                                  gameCommands: Constant.FIREBASE_GAME_FULL_ACCESS,
+                                ),
                               ),
                             ],
                           );
