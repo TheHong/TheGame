@@ -1,1 +1,3 @@
 Consider using ListTile to have title and subtitle (https://gallery.flutter.dev/#/demo/menu)
+Remove the additional score compatibility check
+Prolong the notice that result updates not available
