@@ -1,7 +1,0 @@
-Keep in mind that stats still update even when results disabled
-Home screen game cards don't load when a field without both game commands is added in firestore (because null is used as boolean)
-	=> Fixed
-Can click end game many times (and update stats) if prompted for name
-	=> Fixed
-Double click may not be solved
-	=> Checked and it's fine

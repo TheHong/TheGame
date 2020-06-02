@@ -1,3 +1,5 @@
+Bar is could be improved
+The Trill have cases where final score in prompt not same as current score (Possibly because did not update fast enough?)
 Consider using ListTile to have title and subtitle (https://gallery.flutter.dev/#/demo/menu)
 Remove the additional score compatibility check
 Prolong the notice that result updates not available
@@ -7,3 +9,4 @@ Set up backup names for important backups (so don't overwrite)
 Find way to export (and maybe use developer suite as backup export button?)
 Vibration
 Sometimes counter does not start
+Display number of correct even if not leaderboard in the pitch
