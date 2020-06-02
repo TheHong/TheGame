@@ -135,7 +135,8 @@ class _HomeState extends State<Home> {
                                 gameCommands: gameCommands["The Bored"],
                               ),
                               Visibility(
-                                visible: Constant.IS_DEBUG || Constant.IS_DEVELOPER,
+                                visible:
+                                    Constant.IS_DEBUG || Constant.IS_DEVELOPER,
                                 child: gameCard(
                                   name: "Developer's Suite",
                                   subtitle: "For developers",
@@ -146,7 +147,8 @@ class _HomeState extends State<Home> {
                                     Colors.blueGrey[200],
                                     Colors.blueGrey[100]
                                   ],
-                                  gameCommands: Constant.FIREBASE_GAME_FULL_ACCESS,
+                                  gameCommands:
+                                      Constant.FIREBASE_GAME_FULL_ACCESS,
                                 ),
                               ),
                             ],
@@ -178,6 +180,7 @@ class _HomeState extends State<Home> {
               condition:
                   gameCommands[Constant.FIREBASE_CONTROL_GAME_ACTIVATED_KEY],
               text: "Game is currently unavailable",
+              seconds: 2,
             )) Navigator.pushNamed(context, routeStr);
           },
           child: Container(
@@ -217,11 +220,11 @@ class _HomeState extends State<Home> {
                                   color: Colors.red, size: 30),
                               onTap: () {
                                 _evaluateWithFalseSnackbar(
-                                  context: context,
-                                  condition: false,
-                                  text: "Game can still be played, but result update" +
-                                      " with leaderboard is currently unavailable.",
-                                );
+                                    context: context,
+                                    condition: false,
+                                    text: "Game can still be played, but result update" +
+                                        " with leaderboard is currently unavailable.",
+                                    seconds: 4);
                               },
                             ),
                           ),
@@ -269,6 +272,7 @@ class _HomeState extends State<Home> {
                           condition: gameCommands[
                               Constant.FIREBASE_CONTROL_GAME_ACTIVATED_KEY],
                           text: "Game is currently unavailable",
+                          seconds: 2,
                         )) Navigator.pushNamed(context, routeStr);
                       },
                     ),
@@ -284,14 +288,14 @@ class _HomeState extends State<Home> {
 }
 
 bool _evaluateWithFalseSnackbar(
-    {BuildContext context, bool condition, String text}) {
+    {BuildContext context, bool condition, String text, int seconds}) {
   if (condition) {
     return true;
   } else {
     Scaffold.of(context).removeCurrentSnackBar();
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(text, style: TextStyle(fontSize: 15.0)),
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: seconds),
     ));
     return false;
   }

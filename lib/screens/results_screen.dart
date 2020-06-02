@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/components/result_widgets.dart';
+import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/game_core.dart';
 import 'package:game_app/models/results.dart';
 
@@ -24,8 +25,7 @@ class ResultsPage extends StatelessWidget {
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text(
-                  "Try Again"),
+              child: Text("Try Again"),
               onPressed: () {
                 Navigator.popAndPushNamed(context, gameCore.getGamePath());
               },
@@ -59,6 +59,14 @@ class ResultsPage extends StatelessWidget {
                   Text(
                     "${gameCore.score.toStringAsFixed(gameCore.getNumDecPlaces())}",
                     style: TextStyle(color: Colors.black, fontSize: 20),
+                  ),
+                  Visibility(
+                    visible: gameCore.additionalScore !=
+                        Constant.DEFAULT_NO_ADDITIONAL_SCORE,
+                    child: Text(
+                      "(${gameCore.additionalScore.toStringAsFixed(0)} correct)",
+                      style: TextStyle(color: Colors.black, fontSize: 12),
+                    ),
                   ),
                 ],
               ),

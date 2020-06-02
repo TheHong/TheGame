@@ -10,8 +10,11 @@ Mobile Application with various games. Below is an overview of the available gam
 In the following releases, the game is played (and tested) on phones of two people.
 
 ## Releases (and their major updates)
-### Version 1.2.2
+### Version 1.3.0
 - Make The Trill keys more sensitive to presses
+- Additional score also displayed in results screen (if applicable)
+- Developer's suite now allows for custom-named backups
+- Game stats can only be updated when results activated
 
 ### Version 1.2.1
 - Fix the processing stage of Firestore game commands so that home page loads properly 

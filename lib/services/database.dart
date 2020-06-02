@@ -128,15 +128,13 @@ List<Result> getResultsFromDocSnapshot(String game, DocumentSnapshot snapshot) {
   for (int i = 0; i < gameResults.length; i++) {
     historicalResults.add(
       Result(
-          game: game,
-          name: gameResults[i][Constant.FIREBASE_RESULTS_NAME_KEY],
-          score: gameResults[i][Constant.FIREBASE_RESULTS_SCORE_KEY] * 1.0,
-          timestamp: gameResults[i][Constant.FIREBASE_RESULTS_TIMESTAMP_KEY],
-          additionalScore:
-              // The containskey check is to deal with previous versions of gameResults. Can remove in future versions
-              gameResults[i].containsKey(Constant.FIREBASE_RESULTS_SCORE2_KEY)
-                  ? gameResults[i][Constant.FIREBASE_RESULTS_SCORE2_KEY] * 1.0
-                  : Constant.DEFAULT_NO_ADDITIONAL_SCORE),
+        game: game,
+        name: gameResults[i][Constant.FIREBASE_RESULTS_NAME_KEY],
+        score: gameResults[i][Constant.FIREBASE_RESULTS_SCORE_KEY] * 1.0,
+        timestamp: gameResults[i][Constant.FIREBASE_RESULTS_TIMESTAMP_KEY],
+        additionalScore:
+            gameResults[i][Constant.FIREBASE_RESULTS_SCORE2_KEY] * 1.0,
+      ),
     );
   }
   return historicalResults;

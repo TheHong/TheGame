@@ -16,7 +16,6 @@ class BoolInterrupt {
   void reset() {
     val = false;
   }
-  
 }
 
 class Counter {
@@ -62,7 +61,8 @@ abstract class GameCore extends ChangeNotifier {
 
   // TODO: Privatize if needed
   double score = 0.0;
-  double additionalScore = Constant.DEFAULT_NO_ADDITIONAL_SCORE;
+  double additionalScore = Constant
+      .DEFAULT_NO_ADDITIONAL_SCORE; // Currently displayed in results with 0 decimal places
   List<Result> historicalResults = []; // From highest to lowest
 
   bool isRoundDone = false; // Is the round completed
