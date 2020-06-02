@@ -13,7 +13,7 @@ class _DevelopersScreenState extends State<DevelopersScreen> {
   // Note that that for scaffold floatingactionbutton, the boolean responsible
   // for preventing double presses must be outside the build
   bool _isPressed = false;
-  String backupLocation = "";
+  StringObject userInput = StringObject();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,16 +54,18 @@ class _DevelopersScreenState extends State<DevelopersScreen> {
           PopupMenuButton(
               child: ListTile(
                 title: Text("Choose backup location"),
-                subtitle: Text(backupLocation),
+                subtitle: Text(userInput.val),
               ),
               onSelected: (value) {
                 setState(() {
-                  backupLocation = value;
+                  userInput.val = value;
                 });
+                if (value == "")
+                  _dialogPrompter(context, userInput, setState);
               },
               onCanceled: () {
                 setState(() {
-                  backupLocation = "";
+                  userInput.val = "";
                 });
               },
               itemBuilder: (context) => <PopupMenuItem<String>>[
@@ -79,6 +81,17 @@ class _DevelopersScreenState extends State<DevelopersScreen> {
                       child: Text("Backup2"),
                       value: "Backup2",
                     ),
+                    PopupMenuItem(
+                      child: Text("Backup3"),
+                      value: "Backup3",
+                    ),
+                    PopupMenuItem(
+                      child: Text(
+                        "custom",
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                      value: "",
+                    ),
                   ])
         ],
       ),
@@ -86,20 +99,20 @@ class _DevelopersScreenState extends State<DevelopersScreen> {
         child: Text(
           "Backup",
           style: TextStyle(
-            color: backupLocation.isEmpty || _isPressed
+            color: userInput.val.isEmpty || _isPressed
                 ? Colors.black12
                 : Colors.green,
           ),
         ),
         onPressed: () async {
-          if (!_isPressed && backupLocation.isNotEmpty) {
+          if (!_isPressed && userInput.val.isNotEmpty) {
             _isPressed = true;
             setState(() {
               state = "Backing up data...";
             });
-            await databaseBackupService.backup(backupLocation);
+            await databaseBackupService.backup(userInput.val);
             setState(() {
-              state = "Successfully backed up at '$backupLocation'";
+              state = "Successfully backed up at '${userInput.val}'";
             });
           }
         },
@@ -128,4 +141,81 @@ class DatabaseBackupService {
       backupData["$key Stats"] = statsDocument.data[key];
     return await backupDataDoc.setData(backupData);
   }
+}
+
+class StringObject {
+  String val;
+  StringObject({this.val = ""});
+}
+
+void _dialogPrompter(
+    BuildContext context, StringObject input, Function setState) {
+  final _getNameFormKey = GlobalKey<FormState>();
+  bool _isNameSubmitted = false;
+  showDialog(
+    context: context,
+    builder: (context) => Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      elevation: 0.0,
+      backgroundColor: Colors.transparent,
+      child: Stack(
+        children: <Widget>[
+          Container(
+            color: Colors.white,
+            padding: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 40),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Ensuring compactness
+              children: <Widget>[
+                Form(
+                  key: _getNameFormKey,
+                  child: TextFormField(
+                    textCapitalization: TextCapitalization.words,
+                    cursorColor: Colors.green,
+                    decoration: InputDecoration(
+                      filled: true,
+                      icon: const Icon(Icons.backup),
+                      hintText: "e.g. backup dis",
+                      labelText: "Enter a backup name",
+                    ),
+                    onSaved: (value) {
+                      input.val = value;
+                    },
+                    validator: (value) => value.isEmpty
+                        ? "Must enter something"
+                        : (value.startsWith(" ") || value.endsWith(" ")
+                            ? "Must not start or end with a space"
+                            : null),
+                  ),
+                ),
+                SizedBox(height: 24.0),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: FlatButton(
+                    onPressed: () async {
+                      if (!_isNameSubmitted) {
+                        _isNameSubmitted = true;
+                        if (_getNameFormKey.currentState.validate()) {
+                          _getNameFormKey.currentState.save();
+                          setState(() {});
+                          Navigator.pop(
+                              context); // This removes the screen underneath
+                        } else {
+                          _isNameSubmitted = false;
+                        }
+                      } else {
+                        print("Detected double press");
+                      }
+                    },
+                    child: Text("Submit"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
