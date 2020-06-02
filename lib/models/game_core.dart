@@ -8,14 +8,15 @@ import 'package:game_app/models/results.dart';
 import 'package:game_app/services/database.dart';
 
 class BoolInterrupt {
-  bool isDone = false;
+  bool val = false;
   void raise() {
-    isDone = true;
+    val = true;
   }
 
   void reset() {
-    isDone = false;
+    val = false;
   }
+  
 }
 
 class Counter {
@@ -36,14 +37,14 @@ class Counter {
       bool isRedActive = true}) async {
     try {
       for (int i = startCount - 1; i >= 0; i--) {
-        if (boolInterrupt is BoolInterrupt && boolInterrupt.isDone) break;
+        if (boolInterrupt is BoolInterrupt && boolInterrupt.val) break;
         // _currCount is only updated if other widgets are notified
         if (notifier is Function) {
           _currCount = i;
           colour = isRedActive && i <= 3 ? urgentColour : defaultColour;
           notifier();
         }
-        if (boolInterrupt is BoolInterrupt && boolInterrupt.isDone) break;
+        if (boolInterrupt is BoolInterrupt && boolInterrupt.val) break;
         await Future.delayed(Duration(seconds: 1), () {});
       }
     } on FlutterError {

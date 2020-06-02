@@ -8,10 +8,11 @@ class MiniKeyPressor extends StatefulWidget {
 }
 
 class _MiniKeyPressorState extends State<MiniKeyPressor> {
+  int count = 0;
+  BoolInterrupt _isRunPressed = BoolInterrupt(); // Need to use object to pass bool as reference
   @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
-    bool _isRunPressed = false;
     return Consumer<TheTrillCore>(builder: (context, trillCore, child) {
       return Padding(
         padding:
@@ -30,47 +31,11 @@ class _MiniKeyPressorState extends State<MiniKeyPressor> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  RaisedButton(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: screen.height / 11,
-                          horizontal: screen.width / 10),
-                      child: Text(""),
-                    ),
-                    onPressed: trillCore.keyboard.isActive
-                        ? () {
-                            if (!_isRunPressed) {
-                              _isRunPressed = true;
-                              trillCore.run();
-                            }
-                            trillCore.score +=
-                                trillCore.keyboard.press(0) ? 1 : 0;
-                            trillCore.notifyListeners();
-                          }
-                        : null,
-                  ),
+                  getSwipeableButton(0, trillCore, _isRunPressed, screen),
                   SizedBox(
                     width: screen.width / 12,
                   ),
-                  RaisedButton(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: screen.height / 11,
-                          horizontal: screen.width / 10),
-                      child: Text(""),
-                    ),
-                    onPressed: trillCore.keyboard.isActive
-                        ? () {
-                            if (!_isRunPressed) {
-                              _isRunPressed = true;
-                              trillCore.run();
-                            }
-                            trillCore.score +=
-                                trillCore.keyboard.press(1) ? 1 : 0;
-                            trillCore.notifyListeners();
-                          }
-                        : null,
-                  )
+                  getSwipeableButton(1, trillCore, _isRunPressed, screen),
                 ],
               ),
             ],
@@ -79,4 +44,35 @@ class _MiniKeyPressorState extends State<MiniKeyPressor> {
       );
     });
   }
+}
+
+void _onTrill(TheTrillCore trillCore, BoolInterrupt _isRunPressed, int keyID) {
+  print("${trillCore.keyboard.isActive}");
+  if (!_isRunPressed.val) {
+    _isRunPressed.raise();
+    trillCore.run();
+  }
+  trillCore.score += trillCore.keyboard.press(keyID) ? 1 : 0;
+  trillCore.notifyListeners();
+}
+
+Widget getSwipeableButton(int keyID,
+    TheTrillCore trillCore, BoolInterrupt _isRunPressed, Size screen) {
+  return GestureDetector(
+    onPanStart: (details) {
+      _onTrill(trillCore, _isRunPressed, keyID);
+    },
+    child: RaisedButton(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: screen.height / 11, horizontal: screen.width / 10),
+        child: Text(""),
+      ),
+      onPressed: trillCore.keyboard.isActive
+          ? () {
+              _onTrill(trillCore, _isRunPressed, keyID);
+            }
+          : null,
+    ),
+  );
 }

@@ -42,6 +42,7 @@ class _TrillGameState extends State<TrillGame> {
               ],
             ),
             body: ListView(
+              physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.symmetric(
