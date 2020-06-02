@@ -9,7 +9,9 @@ class MiniKeyPressor extends StatefulWidget {
 
 class _MiniKeyPressorState extends State<MiniKeyPressor> {
   int count = 0;
-  BoolInterrupt _isRunPressed = BoolInterrupt(); // Need to use object to pass bool as reference
+  BoolInterrupt _isRunPressed =
+      BoolInterrupt(); // Need to use object to pass bool as reference
+  bool isRunRun = false;
   @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
@@ -47,7 +49,6 @@ class _MiniKeyPressorState extends State<MiniKeyPressor> {
 }
 
 void _onTrill(TheTrillCore trillCore, BoolInterrupt _isRunPressed, int keyID) {
-  print("${trillCore.keyboard.isActive}");
   if (!_isRunPressed.val) {
     _isRunPressed.raise();
     trillCore.run();
@@ -56,8 +57,8 @@ void _onTrill(TheTrillCore trillCore, BoolInterrupt _isRunPressed, int keyID) {
   trillCore.notifyListeners();
 }
 
-Widget getSwipeableButton(int keyID,
-    TheTrillCore trillCore, BoolInterrupt _isRunPressed, Size screen) {
+Widget getSwipeableButton(int keyID, TheTrillCore trillCore,
+    BoolInterrupt _isRunPressed, Size screen) {
   return GestureDetector(
     onPanStart: (details) {
       _onTrill(trillCore, _isRunPressed, keyID);
