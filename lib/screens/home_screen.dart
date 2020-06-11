@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:game_app/components/result_widgets.dart';
 import 'package:game_app/models/constants.dart';
 import 'package:game_app/services/database.dart';
@@ -86,6 +87,7 @@ class _HomeState extends State<Home> {
                               getGameControlFromSnapshot(snapshot);
                           return ListView(
                             children: <Widget>[
+                              // NOTE: DON'T FORGET TO ADD ANY NEW GAMES TO THE constants.dart file
                               gameCard(
                                 name: "The Pitch",
                                 subtitle: "Practice perfect pitch",
@@ -123,6 +125,18 @@ class _HomeState extends State<Home> {
                                 gameCommands: gameCommands["The Icon"],
                               ),
                               gameCard(
+                                name: "The Sign",
+                                subtitle: "Coming Soon",
+                                icon: FontAwesome.sign_language,
+                                routeStr: '/waiting_page',
+                                numDecPlaces: 0,
+                                colorGradient: [
+                                  Colors.purple[200],
+                                  Colors.purple[100]
+                                ],
+                                gameCommands: gameCommands["The Sign"],
+                              ),
+                              gameCard(
                                 name: "The Bored",
                                 subtitle: "Coming Soon",
                                 icon: Icons.nature_people,
@@ -134,6 +148,7 @@ class _HomeState extends State<Home> {
                                 ],
                                 gameCommands: gameCommands["The Bored"],
                               ),
+                              // NOTE: DON'T FORGET TO ADD ANY NEW GAMES TO THE constants.dart file
                               Visibility(
                                 visible:
                                     Constant.IS_DEBUG || Constant.IS_DEVELOPER,

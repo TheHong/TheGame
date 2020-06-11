@@ -11,7 +11,8 @@ class Constant {
     "The Pitch",
     "The Trill",
     "The Icon",
-    "The Bored"
+    "The Bored",
+    "The Sign",
   ];
   static const double DEFAULT_NO_ADDITIONAL_SCORE = -1;
 

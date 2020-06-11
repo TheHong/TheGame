@@ -5,3 +5,6 @@ Expand the developer's suite with more backup options and displays (e.g. stats, 
 Find way to export (and maybe use developer suite as backup export button?)
 Vibration
 Sometimes counter for The Trill does not start
+
+The Icon
+The Sign
