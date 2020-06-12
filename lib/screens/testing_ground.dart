@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:game_app/models/constants.dart';
-import 'package:game_app/models/results.dart';
+import 'package:game_app/screens/the_icon/components/icon_list.dart';
 
 class TestingGround extends StatefulWidget {
   @override
@@ -9,84 +7,41 @@ class TestingGround extends StatefulWidget {
 }
 
 class _TestingGroundState extends State<TestingGround> {
+  String state = "HELLO";
+  IconList icList = IconList();
+  int currCP = 59692;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Testing")),
-      body: StreamBuilder(
-          stream: Firestore.instance
-              .collection(Constant.FIREBASE_COLLECTION_NAME)
-              .document(Constant.FIREBASE_RESULTS_DOCUMENT_NAME)
-              .snapshots(),
-          builder: (context, snapshot) {
-            // if (!snapshot.hasData) return const Text("No data...");
-            if (snapshot.data == null || snapshot.data.data == null)
-              return const Text("No data...");
-            List<Result> res =
-                getResultsFromAsyncSnapshot("The Pitch", snapshot);
-            print("Amount of results => ${res.length}");
-
-            return ListView.builder(
-              itemCount: res.length,
-              itemBuilder: (context, index) => Text(
-                  "${res[index].name} => ${res[index].score} (${res[index].timestamp.toDate()})"),
-            );
-          }),
-      floatingActionButton: Tooltip(
-        message:
-            "WARNING!!!!! MAKE SURE THE DATABASE OBJECT IS NOT A DatabaseService, but a DatabaseServiceTest." +
-                "Must not overwrite",
-        child: IconButton(
-          icon: Icon(Icons.shuffle),
-          onPressed: () async {
-            await DatabaseServiceTest()
-                .testUpdateasdfasdf("The Pitch", getSampleResults());
-            print("Done");
-          },
-        ),
+      body: Column(
+        children: <Widget>[
+          Text(
+            state,
+            style: TextStyle(fontSize: 50),
+          ),
+          IconButton(
+            icon: Icon(Icons.disc_full),
+            onPressed: () async {
+              await icList.loadIconInfo();
+              setState(() {
+                state = "Ready";
+              });
+            },
+          )
+        ],
+      ),
+      floatingActionButton: IconButton(
+        icon: Icon(IconData(currCP, fontFamily: 'MaterialIcons')),
+        onPressed: () {
+          print("numicons: ${icList.length}");
+          List<int> cc = icList.getRandomCodepoints(n: 2);
+          print("${cc[0]}");
+          setState(() {
+            currCP = cc[0];
+          });
+        },
       ),
     );
   }
-}
-
-class DatabaseServiceTest {
-  final DocumentReference onlineResults =
-      Firestore.instance.collection("TEST_GROUND").document("TEST_RESULTS");
-
-  Future testUpdateasdfasdf(String game, List<Result> newResults) async {
-    return await onlineResults.setData(
-      {
-        game: newResults.map((result) => result.toMap()).toList(),
-      },
-    );
-  }
-}
-
-List<Result> getResultsFromAsyncSnapshot(String game, AsyncSnapshot snapshot) {
-  // Looking for data
-  if (!snapshot.hasData) return [];
-
-  // Extracting the results from the snapshot
-  DocumentSnapshot resultsDocument = snapshot.data;
-  return getResultsFromDocSnapshot(game, resultsDocument);
-}
-
-List<Result> getResultsFromDocSnapshot(String game, DocumentSnapshot snapshot) {
-  Map results = snapshot.data;
-  if (results == null || !results.containsKey(game)) return []; // If no data for game
-
-  // Storing and returning the results
-  List gameResults = results[game];
-  List<Result> historicalResults = List();
-  for (int i = 0; i < gameResults.length; i++) {
-    historicalResults.add(
-      Result(
-        game: game,
-        name: gameResults[i][Constant.FIREBASE_RESULTS_NAME_KEY],
-        score: gameResults[i][Constant.FIREBASE_RESULTS_SCORE_KEY] * 1.0,
-        timestamp: gameResults[i][Constant.FIREBASE_RESULTS_TIMESTAMP_KEY],
-      ),
-    );
-  }
-  return historicalResults;
 }

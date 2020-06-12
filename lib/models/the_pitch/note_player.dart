@@ -7,7 +7,6 @@ class NotePlayer {
   Notes can be played using an integer identifier from 0 to 127 inclusive, each 
   integer corresponding to a certain note. More details found at:
   https://medium.com/@gmcerveny/midi-note-number-chart-for-ios-music-apps-b3c01df3cb19 
-  
   */
 
   final _flutterMidi = FlutterMidi(); // Deals with playing the midi

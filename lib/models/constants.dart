@@ -60,4 +60,8 @@ class Constant {
           "this is the piano trill. The bar at the top gives an indication of where you are at with respect to the leaderboard." +
           " The green marker represents level needed to make it onto the leaderboard. The other three represents the bronze, silver, and gold results." +
           " You will have $TIME_PER_ROUND_TRILL seconds to do as many taps as possible.";
+
+  // The ICON ================================================================
+  static const String INSTRUCTIONS_ICON =
+      "";
 }
