@@ -8,7 +8,7 @@ class IconGame extends StatefulWidget {
 class _IconGameState extends State<IconGame> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
       
     );
   }

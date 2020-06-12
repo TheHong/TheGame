@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/screens/the_icon/components/icon_list.dart';
+import 'package:game_app/models/the_icon/icon_list.dart';
 
 class TestingGround extends StatefulWidget {
   @override

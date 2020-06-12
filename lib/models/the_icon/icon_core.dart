@@ -12,7 +12,20 @@ class TheIconCore extends GameCore {
   String getInstructions() => Constant.INSTRUCTIONS_ICON;
 
   @override
-  Future game() {}
+  Future game() {
+    while(!isGameDone){
+
+
+      // Remembering phase
+
+
+      // Recalling Phase
+
+
+
+      isGameDone=true; // To be removed
+    }
+  }
 
   @override
   String getDebugInfo() {
