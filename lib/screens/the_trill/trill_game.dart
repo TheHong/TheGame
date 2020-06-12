@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/models/game_core.dart';
+import 'package:game_app/models/the_trill/trill_core.dart';
 import 'package:game_app/screens/instructions_screen.dart';
 import 'package:game_app/screens/the_trill/components/prompter.dart';
 import 'package:game_app/screens/the_trill/components/minikey_pressor.dart';
@@ -26,7 +26,7 @@ class _TrillGameState extends State<TrillGame> {
               title: Text("The Trill", style: TextStyle(color: Colors.black)),
               backgroundColor: Colors.green[100],
               elevation: 0,
-              leading: UpdatorBackButton(context, trillCore),
+              leading: getUpdatorBackButton(context, trillCore),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.help_outline),

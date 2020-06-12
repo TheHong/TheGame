@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/models/game_core.dart';
+import 'package:game_app/models/the_pitch/pitch_core.dart';
 import 'package:game_app/screens/instructions_screen.dart';
 import 'package:game_app/screens/the_pitch/components/game_title_bar.dart';
 import 'package:game_app/screens/the_pitch/components/key_pressor.dart';
@@ -28,7 +28,7 @@ class _PitchGameState extends State<PitchGame> {
           title: Text("The Pitch"),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
-          leading: UpdatorBackButton(context, pitchCore),
+          leading: getUpdatorBackButton(context, pitchCore),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.help_outline),

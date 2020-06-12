@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/models/game_core.dart';
+import 'package:game_app/models/the_trill/trill_core.dart';
 import 'package:provider/provider.dart';
 
 class MiniKeyPressor extends StatefulWidget {

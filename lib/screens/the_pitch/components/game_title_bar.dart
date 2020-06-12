@@ -1,4 +1,4 @@
-import 'package:game_app/models/game_core.dart';
+import 'package:game_app/models/the_pitch/pitch_core.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
