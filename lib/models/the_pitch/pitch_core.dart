@@ -32,9 +32,13 @@ class ThePitchCore extends GameCore {
   final keyboard = Keyboard(); // Contains the information of the keys
   final stopwatch = Stopwatch(); // To measure time
 
+  @override
   String getGameName() => "The Pitch";
+  @override
   String getGamePath() => "/the_pitch";
+  @override
   int getNumDecPlaces() => 3;
+  @override
   String getInstructions() => Constant.INSTRUCTIONS_PITCH;
 
   ThePitchCore() {

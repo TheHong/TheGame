@@ -19,11 +19,16 @@ class TheTrillCore extends GameCore {
     print("$this Initiated");
   }
 
+  @override
   String getGameName() => "The Trill";
+  @override
   String getGamePath() => "/the_trill";
+  @override
   int getNumDecPlaces() => 0;
+  @override
   String getInstructions() => Constant.INSTRUCTIONS_TRILL;
 
+  @override
   Future game() async {
     // Game  ----------------------------------------------------------------
     // Start Round
