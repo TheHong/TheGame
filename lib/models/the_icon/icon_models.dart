@@ -37,7 +37,8 @@ class IconGroup {
     _activities = List.filled(codepoints.length, isAllActive);
   }
   int get length => codepoints.length;
-  bool isActive(int idx) => _visibilities[idx];
+  bool isVisible(int idx) => _visibilities[idx];
+  bool isActive(int idx) => _activities[idx];
   void hide(int idx) {
     _visibilities[idx] = false;
   }
@@ -73,42 +74,92 @@ class IconBoard {
 }
 
 Widget displayBoard(BuildContext context, IconGroup iconGroup, bool isButton) {
-  // WILL take into account that higher number of icons would result in different number of rows
   const double boardPadding = 10;
   const double iconPadding = 8;
-  const int numIconPerRow = 10;
+  const int numIconsPerRow = 10;
   Size screen = MediaQuery.of(context).size;
   double iconSize =
-      (screen.width - 2 * boardPadding - 2 * numIconPerRow * iconPadding) /
-          numIconPerRow;
+      (screen.width - 2 * boardPadding - 2 * numIconsPerRow * iconPadding) /
+          numIconsPerRow;
+
+  // Split icons into rows
+  List<List<int>> iconGrid = [];
+  for (int idx = 0; idx < iconGroup.length; idx++) {
+    if (idx % numIconsPerRow == 0) iconGrid.add([]);
+    iconGrid.last.add(iconGroup.codepoints[idx]);
+  }
 
   return Padding(
     padding: const EdgeInsets.all(boardPadding),
     child: Container(
-      height: iconSize * 2,
-      color: Colors.green,
+      height: iconSize * 2 * iconGrid.length,
       child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: iconGroup.length,
-        itemBuilder: (context, index) {
-          return iconGroup.isActive(index)
-              ? isButton
-                  ? MaterialIconButton(
-                      codepoint: iconGroup.codepoints[index],
-                      size: iconSize,
-                      padding: iconPadding,
-                      onPressed: () {
-                        print("${iconGroup.codepoints[index]} preessed!");
-                      },
-                    )
-                  : Icon(IconData(iconGroup.codepoints[index],
-                      fontFamily: 'MaterialIcons'))
-              : Text(
-                  "_",
-                  style: TextStyle(fontSize: 12),
-                );
+        scrollDirection: Axis.vertical,
+        itemCount: iconGrid.length,
+        itemBuilder: (context, rowNum) {
+          return Container(
+            height: iconSize * 2,
+            color: Colors.red[50],
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: iconGrid[rowNum].length,
+              itemBuilder: (context, index) {
+                int idxGlobal = rowNum * numIconsPerRow + index;
+                return iconGroup.isVisible(index)
+                    ? isButton
+                        ? MaterialIconButton(
+                            codepoint: iconGrid[rowNum][index],
+                            size: iconSize,
+                            padding: iconPadding,
+                            onPressed: iconGroup.isActive(idxGlobal)
+                                ? () {
+                                    print(
+                                        "${iconGrid[rowNum][index]} preessed!");
+                                    iconGroup.hide(idxGlobal);
+                                  }
+                                : null,
+                          )
+                        : Icon(IconData(iconGroup.codepoints[index],
+                            fontFamily: 'MaterialIcons'))
+                    : Text(
+                        "_",
+                        style: TextStyle(fontSize: iconSize),
+                      );
+              },
+            ),
+          );
         },
       ),
     ),
   );
+
+  // return Padding(
+  //   padding: const EdgeInsets.all(boardPadding),
+  //   child: Container(
+  //     height: iconSize * 2,
+  //     color: Colors.green,
+  //     child: ListView.builder(
+  //       scrollDirection: Axis.horizontal,
+  //       itemCount: iconGroup.length,
+  //       itemBuilder: (context, index) {
+  //         return iconGroup.isActive(index)
+  //             ? isButton
+  //                 ? MaterialIconButton(
+  //                     codepoint: iconGroup.codepoints[index],
+  //                     size: iconSize,
+  //                     padding: iconPadding,
+  //                     onPressed: () {
+  //                       print("${iconGroup.codepoints[index]} preessed!");
+  //                     },
+  //                   )
+  //                 : Icon(IconData(iconGroup.codepoints[index],
+  //                     fontFamily: 'MaterialIcons'))
+  //             : Text(
+  //                 "_",
+  //                 style: TextStyle(fontSize: 12),
+  //               );
+  //       },
+  //     ),
+  //   ),
+  // );
 }
