@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/models/the_icon/icon_list.dart';
+import 'package:game_app/models/the_icon/icon_models.dart';
 
 class TestingGround extends StatefulWidget {
   @override
@@ -9,6 +9,7 @@ class TestingGround extends StatefulWidget {
 class _TestingGroundState extends State<TestingGround> {
   String state = "HELLO";
   IconList icList = IconList();
+  IconGroup icGroup;
   int currCP = 59692;
   @override
   Widget build(BuildContext context) {
@@ -24,18 +25,20 @@ class _TestingGroundState extends State<TestingGround> {
             icon: Icon(Icons.disc_full),
             onPressed: () async {
               await icList.loadIconInfo();
+              icGroup = IconGroup(icList.getRandomCodepoints(n: 5));
               setState(() {
                 state = "Ready";
               });
             },
-          )
+          ),
+          icGroup != null ? displayBoard(context, icGroup, true) : Container(),
         ],
       ),
       floatingActionButton: IconButton(
         icon: Icon(IconData(currCP, fontFamily: 'MaterialIcons')),
         onPressed: () {
           print("numicons: ${icList.length}");
-          List<int> cc = icList.getRandomCodepoints(n: 2);
+          List<int> cc = icList.getRandomCodepoints(n: 3);
           print("${cc[0]}");
           setState(() {
             currCP = cc[0];

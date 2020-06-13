@@ -5,6 +5,9 @@ Expand the developer's suite with more backup options and displays (e.g. stats, 
 Find way to export (and maybe use developer suite as backup export button?)
 Vibration
 Sometimes counter for The Trill does not start
+Restrict access to datastore
+Buttons have a disabled colour field. Use it
+Keep in mind difference between padding and margins. Change some variable names.
 
 The Icon
 The Sign
