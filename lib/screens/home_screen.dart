@@ -116,7 +116,7 @@ class _HomeState extends State<Home> {
                                 name: "The Icon",
                                 subtitle: "Coming Soon",
                                 icon: Icons.face,
-                                routeStr: '/waiting_page',
+                                routeStr: '/the_icon',
                                 numDecPlaces: 0,
                                 colorGradient: [
                                   Colors.red[200],

@@ -1,3 +1,13 @@
+/* 
+Terminology for The Icon:
+An Icon is an Icon.
+An Icon Group is a group of Icons. There are two types of Groups:
+  1. The Groups that is displayed for the user to memorize and later fill in.
+  2. The Groups that is given to the user to choose.
+An Icon Board is the combination of both Groups and is responsible for checking correctness.
+An Icon List contains information about all the available icons for this game.
+*/
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -73,7 +83,7 @@ class IconBoard {
   }
 }
 
-Widget displayBoard(BuildContext context, IconGroup iconGroup, bool isButton) {
+Widget displayGroup(BuildContext context, IconGroup iconGroup, bool isButton) {
   const double boardPadding = 10;
   const double iconPadding = 8;
   const int numIconsPerRow = 10;

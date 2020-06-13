@@ -31,7 +31,7 @@ class _TestingGroundState extends State<TestingGround> {
               });
             },
           ),
-          icGroup != null ? displayBoard(context, icGroup, true) : Container(),
+          icGroup != null ? displayGroup(context, icGroup, true) : Container(),
         ],
       ),
       floatingActionButton: IconButton(

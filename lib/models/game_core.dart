@@ -94,8 +94,6 @@ abstract class GameCore extends ChangeNotifier {
   }
 
   Future loadFirestoreData({Function onDone}) async {
-    // The following is temprorary
-    // historicalResults = getSampleResults();
     historicalResults = await databaseService.getResults(getGameName());
     controlCommands = await databaseService.getSingleGameControl(getGameName());
     isResultsActivated =
