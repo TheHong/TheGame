@@ -7,6 +7,8 @@ class MaterialIconButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color color;
   final Color disabledColor;
+  final bool iconVisibility;
+  final Color backgroundColor = Colors.black12;
 
   const MaterialIconButton({
     @required this.codepoint,
@@ -15,6 +17,7 @@ class MaterialIconButton extends StatelessWidget {
     this.color = Colors.black,
     this.disabledColor = Colors.black26,
     this.padding = 8.0,
+    this.iconVisibility = true,
   });
 
   @override
@@ -24,12 +27,15 @@ class MaterialIconButton extends StatelessWidget {
           height: size + 2 * padding,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.black12,
+            color: backgroundColor,
           ),
-          child: Icon(
-            IconData(codepoint, fontFamily: 'MaterialIcons'),
-            size: size,
-            color: onPressed != null ? color : disabledColor,
+          child: Visibility(
+            visible: iconVisibility,
+            child: Icon(
+              IconData(codepoint, fontFamily: 'MaterialIcons'),
+              size: size,
+              color: onPressed != null ? color : disabledColor,
+            ),
           ),
         ),
         onTap: onPressed,
