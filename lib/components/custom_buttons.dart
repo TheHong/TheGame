@@ -7,6 +7,7 @@ class MaterialIconButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color color;
   final Color disabledColor;
+  final Color borderColor;
   final bool iconVisibility;
   final Color backgroundColor = Colors.black12;
 
@@ -16,6 +17,7 @@ class MaterialIconButton extends StatelessWidget {
     @required this.onPressed,
     this.color = Colors.black,
     this.disabledColor = Colors.black26,
+    this.borderColor = Colors.transparent,
     this.padding = 8.0,
     this.iconVisibility = true,
   });
@@ -26,9 +28,13 @@ class MaterialIconButton extends StatelessWidget {
           width: size + 2 * padding,
           height: size + 2 * padding,
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: backgroundColor,
-          ),
+              shape: BoxShape.circle,
+              color: backgroundColor,
+              border: Border.all(
+                width: 3,
+                color: borderColor,
+                style: BorderStyle.solid,
+              )),
           child: Visibility(
             visible: iconVisibility,
             child: Icon(

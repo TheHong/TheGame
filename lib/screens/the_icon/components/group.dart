@@ -10,9 +10,13 @@ class Group extends StatelessWidget {
   final double boardPadding;
   final double iconPadding;
   final int numIconsPerRow;
+  final Function onPressed;
+  final int highlightID;
   Group({
     @required this.iconGroup,
     @required this.isButton,
+    @required this.onPressed,
+    this.highlightID = -1,
     this.boardPadding = 10,
     this.iconPadding = 8,
     this.numIconsPerRow = 10,
@@ -57,11 +61,12 @@ class Group extends StatelessWidget {
                             size: iconSize,
                             padding: iconPadding,
                             iconVisibility: iconGroup.isVisible(idxGlobal),
+                            borderColor: idxGlobal == highlightID
+                                ? Colors.green
+                                : Colors.transparent,
                             onPressed: iconGroup.isActive(idxGlobal)
                                 ? () {
-                                    print(
-                                        "${iconGrid[rowNum][index]} preessed!");
-                                    iconGroup.deactivate(idxGlobal);
+                                    onPressed(iconCore, idxGlobal);
                                   }
                                 : null,
                           )

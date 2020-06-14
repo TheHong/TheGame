@@ -32,7 +32,7 @@ class TheIconCore extends GameCore {
       currIconBoard = IconBoard(
         question: IconGroup(
           codepoints: iconList.getRandomCodepoints(n: score.toInt()),
-          isAllVisible: false
+          isAllVisible: true, // TODO: Change to false in real game
         ),
         iconList: iconList,
       );
@@ -45,6 +45,21 @@ class TheIconCore extends GameCore {
       isGameDone = true; // To be removed
     }
     print("Game Complete!");
+  }
+
+  void selectOption(int idxOption) {
+    // Check if correct
+    int idxQuestion = currIconBoard.currQuestionIdx;
+    if (currIconBoard.options.codepoints[idxOption] ==
+        currIconBoard.question.codepoints[idxQuestion]) {
+          currIconBoard.options.deactivate(idxOption);
+      currIconBoard.question.show(idxQuestion);
+      currIconBoard.currQuestionIdx =
+          currIconBoard.currQuestionIdx + 1 < currIconBoard.question.length
+              ? currIconBoard.currQuestionIdx + 1
+              : currIconBoard.question.earliestHidden; // TODO: TO TEST
+    }
+    notifyListeners();
   }
 
   @override

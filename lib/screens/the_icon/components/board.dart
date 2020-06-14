@@ -23,15 +23,21 @@ class _BoardState extends State<Board> {
           : Column(
               children: <Widget>[
                 Group(
-                  iconGroup: iconCore.currIconBoard.question,
-                  isButton: true,
-                  numIconsPerRow: 10,
-                ),
+                    iconGroup: iconCore.currIconBoard.question,
+                    isButton: true,
+                    numIconsPerRow: 10,
+                    highlightID: iconCore.currIconBoard.currQuestionIdx,
+                    onPressed: (TheIconCore iconCore, int idx) {
+                      iconCore.currIconBoard.selectQuestion(idx);
+                      iconCore.notifyListeners();
+                    }),
                 Group(
-                  iconGroup: iconCore.currIconBoard.options,
-                  isButton: true,
-                  numIconsPerRow: 10,
-                ),
+                    iconGroup: iconCore.currIconBoard.options,
+                    isButton: true,
+                    numIconsPerRow: 10,
+                    onPressed: (TheIconCore iconCore, int idx) {
+                      iconCore.selectOption(idx);
+                    }),
               ],
             );
     });

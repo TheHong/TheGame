@@ -54,20 +54,32 @@ class IconGroup {
   int get length => codepoints.length;
   bool isVisible(int idx) => _visibilities[idx];
   bool isActive(int idx) => _activities[idx];
+  int get earliestHidden => _visibilities.indexWhere((v) => !v);
 
   void deactivate(int idx) {
     _activities[idx] = false;
   }
+
   void activate(int idx) {
-    _activities[idx] = false;
+    _activities[idx] = true;
   }
+
+  void hide(int idx) {
+    _visibilities[idx] = false;
+  }
+
+  void show(int idx) {
+    _visibilities[idx] = true;
+  }
+
+  
 }
 
 class IconBoard {
   IconGroup question; // Icons to be filled in
   IconGroup options; // Icons to choose from
   int currQuestionIdx =
-      -1; // Index of the current icon (wrt to the question IconGroup) to which player must choose the correct icon from the options
+      0; // Index of the current icon (wrt to the question IconGroup) to which player must choose the correct icon from the options
 
   IconBoard({
     @required this.question,
@@ -88,6 +100,10 @@ class IconBoard {
 
     // Create icongroup
     options = IconGroup(codepoints: optionCodepoints, isAllVisible: true);
+  }
+
+  void selectQuestion(int idx) {
+    currQuestionIdx = idx;
   }
 }
 
