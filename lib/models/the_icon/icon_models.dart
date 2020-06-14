@@ -18,6 +18,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:game_app/components/custom_buttons.dart';
+import 'package:game_app/models/constants.dart';
 
 class IconList {
   String iconCodePointsFile = "assets/icon_codepoints.txt";
@@ -47,6 +48,7 @@ class IconItem {
   bool isVisible;
   bool isActive;
   bool isChosen = false;
+  Color borderColor = Colors.transparent;
   IconItem({
     @required this.codepoint,
     this.isVisible = true,
@@ -113,8 +115,10 @@ class IconBoard {
     // Create the question group
     //(codepoints are irrelevant here, but icons used as placeholders)
     question = IconGroup(
-        codepoints: iconList.getRandomCodepoints(n: answer.length),
-        isAllVisible: false);
+      codepoints: iconList.getRandomCodepoints(n: answer.length),
+      isAllVisible: true,
+    );
+    question.iconItems.first.borderColor = Constant.SELECT_COLOUR_ICON;
 
     // Add in random icons and shuffle
     int newCodepoint;
@@ -129,10 +133,6 @@ class IconBoard {
 
     // Create icongroup
     options = IconGroup(codepoints: optionCodepoints, isAllVisible: true);
-  }
-
-  void selectQuestion(int idx) {
-    currQuestionIdx = idx;
   }
 
   int getNextQuestion() {

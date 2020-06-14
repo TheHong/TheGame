@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class Constant {
   // Overall ==================================================================
@@ -62,6 +63,6 @@ class Constant {
           " You will have $TIME_PER_ROUND_TRILL seconds to do as many taps as possible.";
 
   // The ICON ================================================================
-  static const String INSTRUCTIONS_ICON =
-      "";
+  static const String INSTRUCTIONS_ICON = "";
+  static const Color SELECT_COLOUR_ICON = Colors.blue;
 }

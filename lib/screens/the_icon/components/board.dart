@@ -28,8 +28,7 @@ class _BoardState extends State<Board> {
                     numIconsPerRow: 10,
                     highlightID: iconCore.currIconBoard.currQuestionIdx,
                     onPressed: (TheIconCore iconCore, int idx) {
-                      iconCore.currIconBoard.selectQuestion(idx);
-                      iconCore.notifyListeners();
+                      iconCore.selectQuestion(idx);
                     }),
                 Group(
                     iconGroup: iconCore.currIconBoard.options,
@@ -38,12 +37,12 @@ class _BoardState extends State<Board> {
                     onPressed: (TheIconCore iconCore, int idx) {
                       iconCore.selectOption(idx);
                     }),
-                // Group(
-                //     iconGroup: iconCore.currIconBoard.answer,
-                //     isButton: true,
-                //     numIconsPerRow: 10,
-                //     onPressed: (TheIconCore iconCore, int idx) {
-                //     }),
+                Group(
+                    iconGroup: iconCore.currIconBoard.answer,
+                    isButton: true,
+                    numIconsPerRow: 10,
+                    onPressed: (TheIconCore iconCore, int idx) {
+                    }),
               ],
             );
     });

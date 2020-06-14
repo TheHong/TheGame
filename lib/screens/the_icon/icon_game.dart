@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/models/the_icon/icon_core.dart';
-import 'package:game_app/models/the_icon/icon_models.dart';
 import 'package:game_app/screens/the_icon/components/board.dart';
+import 'package:game_app/screens/the_icon/components/bottom_bar.dart';
 import 'package:provider/provider.dart';
 
 class IconGame extends StatefulWidget {
@@ -11,7 +11,6 @@ class IconGame extends StatefulWidget {
 
 class _IconGameState extends State<IconGame> {
   TheIconCore iconCore = TheIconCore();
-  bool _isBeginPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +23,8 @@ class _IconGameState extends State<IconGame> {
                 "HELLO",
                 style: TextStyle(fontSize: 50),
               ),
-              FlatButton(
-                child: Text("Begin"),
-                onPressed: _isBeginPressed
-                    ? null
-                    : () {
-                        _isBeginPressed = true;
-                        iconCore.game();
-                        setState(() {});
-                      },
-              ),
               Board(),
+              BottomBar(),
             ],
           ),
         ));

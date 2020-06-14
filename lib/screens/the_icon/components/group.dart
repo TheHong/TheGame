@@ -65,9 +65,7 @@ class Group extends StatelessWidget {
                             color: iconGroup.iconItems[idxGlobal].isChosen
                                 ? Colors.white
                                 : Colors.black,
-                            borderColor: idxGlobal == highlightID
-                                ? Colors.green
-                                : Colors.transparent,
+                            borderColor: iconGroup.iconItems[idxGlobal].borderColor,
                             onPressed: iconGroup.isActive(idxGlobal)
                                 ? () {
                                     onPressed(iconCore, idxGlobal);

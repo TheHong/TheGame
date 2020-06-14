@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/game_core.dart';
 import 'package:game_app/models/the_icon/icon_models.dart';
@@ -28,6 +29,8 @@ class TheIconCore extends GameCore {
   Future game() async {
     await iconList.loadIconInfo();
     while (!isGameDone) {
+      isGameStarted = true;
+
       // Generating icons
       currIconBoard = IconBoard(
         answer: IconGroup(
@@ -46,9 +49,18 @@ class TheIconCore extends GameCore {
     print("Game Complete!");
   }
 
+  void selectQuestion(int idx) {
+    currIconBoard.question.iconItems[currIconBoard.currQuestionIdx]
+        .borderColor = Colors.transparent;
+    currIconBoard.question.iconItems[idx].borderColor =
+        Constant.SELECT_COLOUR_ICON;
+    currIconBoard.currQuestionIdx = idx;
+    notifyListeners();
+  }
+
   void selectOption(int idxOption) {
     int idxQuestion = currIconBoard.currQuestionIdx;
-    if (idxQuestion == -1){
+    if (idxQuestion == -1) {
       print("None selected");
       return;
     }
@@ -91,9 +103,25 @@ class TheIconCore extends GameCore {
       questionItem.idxLink = idxOption;
 
       // Move the current question to another question element
-      currIconBoard.currQuestionIdx = currIconBoard.getNextQuestion();
+      selectQuestion(currIconBoard.getNextQuestion());
     }
 
+    notifyListeners();
+  }
+
+  void evaluateAnswer() {
+    List<bool> correct = List<bool>.generate(
+      currIconBoard.answer.length,
+      (i) =>
+          currIconBoard.question.iconItems[i].idxLink != -1 &&
+          currIconBoard.answer.iconItems[i].codepoint ==
+              currIconBoard.question.iconItems[i].codepoint,
+    );
+
+    for (int i = 0; i < currIconBoard.answer.length; i++) {
+      currIconBoard.question.iconItems[i].borderColor =
+          correct[i] ? Colors.green : Colors.red;
+    }
     notifyListeners();
   }
 
