@@ -75,8 +75,6 @@ class IconGroup {
   int get length => iconItems.length;
   bool isVisible(int idx) => iconItems[idx].isVisible;
   bool isActive(int idx) => iconItems[idx].isActive;
-  int get earliestHidden =>
-      iconItems.indexWhere((iconItem) => !iconItem.isVisible);
 
   void deactivate(int idx) {
     iconItems[idx].isActive = false;
@@ -122,7 +120,8 @@ class IconBoard {
     int newCodepoint;
     while (optionCodepoints.length < 2 * answer.length) {
       newCodepoint = iconList.getRandomCodepoints(n: 1)[0];
-      if (!optionCodepoints.contains(newCodepoint)) { // TODO: Test this
+      if (!optionCodepoints.contains(newCodepoint)) {
+        // TODO: Test this
         optionCodepoints.add(newCodepoint);
       }
     }
@@ -134,6 +133,19 @@ class IconBoard {
 
   void selectQuestion(int idx) {
     currQuestionIdx = idx;
+  }
+
+  int getNextQuestion() {
+    int nextIdx = question.iconItems.indexWhere(
+      (iconItem) => iconItem.idxLink == -1,
+      currQuestionIdx,
+    );
+    nextIdx = nextIdx != -1
+        ? nextIdx
+        : question.iconItems.indexWhere(
+            (iconItem) => iconItem.idxLink == -1,
+          );
+    return nextIdx;
   }
 }
 

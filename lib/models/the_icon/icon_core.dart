@@ -47,75 +47,52 @@ class TheIconCore extends GameCore {
   }
 
   void selectOption(int idxOption) {
-    // TODO: Could make more elegant
     int idxQuestion = currIconBoard.currQuestionIdx;
+    if (idxQuestion == -1){
+      print("None selected");
+      return;
+    }
+
     IconItem questionItem = currIconBoard.question.iconItems[idxQuestion];
     IconItem optionItem = currIconBoard.options.iconItems[idxOption];
-    int selectIncrement =
-        1; // Determines where the selection should be after the current selection is processed
 
-    // Case 1: If option has not been used before
-    if (!optionItem.isChosen) {
-      // If the question was already assigned to another item
-      if (questionItem.isVisible) {
-        // Find where the question is currently assigned
-        int otherOidx = questionItem.idxLink;
-        IconItem otherO = currIconBoard.options.iconItems[otherOidx];
-
-        // Update the other option
+    // Case 1: Question has already been assigned to current option
+    if (optionItem.idxLink == idxQuestion) {
+      // Update the current option as not chosen
+      optionItem.isChosen = false;
+      optionItem.idxLink = -1;
+      questionItem.isVisible = false;
+      questionItem.idxLink = -1;
+    } else {
+      // Case 2 Part 1: Question has already been assigned to another option
+      if (questionItem.idxLink != -1) {
+        // Update the other option as not chosen
+        IconItem otherO = currIconBoard.options.iconItems[questionItem.idxLink];
         otherO.isChosen = false;
         otherO.idxLink = -1;
       }
+
+      // Case 2 Part 2: Option has already been assigned
+      if (optionItem.idxLink != -1) {
+        IconItem pastQ = currIconBoard.question.iconItems[optionItem.idxLink];
+        pastQ.isVisible = false;
+        pastQ.idxLink = -1;
+      }
+
+      // Case 3: Otherwise, continue with rest of code
 
       // Set the question element to have same icon as the option element
       questionItem.codepoint = optionItem.codepoint;
 
       // Update the elements
       optionItem.isChosen = true;
+      optionItem.idxLink = idxQuestion;
       questionItem.isVisible = true;
+      questionItem.idxLink = idxOption;
+
+      // Move the current question to another question element
+      currIconBoard.currQuestionIdx = currIconBoard.getNextQuestion();
     }
-    // Case 2: If option has already been used
-    else {
-      // Find where the option was previously used
-      int pastQidx = optionItem.idxLink;
-      IconItem pastQ = currIconBoard.question.iconItems[pastQidx];
-
-      // If the question was already assigned to another item
-      if (questionItem.isVisible) {
-        // Case 2a: If option is already assigned to the current question
-        if (pastQidx == idxQuestion) {
-          optionItem.isChosen = false;
-          optionItem.idxLink = -1;
-          questionItem.isVisible = false;
-          questionItem.idxLink = -1;
-          selectIncrement = 0;
-
-          // Case 2b: If another option is assigned to the current question
-        } else {
-          // Find where the question is currently assigned
-          int otherOidx = questionItem.idxLink;
-          IconItem otherO = currIconBoard.options.iconItems[otherOidx];
-
-          // Update the other option and past question with new link
-          otherO.idxLink = pastQidx; 
-          pastQ.idxLink = otherOidx;// <-- Shouldn't change the link since option doesn't move
-
-          // Perform the swap
-          currIconBoard.question.iconItems[idxQuestion] = pastQ;
-          currIconBoard.question.iconItems[pastQidx] = questionItem;
-        }
-      }
-    }
-    // In both case, link the question with option
-    optionItem.idxLink = idxQuestion; // <-- This probably is in the wrong place
-    questionItem.idxLink = idxOption;
-
-    // Move the current question to another question element
-    currIconBoard.currQuestionIdx =
-        currIconBoard.currQuestionIdx + selectIncrement <
-                currIconBoard.question.length
-            ? currIconBoard.currQuestionIdx + selectIncrement
-            : currIconBoard.question.earliestHidden;
 
     notifyListeners();
   }
