@@ -1,11 +1,16 @@
 /* 
 Terminology for The Icon:
-An Icon is an Icon.
-An Icon Group is a group of Icons. There are two types of Groups:
-  1. The Groups that is displayed for the user to memorize and later fill in.
-  2. The Groups that is given to the user to choose.
+An Icon Item is an object containing info of Icon.
+An Icon Group is a group of Items. There are two types of Groups:
+  1. The Answer Group: given to the user to choose. 
+  2. The Question Group: displayed for the user to memorize and later fill in.
 An Icon Board is the combination of both Groups and is responsible for checking correctness.
 An Icon List contains information about all the available icons for this game.
+
+In the beginning, all the question items are unassigned; here the question item icons are not visible.
+(Visibility of a question item determines whether or not it has been assigned).
+When an answer item is answered to a question item, the answer item will change icon colour
+while the question item will match the icon of the answer item.
 */
 
 import 'dart:math';
@@ -38,6 +43,7 @@ class IconList {
 
 class IconItem {
   int codepoint;
+  int idxLink = -1; // To relate icon item to a particular index
   bool isVisible;
   bool isActive;
   bool isChosen = false;
@@ -70,7 +76,7 @@ class IconGroup {
   bool isVisible(int idx) => iconItems[idx].isVisible;
   bool isActive(int idx) => iconItems[idx].isActive;
   int get earliestHidden =>
-      iconItems.indexWhere((iconItem) => !iconItem.isActive);
+      iconItems.indexWhere((iconItem) => !iconItem.isVisible);
 
   void deactivate(int idx) {
     iconItems[idx].isActive = false;
@@ -116,7 +122,7 @@ class IconBoard {
     int newCodepoint;
     while (optionCodepoints.length < 2 * answer.length) {
       newCodepoint = iconList.getRandomCodepoints(n: 1)[0];
-      if (!optionCodepoints.contains(newCodepoint)) {
+      if (!optionCodepoints.contains(newCodepoint)) { // TODO: Test this
         optionCodepoints.add(newCodepoint);
       }
     }

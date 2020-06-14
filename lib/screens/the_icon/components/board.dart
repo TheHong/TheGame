@@ -38,13 +38,12 @@ class _BoardState extends State<Board> {
                     onPressed: (TheIconCore iconCore, int idx) {
                       iconCore.selectOption(idx);
                     }),
-                Group(
-                    iconGroup: iconCore.currIconBoard.answer,
-                    isButton: true,
-                    numIconsPerRow: 10,
-                    onPressed: (TheIconCore iconCore, int idx) {
-                      iconCore.selectOption(idx);
-                    }),
+                // Group(
+                //     iconGroup: iconCore.currIconBoard.answer,
+                //     isButton: true,
+                //     numIconsPerRow: 10,
+                //     onPressed: (TheIconCore iconCore, int idx) {
+                //     }),
               ],
             );
     });
