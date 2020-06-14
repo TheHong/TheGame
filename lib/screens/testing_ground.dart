@@ -25,7 +25,8 @@ class _TestingGroundState extends State<TestingGround> {
             icon: Icon(Icons.disc_full),
             onPressed: () async {
               await icList.loadIconInfo();
-              icGroup = IconGroup(icList.getRandomCodepoints(n: 60));
+              icGroup =
+                  IconGroup(codepoints: icList.getRandomCodepoints(n: 11));
               setState(() {
                 state = "Ready";
               });

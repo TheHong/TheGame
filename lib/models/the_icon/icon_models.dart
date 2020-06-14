@@ -41,49 +41,58 @@ class IconGroup {
   List<int> codepoints;
   List<bool> _visibilities; // WHether or not it's visible
   List<bool> _activities; // Whether or not they are chosen
-  IconGroup(this.codepoints,
-      {bool isAllVisible = true, bool isAllActive = true}) {
+
+  IconGroup({
+    @required this.codepoints,
+    bool isAllVisible = true,
+    bool isAllActive = true,
+  }) {
     _visibilities = List.filled(codepoints.length, isAllVisible);
     _activities = List.filled(codepoints.length, isAllActive);
   }
+
   int get length => codepoints.length;
   bool isVisible(int idx) => _visibilities[idx];
   bool isActive(int idx) => _activities[idx];
+
   void deactivate(int idx) {
     _activities[idx] = false;
   }
-
   void activate(int idx) {
     _activities[idx] = false;
   }
 }
 
 class IconBoard {
-  IconGroup query;
-  IconGroup options;
-  int currQueryIdx =
-      -1; // Index of the current icon (wrt to the query IconGroup) to which player must choose the correct icon from the options
+  IconGroup question; // Icons to be filled in
+  IconGroup options; // Icons to choose from
+  int currQuestionIdx =
+      -1; // Index of the current icon (wrt to the question IconGroup) to which player must choose the correct icon from the options
 
-  IconBoard(this.options, IconList iconList) {
-    // Copy the icon options
-    List<int> queryCodepoints = options.codepoints.sublist(0);
+  IconBoard({
+    @required this.question,
+    @required IconList iconList,
+  }) {
+    // Copy the icons to be recalled
+    List<int> optionCodepoints = question.codepoints.sublist(0);
 
     // Add in random icons and shuffle
     int newCodepoint;
-    while (queryCodepoints.length < 2 * options.length) {
+    while (optionCodepoints.length < 2 * question.length) {
       newCodepoint = iconList.getRandomCodepoints(n: 1)[0];
-      if (!queryCodepoints.contains(newCodepoint)) {
-        queryCodepoints.add(newCodepoint);
+      if (!optionCodepoints.contains(newCodepoint)) {
+        optionCodepoints.add(newCodepoint);
       }
     }
-    queryCodepoints.shuffle();
+    optionCodepoints.shuffle();
 
     // Create icongroup
-    query = IconGroup(queryCodepoints, isAllVisible: false);
+    options = IconGroup(codepoints: optionCodepoints, isAllVisible: true);
   }
 }
 
 Widget displayGroup(BuildContext context, IconGroup iconGroup, bool isButton) {
+  // TODO: tobe deleted
   const double boardPadding = 10;
   const double iconPadding = 8;
   const int numIconsPerRow = 10;
@@ -102,7 +111,7 @@ Widget displayGroup(BuildContext context, IconGroup iconGroup, bool isButton) {
   return Padding(
     padding: const EdgeInsets.all(boardPadding),
     child: Container(
-      height: iconSize * 2 * iconGrid.length,
+      height: 3 * iconSize * iconGrid.length,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
         itemCount: iconGrid.length,

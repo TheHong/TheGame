@@ -12,9 +12,8 @@ enum Phase {
 class TheIconCore extends GameCore {
   IconList iconList = IconList();
   IconBoard currIconBoard;
-  IconGroup currOptions;
   Phase phase = Phase.preGame;
-  double score = 1; // The score represents the round number
+  double score = 11; // The score represents the round number
 
   @override
   String getGameName() => "The Icon";
@@ -30,9 +29,14 @@ class TheIconCore extends GameCore {
     await iconList.loadIconInfo();
     while (!isGameDone) {
       // Generating icons
-      currOptions = IconGroup(iconList.getRandomCodepoints(n: score.toInt()));
-      currIconBoard = IconBoard(currOptions, iconList);
-      // notifyListeners();
+      currIconBoard = IconBoard(
+        question: IconGroup(
+          codepoints: iconList.getRandomCodepoints(n: score.toInt()),
+          isAllVisible: false
+        ),
+        iconList: iconList,
+      );
+      notifyListeners();
 
       // Remembering phase
 
@@ -42,8 +46,6 @@ class TheIconCore extends GameCore {
     }
     print("Game Complete!");
   }
-
-  
 
   @override
   String getDebugInfo() {

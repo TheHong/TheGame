@@ -7,16 +7,19 @@ import 'package:provider/provider.dart';
 class Group extends StatelessWidget {
   final IconGroup iconGroup;
   final bool isButton;
+  final double boardPadding;
+  final double iconPadding;
+  final int numIconsPerRow;
   Group({
     @required this.iconGroup,
     @required this.isButton,
+    this.boardPadding = 10,
+    this.iconPadding = 8,
+    this.numIconsPerRow = 10,
   });
 
   @override
   Widget build(BuildContext context) {
-    const double boardPadding = 10;
-    const double iconPadding = 8;
-    const int numIconsPerRow = 10;
     Size screen = MediaQuery.of(context).size;
     double iconSize =
         (screen.width - 2 * boardPadding - 2 * numIconsPerRow * iconPadding) /
@@ -31,16 +34,18 @@ class Group extends StatelessWidget {
 
     return Consumer<TheIconCore>(builder: (context, iconCore, child) {
       return Padding(
-        padding: const EdgeInsets.all(boardPadding),
+        padding: EdgeInsets.all(boardPadding),
         child: Container(
-          height: iconSize * 2 * iconGrid.length,
+          color: Colors.white,
+          height: 2 * iconSize * iconGrid.length,
           child: ListView.builder(
+            padding: EdgeInsets.zero,
             scrollDirection: Axis.vertical,
             itemCount: iconGrid.length,
             itemBuilder: (context, rowNum) {
               return Container(
                 height: iconSize * 2,
-                color: Colors.red[50],
+                color: Colors.white,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: iconGrid[rowNum].length,
