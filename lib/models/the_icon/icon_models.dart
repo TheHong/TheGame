@@ -36,61 +36,85 @@ class IconList {
       List<int>.generate(n, (_) => getCodepoint(_random.nextInt(length)));
 }
 
-class IconGroup {
-  // An IconGroup consists of a group of icons, either the ones from which the player chooses, or the ones to be filled
-  List<int> codepoints;
-  List<bool> _visibilities; // WHether or not it's visible
-  List<bool> _activities; // Whether or not they are chosen
+class IconItem {
+  int codepoint;
+  bool isVisible;
+  bool isActive;
+  bool isChosen = false;
+  IconItem({
+    @required this.codepoint,
+    this.isVisible = true,
+    this.isActive = true,
+  });
+}
 
+class IconGroup {
+  // An IconGroup consists of a group of Icon Items, either the ones from which the player chooses, or the ones to be filled
+  List<IconItem> iconItems;
   IconGroup({
-    @required this.codepoints,
+    @required List<int> codepoints,
     bool isAllVisible = true,
     bool isAllActive = true,
   }) {
-    _visibilities = List.filled(codepoints.length, isAllVisible);
-    _activities = List.filled(codepoints.length, isAllActive);
+    iconItems = List<IconItem>.generate(
+      codepoints.length,
+      (i) => IconItem(
+        codepoint: codepoints[i],
+        isVisible: isAllVisible,
+        isActive: isAllActive,
+      ),
+    );
   }
 
-  int get length => codepoints.length;
-  bool isVisible(int idx) => _visibilities[idx];
-  bool isActive(int idx) => _activities[idx];
-  int get earliestHidden => _visibilities.indexWhere((v) => !v);
+  int get length => iconItems.length;
+  bool isVisible(int idx) => iconItems[idx].isVisible;
+  bool isActive(int idx) => iconItems[idx].isActive;
+  int get earliestHidden =>
+      iconItems.indexWhere((iconItem) => !iconItem.isActive);
 
   void deactivate(int idx) {
-    _activities[idx] = false;
+    iconItems[idx].isActive = false;
   }
 
   void activate(int idx) {
-    _activities[idx] = true;
+    iconItems[idx].isActive = true;
   }
 
   void hide(int idx) {
-    _visibilities[idx] = false;
+    iconItems[idx].isVisible = false;
   }
 
   void show(int idx) {
-    _visibilities[idx] = true;
+    iconItems[idx].isVisible = true;
   }
-
-  
 }
 
 class IconBoard {
+  IconGroup answer; // Icons expected to be filled in
   IconGroup question; // Icons to be filled in
   IconGroup options; // Icons to choose from
   int currQuestionIdx =
       0; // Index of the current icon (wrt to the question IconGroup) to which player must choose the correct icon from the options
 
   IconBoard({
-    @required this.question,
+    @required this.answer,
     @required IconList iconList,
   }) {
     // Copy the icons to be recalled
-    List<int> optionCodepoints = question.codepoints.sublist(0);
+    List<int> optionCodepoints = List<int>.generate(
+      answer.length,
+      (i) => answer.iconItems[i].codepoint,
+    );
+
+    // Create the question group
+    //(codepoints are irrelevant here, but icons used as placeholders)
+    question = IconGroup(
+        codepoints: iconList.getRandomCodepoints(n: answer.length),
+        isAllVisible: false);
 
     // Add in random icons and shuffle
     int newCodepoint;
-    while (optionCodepoints.length < 2 * question.length) {
+    while (optionCodepoints.length < 2 * answer.length) {
       newCodepoint = iconList.getRandomCodepoints(n: 1)[0];
       if (!optionCodepoints.contains(newCodepoint)) {
         optionCodepoints.add(newCodepoint);
@@ -121,7 +145,7 @@ Widget displayGroup(BuildContext context, IconGroup iconGroup, bool isButton) {
   List<List<int>> iconGrid = [];
   for (int idx = 0; idx < iconGroup.length; idx++) {
     if (idx % numIconsPerRow == 0) iconGrid.add([]);
-    iconGrid.last.add(iconGroup.codepoints[idx]);
+    iconGrid.last.add(iconGroup.iconItems[idx].codepoint);
   }
 
   return Padding(
@@ -155,7 +179,7 @@ Widget displayGroup(BuildContext context, IconGroup iconGroup, bool isButton) {
                       )
                     : Icon(
                         IconData(
-                          iconGroup.codepoints[index],
+                          iconGroup.iconItems[index].codepoint,
                           fontFamily: 'MaterialIcons',
                         ),
                       );

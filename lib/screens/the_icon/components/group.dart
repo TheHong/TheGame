@@ -33,7 +33,7 @@ class Group extends StatelessWidget {
     List<List<int>> iconGrid = [];
     for (int idx = 0; idx < iconGroup.length; idx++) {
       if (idx % numIconsPerRow == 0) iconGrid.add([]);
-      iconGrid.last.add(iconGroup.codepoints[idx]);
+      iconGrid.last.add(iconGroup.iconItems[idx].codepoint);
     }
 
     return Consumer<TheIconCore>(builder: (context, iconCore, child) {
@@ -72,7 +72,7 @@ class Group extends StatelessWidget {
                           )
                         : Icon(
                             IconData(
-                              iconGroup.codepoints[index],
+                              iconGroup.iconItems[index].codepoint,
                               fontFamily: 'MaterialIcons',
                             ),
                           );

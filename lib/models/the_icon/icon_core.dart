@@ -30,9 +30,8 @@ class TheIconCore extends GameCore {
     while (!isGameDone) {
       // Generating icons
       currIconBoard = IconBoard(
-        question: IconGroup(
+        answer: IconGroup(
           codepoints: iconList.getRandomCodepoints(n: score.toInt()),
-          isAllVisible: true, // TODO: Change to false in real game
         ),
         iconList: iconList,
       );
@@ -48,17 +47,30 @@ class TheIconCore extends GameCore {
   }
 
   void selectOption(int idxOption) {
-    // Check if correct
     int idxQuestion = currIconBoard.currQuestionIdx;
-    if (currIconBoard.options.codepoints[idxOption] ==
-        currIconBoard.question.codepoints[idxQuestion]) {
-          currIconBoard.options.deactivate(idxOption);
-      currIconBoard.question.show(idxQuestion);
-      currIconBoard.currQuestionIdx =
-          currIconBoard.currQuestionIdx + 1 < currIconBoard.question.length
-              ? currIconBoard.currQuestionIdx + 1
-              : currIconBoard.question.earliestHidden; // TODO: TO TEST
-    }
+    // Set the question element to the option element
+    currIconBoard.question.iconItems[idxQuestion].codepoint =
+        currIconBoard.options.iconItems[idxOption].codepoint;
+    // Show the question element and deactivate option element
+    currIconBoard.question.show(idxQuestion);
+    currIconBoard.options.deactivate(idxOption);
+    // Move the current question to another question element
+    currIconBoard.currQuestionIdx =
+        currIconBoard.currQuestionIdx + 1 < currIconBoard.question.length
+            ? currIconBoard.currQuestionIdx + 1
+            : currIconBoard.question.earliestHidden;
+
+    // Check if correct (Change: Correctness checked when user submits are time runs out)
+    // if (currIconBoard.options.codepoints[idxOption] ==
+    //     currIconBoard.question.codepoints[idxQuestion]) {
+    //   currIconBoard.options.deactivate(idxOption);
+    //   currIconBoard.question.show(idxQuestion);
+    //   currIconBoard.currQuestionIdx =
+    //       currIconBoard.currQuestionIdx + 1 < currIconBoard.question.length
+    //           ? currIconBoard.currQuestionIdx + 1
+    //           : currIconBoard.question.earliestHidden; // TODO: TO TEST
+    //   print(currIconBoard.currQuestionIdx);
+    // }
     notifyListeners();
   }
 
