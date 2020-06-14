@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_app/components/custom_buttons.dart';
 import 'package:game_app/models/the_pitch/pitch_core.dart';
 import 'package:game_app/screens/instructions_screen.dart';
 import 'package:game_app/screens/the_pitch/components/game_title_bar.dart';
@@ -6,7 +7,6 @@ import 'package:game_app/screens/the_pitch/components/key_pressor.dart';
 import 'package:game_app/screens/the_pitch/components/note_icon.dart';
 import 'package:game_app/screens/the_pitch/components/prompter.dart';
 import 'package:game_app/screens/the_pitch/components/bottom_bar.dart';
-import 'package:game_app/components/updator_back_button.dart';
 import 'package:provider/provider.dart';
 
 class PitchGame extends StatefulWidget {

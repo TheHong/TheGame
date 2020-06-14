@@ -60,8 +60,7 @@ class _DevelopersScreenState extends State<DevelopersScreen> {
                 setState(() {
                   userInput.val = value;
                 });
-                if (value == "")
-                  _dialogPrompter(context, userInput, setState);
+                if (value == "") _dialogPrompter(context, userInput, setState);
               },
               onCanceled: () {
                 setState(() {
@@ -104,18 +103,18 @@ class _DevelopersScreenState extends State<DevelopersScreen> {
                 : Colors.green,
           ),
         ),
-        onPressed: () async {
-          if (!_isPressed && userInput.val.isNotEmpty) {
-            _isPressed = true;
-            setState(() {
-              state = "Backing up data...";
-            });
-            await databaseBackupService.backup(userInput.val);
-            setState(() {
-              state = "Successfully backed up at '${userInput.val}'";
-            });
-          }
-        },
+        onPressed: !_isPressed && userInput.val.isNotEmpty
+            ? () async {
+                _isPressed = true;
+                setState(() {
+                  state = "Backing up data...";
+                });
+                await databaseBackupService.backup(userInput.val);
+                setState(() {
+                  state = "Successfully backed up at '${userInput.val}'";
+                });
+              }
+            : null,
       ),
     );
   }
