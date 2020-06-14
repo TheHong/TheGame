@@ -7,27 +7,42 @@ import 'package:provider/provider.dart';
 class Group extends StatelessWidget {
   final IconGroup iconGroup;
   final bool isButton;
-  final double boardPadding;
+  final EdgeInsets groupMargins;
+  final EdgeInsets groupPadding;
   final double iconPadding;
   final int numIconsPerRow;
   final Function onPressed;
   final int highlightID;
+  final double height;
+  final double curveRadius;
+  final Color groupColor;
+  final Color buttonColor;
+
   Group({
     @required this.iconGroup,
     @required this.isButton,
-    @required this.onPressed,
+    this.onPressed,
     this.highlightID = -1,
-    this.boardPadding = 10,
+    this.groupMargins = EdgeInsets.zero,
+    this.groupPadding = EdgeInsets.zero,
+    this.groupColor = Colors.transparent,
+    this.buttonColor,
     this.iconPadding = 8,
     this.numIconsPerRow = 10,
+    this.height,
+    this.curveRadius = 0,
   });
 
   @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
-    double iconSize =
-        (screen.width - 2 * boardPadding - 2 * numIconsPerRow * iconPadding) /
-            numIconsPerRow;
+    double iconSize = (screen.width -
+            (groupMargins.right +
+                groupMargins.left +
+                groupPadding.right +
+                groupPadding.left) -
+            2 * numIconsPerRow * iconPadding) /
+        numIconsPerRow;
 
     // Split icons into rows
     List<List<int>> iconGrid = [];
@@ -38,51 +53,63 @@ class Group extends StatelessWidget {
 
     return Consumer<TheIconCore>(builder: (context, iconCore, child) {
       return Padding(
-        padding: EdgeInsets.all(boardPadding),
-        child: Container(
-          color: Colors.white,
-          height: 2 * iconSize * iconGrid.length,
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            scrollDirection: Axis.vertical,
-            itemCount: iconGrid.length,
-            itemBuilder: (context, rowNum) {
-              return Container(
-                height: iconSize * 2,
-                color: Colors.white,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: iconGrid[rowNum].length,
-                  itemBuilder: (context, index) {
-                    int idxGlobal = rowNum * numIconsPerRow + index;
-                    return isButton
-                        ? MaterialIconButton(
-                            codepoint: iconGrid[rowNum][index],
-                            size: iconSize,
-                            padding: iconPadding,
-                            iconVisibility: iconGroup.isVisible(idxGlobal),
-                            // Change colour if chosen already
-                            color: iconGroup.iconItems[idxGlobal].isChosen
-                                ? Colors.white
-                                : Colors.black,
-                            borderColor: iconGroup.iconItems[idxGlobal].borderColor,
-                            onPressed: iconGroup.isActive(idxGlobal)
-                                ? () {
-                                    onPressed(iconCore, idxGlobal);
-                                    print("Pressed ${iconGroup.iconItems[idxGlobal].codepoint}");
-                                  }
-                                : null,
-                          )
-                        : Icon(
-                            IconData(
-                              iconGroup.iconItems[index].codepoint,
-                              fontFamily: 'MaterialIcons',
-                            ),
-                          );
-                  },
-                ),
-              );
-            },
+        padding: groupMargins,
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(curveRadius)),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(curveRadius)),
+              color: groupColor,
+            ),
+            padding: groupPadding,
+            height: height ??
+                2 * (iconSize * iconGrid.length) +
+                    groupPadding.top +
+                    groupPadding.bottom,
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              scrollDirection: Axis.vertical,
+              itemCount: iconGrid.length,
+              itemBuilder: (context, rowNum) {
+                return Container(
+                  height: iconSize * 2,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: iconGrid[rowNum].length,
+                    itemBuilder: (context, index) {
+                      int idxGlobal = rowNum * numIconsPerRow + index;
+                      return isButton
+                          ? MaterialIconButton(
+                              codepoint: iconGrid[rowNum][index],
+                              size: iconSize,
+                              padding: iconPadding,
+                              iconVisibility: iconGroup.isVisible(idxGlobal),
+                              backgroundColor: buttonColor,
+                              // Change colour if chosen already
+                              color: iconGroup.iconItems[idxGlobal].isChosen
+                                  ? Colors.black26
+                                  : Colors.black,
+                              borderColor:
+                                  iconGroup.iconItems[idxGlobal].borderColor,
+                              onPressed: iconGroup.isActive(idxGlobal)
+                                  ? () {
+                                      onPressed(iconCore, idxGlobal);
+                                      print(
+                                          "Pressed ${iconGroup.iconItems[idxGlobal].codepoint}");
+                                    }
+                                  : null,
+                            )
+                          : Icon(
+                              IconData(
+                                iconGroup.iconItems[index].codepoint,
+                                fontFamily: 'MaterialIcons',
+                              ),
+                            );
+                    },
+                  ),
+                );
+              },
+            ),
           ),
         ),
       );

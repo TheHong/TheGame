@@ -38,8 +38,10 @@ class IconList {
   int getCodepoint(int idx) =>
       int.parse(iconInfo[idx].split(" ")[1], radix: 16);
 
+  int getRandomCodepoint() => getCodepoint(_random.nextInt(length));
+
   List<int> getRandomCodepoints({int n}) =>
-      List<int>.generate(n, (_) => getCodepoint(_random.nextInt(length)));
+      List<int>.generate(n, (_) => getRandomCodepoint());
 }
 
 class IconItem {
@@ -105,6 +107,7 @@ class IconBoard {
   IconBoard({
     @required this.answer,
     @required IconList iconList,
+    @required double optionsFactor,
   }) {
     // Copy the icons to be recalled
     List<int> optionCodepoints = List<int>.generate(
@@ -116,16 +119,15 @@ class IconBoard {
     //(codepoints are irrelevant here, but icons used as placeholders)
     question = IconGroup(
       codepoints: iconList.getRandomCodepoints(n: answer.length),
-      isAllVisible: true,
+      isAllVisible: false,
     );
     question.iconItems.first.borderColor = Constant.SELECT_COLOUR_ICON;
 
     // Add in random icons and shuffle
     int newCodepoint;
-    while (optionCodepoints.length < 2 * answer.length) {
-      newCodepoint = iconList.getRandomCodepoints(n: 1)[0];
+    while (optionCodepoints.length < optionsFactor * answer.length) {
+      newCodepoint = iconList.getRandomCodepoint();
       if (!optionCodepoints.contains(newCodepoint)) {
-        // TODO: Test this
         optionCodepoints.add(newCodepoint);
       }
     }

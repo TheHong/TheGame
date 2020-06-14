@@ -114,8 +114,8 @@ class _HomeState extends State<Home> {
                               ),
                               gameCard(
                                 name: "The Icon",
-                                subtitle: "Coming Soon",
-                                icon: Icons.face,
+                                subtitle: "Remembering order",
+                                icon: MaterialCommunityIcons.face,
                                 routeStr: '/the_icon',
                                 numDecPlaces: 0,
                                 colorGradient: [
@@ -123,6 +123,18 @@ class _HomeState extends State<Home> {
                                   Colors.red[100]
                                 ],
                                 gameCommands: gameCommands["The Icon"],
+                              ),
+                              gameCard(
+                                name: "The Icons",
+                                subtitle: "The Icon, but with more",
+                                icon: MaterialCommunityIcons.face_outline,
+                                routeStr: '/waiting_screen',
+                                numDecPlaces: 0,
+                                colorGradient: [
+                                  Colors.red[300],
+                                  Colors.purple[200]
+                                ],
+                                gameCommands: gameCommands["The Icons"],
                               ),
                               gameCard(
                                 name: "The Sign",
@@ -187,6 +199,10 @@ class _HomeState extends State<Home> {
       int numDecPlaces,
       List<Color> colorGradient,
       Map<String, bool> gameCommands}) {
+    assert(
+      gameCommands != null,
+      "Check if '$name' is included in Constants.GAMES",
+    );
     return Builder(
       builder: (context) => Padding(
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),

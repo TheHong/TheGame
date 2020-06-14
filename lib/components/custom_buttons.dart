@@ -57,7 +57,7 @@ class MaterialIconButton extends StatelessWidget {
   final Color disabledColor;
   final Color borderColor;
   final bool iconVisibility;
-  final Color backgroundColor = Colors.black12;
+  final Color backgroundColor;
 
   const MaterialIconButton({
     @required this.codepoint,
@@ -66,6 +66,7 @@ class MaterialIconButton extends StatelessWidget {
     this.color = Colors.black,
     this.disabledColor = Colors.black26,
     this.borderColor = Colors.transparent,
+    this.backgroundColor = Colors.transparent,
     this.padding = 8.0,
     this.iconVisibility = true,
   });

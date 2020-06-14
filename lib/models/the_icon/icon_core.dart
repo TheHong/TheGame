@@ -14,7 +14,8 @@ class TheIconCore extends GameCore {
   IconList iconList = IconList();
   IconBoard currIconBoard;
   Phase phase = Phase.preGame;
-  double score = 10; // The score represents the round number
+  double score = 25; // The score represents the round number
+  double optionsFactor = 1; // Ratio of options to questions
 
   @override
   String getGameName() => "The Icon";
@@ -37,6 +38,7 @@ class TheIconCore extends GameCore {
           codepoints: iconList.getRandomCodepoints(n: score.toInt()),
         ),
         iconList: iconList,
+        optionsFactor: optionsFactor,
       );
       notifyListeners();
 

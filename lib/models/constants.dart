@@ -12,6 +12,7 @@ class Constant {
     "The Pitch",
     "The Trill",
     "The Icon",
+    "The Icons",
     "The Bored",
     "The Sign",
   ];
@@ -65,4 +66,6 @@ class Constant {
   // The ICON ================================================================
   static const String INSTRUCTIONS_ICON = "";
   static const Color SELECT_COLOUR_ICON = Colors.blue;
+  static const double QUESTIONS_SIZE_FACTOR_ICON = 0.2; // With respect to height
+  static const double OPTIONS_SIZE_FACTOR_ICON = 0.2; // With respect to height
 }
