@@ -1,15 +1,22 @@
 # TheGame
-Mobile Application with various games. Below is an overview of the available games.
+Mobile Application with various games. Currently working on Version 2.0.0. The mobile application is developed using Dart language with the Flutter toolkit and makes use of Google Firebase's Cloud Firestore database to store historical results as well as to allow for remote disabling of certain games in the cases of urgent bug fixes. 
+
+Below is an overview of the available games. 
 
 | Game | Description|
 | :-------: | ---------|
 | The Pitch | Player attempts to determine the note corresponding to tones as quickly as possible. |
 | The Trill | Player attempts to trill (using two fingers of same hands to alternating tapping) as quickly as possible. |
 | The Icon  | Player attempts to remember and recall the order of icons shown. (*coming soon*) |
+| The Icons  | Player attempts to remember and recall the order and visuals of icons shown. (*coming soon*) |
+| The Sign  | Player attempts to be able to perform English<->ASL translation. (*coming soon*) |
+
+![alt text](notes/sample_screen.png "Sample of what Version 2.0.0 may look like")
+
+## Releases (and their major updates)
 
 In the following releases, the game is played (and tested) on phones of two people.
 
-## Releases (and their major updates)
 ### Version 1.3.0
 - Make The Trill keys more sensitive to presses
 - Additional score also displayed in results screen (if applicable)
