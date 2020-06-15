@@ -6,7 +6,7 @@ class Constant {
   static const bool IS_DEBUG = !kReleaseMode;
   static const bool IS_DEVELOPER =
       false; // Only true if want to grant access to developer suite in release mode
-  static const String VERSION = "Version 1.3.0";
+  static const String VERSION = "Version 2.0.0";
   static const int LEADERBOARD_SIZE = 10;
   static const List<String> GAMES = [
     "The Pitch",

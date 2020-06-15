@@ -6,9 +6,17 @@ Find way to export (and maybe use developer suite as backup export button?)
 Vibration
 Sometimes counter for The Trill does not start
 Restrict access to datastore
+Have a seperate document for storage
 Buttons have a disabled colour field. Use it
 Keep in mind difference between padding and margins. Change some variable names.
 Why does gamecore not get disposed when not using a Consumer. Compare commits 5f2618d1 with 07c26f74.
 
-The Icon
-The Sign
+wrt Icon
+Flutter error not caught when exit
+Make countdown more obvious
+Create a midtext that says info including amount of time given for remember and amount given to recall
+Centralized the icons (instead of flush left)
+Instructions
+clean up materialbutton arguments
+feedback at end to show correct answers
+Take into account The Icons
