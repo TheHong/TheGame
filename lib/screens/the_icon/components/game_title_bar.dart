@@ -24,7 +24,7 @@ class GameTitleBar extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         Text(
-                          "Round",
+                          "  Round  ",
                           style: TextStyle(fontSize: 10.0),
                         ),
                         Text(
@@ -38,13 +38,26 @@ class GameTitleBar extends StatelessWidget {
                     child: Center(
                       child: Text(
                         !iconCore.isGameDone
-                            ? !iconCore.isRoundDone
-                                ? "${iconCore.counter.currCount}"
-                                : ""
+                            ? !iconCore.isRoundDone ? "${iconCore.prompt}" : ""
                             : "Final Score: ${iconCore.score.toStringAsFixed(0)}",
-                        style: TextStyle(
-                            fontSize: 30.0, color: iconCore.counter.colour),
+                        style: TextStyle(fontSize: 30.0),
                       ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: !iconCore.isGameDone,
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          "Time Left",
+                          style: TextStyle(fontSize: 10.0),
+                        ),
+                        Text(
+                          "${iconCore.counter.currCount}",
+                          style: TextStyle(
+                              fontSize: 15.0, color: iconCore.counter.colour),
+                        ),
+                      ],
                     ),
                   ),
                 ],

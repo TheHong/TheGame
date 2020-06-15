@@ -114,7 +114,7 @@ class _HomeState extends State<Home> {
                               ),
                               gameCard(
                                 name: "The Icon",
-                                subtitle: "Remembering order",
+                                subtitle: "What would you like to order?",
                                 icon: MaterialCommunityIcons.face,
                                 routeStr: '/the_icon',
                                 numDecPlaces: 0,
@@ -126,7 +126,7 @@ class _HomeState extends State<Home> {
                               ),
                               gameCard(
                                 name: "The Icons",
-                                subtitle: "The Icon, but with more",
+                                subtitle: "The Icon . . . but more",
                                 icon: MaterialCommunityIcons.face_outline,
                                 routeStr: '/waiting_screen',
                                 numDecPlaces: 0,

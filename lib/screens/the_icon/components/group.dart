@@ -12,17 +12,18 @@ class Group extends StatelessWidget {
   final double iconPadding;
   final int numIconsPerRow;
   final Function onPressed;
-  final int highlightID;
   final double height;
   final double curveRadius;
   final Color groupColor;
   final Color buttonColor;
+  final Color disabledIconColor;
+  final Color iconColor;
+  final Color chosenIconColor;
 
   Group({
     @required this.iconGroup,
     @required this.isButton,
     this.onPressed,
-    this.highlightID = -1,
     this.groupMargins = EdgeInsets.zero,
     this.groupPadding = EdgeInsets.zero,
     this.groupColor = Colors.transparent,
@@ -31,6 +32,9 @@ class Group extends StatelessWidget {
     this.numIconsPerRow = 10,
     this.height,
     this.curveRadius = 0,
+    this.disabledIconColor = Colors.black12,
+    this.iconColor = Colors.black,
+    this.chosenIconColor = Colors.black26,
   });
 
   @override
@@ -85,13 +89,14 @@ class Group extends StatelessWidget {
                               padding: iconPadding,
                               iconVisibility: iconGroup.isVisible(idxGlobal),
                               backgroundColor: buttonColor,
+                              disabledColor: disabledIconColor,
                               // Change colour if chosen already
                               color: iconGroup.iconItems[idxGlobal].isChosen
-                                  ? Colors.black26
-                                  : Colors.black,
+                                  ? chosenIconColor
+                                  : iconColor,
                               borderColor:
                                   iconGroup.iconItems[idxGlobal].borderColor,
-                              onPressed: iconGroup.isActive(idxGlobal)
+                              onPressed: iconCore.phase == Phase.RECALL
                                   ? () {
                                       onPressed(iconCore, idxGlobal);
                                       print(

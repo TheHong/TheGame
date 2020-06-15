@@ -13,7 +13,7 @@ class BottomBar extends StatelessWidget {
           children: <Widget>[
             // Start button
             Visibility(
-              visible: !iconCore.isGameStarted,
+              visible: iconCore.phase == Phase.PRE_GAME,
               child: OneShotButton(
                 child: Text("Begin", style: TextStyle(fontSize: 25)),
                 color: Colors.pinkAccent[100],
@@ -23,17 +23,17 @@ class BottomBar extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: iconCore.isGameStarted,
+              visible: [Phase.REMEMBER, Phase.RECALL]
+                  .contains(iconCore.phase),
               child: OneShotButton(
-                child: Text("Submit", style: TextStyle(fontSize: 25)),
+                child: Text("${iconCore.bottomText}",
+                    style: TextStyle(fontSize: 25)),
                 color: Colors.pinkAccent[100],
                 onPressed: () {
-                  print("Submit");
-                  iconCore.evaluateAnswer();
+                  iconCore.boolInterrupt.raise();
                 },
               ),
             ),
-            // Start button
             // End game button
             endgameWidget(context, iconCore, Colors.pinkAccent[100]),
           ],

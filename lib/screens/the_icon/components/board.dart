@@ -15,48 +15,67 @@ class _BoardState extends State<Board> {
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
     return Consumer<TheIconCore>(builder: (context, iconCore, child) {
-      return iconCore.currIconBoard == null
-          ? Container(
-              child: SpinKitPouringHourglass(
-                color: Colors.white,
-                size: 100.0,
-              ),
-            )
-          : Column(
-              children: <Widget>[
-                Group(
-                    iconGroup: iconCore.currIconBoard.question,
-                    isButton: true,
-                    height: screen.height * Constant.QUESTIONS_SIZE_FACTOR_ICON,
-                    groupMargins: EdgeInsets.symmetric(horizontal: 10),
-                    groupPadding: EdgeInsets.all(5),
-                    curveRadius: 30,
-                    numIconsPerRow: 10,
-                    // groupColor: Colors.white,
-                    highlightID: iconCore.currIconBoard.currQuestionIdx,
-                    buttonColor: Colors.black26,
-                    onPressed: (TheIconCore iconCore, int idx) {
-                      iconCore.selectQuestion(idx);
-                    }),
-                Group(
-                    iconGroup: iconCore.currIconBoard.options,
-                    isButton: true,
-                    height: screen.height * Constant.OPTIONS_SIZE_FACTOR_ICON,
-                    groupMargins: EdgeInsets.all(25),
-                    groupPadding: EdgeInsets.all(10),
-                    groupColor: Colors.white,
-                    curveRadius: 25,
-                    numIconsPerRow: 10,
-                    onPressed: (TheIconCore iconCore, int idx) {
-                      iconCore.selectOption(idx);
-                    }),
-                Group(
-                  iconGroup: iconCore.currIconBoard.answer,
-                  isButton: true,
-                  numIconsPerRow: 15,
-                ),
-              ],
-            );
+      return iconCore.phase == Phase.PRE_GAME
+          ? Expanded(child: Container())
+          : iconCore.phase == Phase.LOADING
+              ? Container(
+                  child: SpinKitPouringHourglass(
+                    color: Colors.white,
+                    size: 100.0,
+                  ),
+                )
+              : Column(
+                  children: <Widget>[
+                    Visibility(
+                      maintainSize: true,
+                      maintainState: true,
+                      maintainAnimation: true,
+                      visible: [Phase.REMEMBER, Phase.RECALL, Phase.EVALUATE]
+                          .contains(iconCore.phase),
+                      child: Group(
+                          iconGroup: iconCore.phase == Phase.REMEMBER
+                              ? iconCore.currIconBoard.answer
+                              : iconCore.currIconBoard.question,
+                          isButton: true,
+                          height: screen.height *
+                              Constant.QUESTIONS_SIZE_FACTOR_ICON,
+                          groupMargins: EdgeInsets.symmetric(horizontal: 10),
+                          groupPadding: EdgeInsets.all(5),
+                          curveRadius: 30,
+                          numIconsPerRow: 10,
+                          iconColor: Colors.white,
+                          disabledIconColor: Colors.white,
+                          buttonColor: Colors.black26,
+                          onPressed: (TheIconCore iconCore, int idx) {
+                            iconCore.selectQuestion(idx);
+                          }),
+                    ),
+                    Visibility(
+                      maintainSize: true,
+                      maintainState: true,
+                      maintainAnimation: true,
+                      visible: iconCore.phase == Phase.RECALL,
+                      child: Group(
+                          iconGroup: iconCore.currIconBoard.options,
+                          isButton: true,
+                          height:
+                              screen.height * Constant.OPTIONS_SIZE_FACTOR_ICON,
+                          groupMargins: EdgeInsets.all(25),
+                          groupPadding: EdgeInsets.all(10),
+                          groupColor: Colors.white,
+                          curveRadius: 25,
+                          numIconsPerRow: 10,
+                          onPressed: (TheIconCore iconCore, int idx) {
+                            iconCore.selectOption(idx);
+                          }),
+                    ),
+                    Group(
+                      iconGroup: iconCore.currIconBoard.answer,
+                      isButton: true,
+                      numIconsPerRow: 15,
+                    ),
+                  ],
+                );
     });
   }
 }

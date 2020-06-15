@@ -29,6 +29,7 @@ class Counter {
       bool isRedActive = true}) async {
     try {
       for (int i = startCount - 1; i >= 0; i--) {
+        // TODO: Could make use of null-aware operators below
         if (boolInterrupt is BoolInterrupt && boolInterrupt.val) break;
         // _currCount is only updated if other widgets are notified
         if (notifier is Function) {
@@ -194,10 +195,10 @@ abstract class GameCore extends ChangeNotifier {
 
   @override
   void dispose() {
-    super.dispose();
     isGameDone = true; // Ensure background processes end
     boolInterrupt.raise(); // Ensure background processes end
     print(
         "$this successfully disposed. (Stats${isStatsUpdated ? " " : " not "}updated)");
+    super.dispose();
   }
 }

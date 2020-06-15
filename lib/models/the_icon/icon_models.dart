@@ -48,13 +48,11 @@ class IconItem {
   int codepoint;
   int idxLink = -1; // To relate icon item to a particular index
   bool isVisible;
-  bool isActive;
   bool isChosen = false;
   Color borderColor = Colors.transparent;
   IconItem({
     @required this.codepoint,
     this.isVisible = true,
-    this.isActive = true,
   });
 }
 
@@ -64,29 +62,18 @@ class IconGroup {
   IconGroup({
     @required List<int> codepoints,
     bool isAllVisible = true,
-    bool isAllActive = true,
   }) {
     iconItems = List<IconItem>.generate(
       codepoints.length,
       (i) => IconItem(
         codepoint: codepoints[i],
         isVisible: isAllVisible,
-        isActive: isAllActive,
       ),
     );
   }
 
   int get length => iconItems.length;
   bool isVisible(int idx) => iconItems[idx].isVisible;
-  bool isActive(int idx) => iconItems[idx].isActive;
-
-  void deactivate(int idx) {
-    iconItems[idx].isActive = false;
-  }
-
-  void activate(int idx) {
-    iconItems[idx].isActive = true;
-  }
 
   void hide(int idx) {
     iconItems[idx].isVisible = false;
@@ -149,65 +136,4 @@ class IconBoard {
           );
     return nextIdx;
   }
-}
-
-Widget displayGroup(BuildContext context, IconGroup iconGroup, bool isButton) {
-  // TODO: tobe deleted
-  const double boardPadding = 10;
-  const double iconPadding = 8;
-  const int numIconsPerRow = 10;
-  Size screen = MediaQuery.of(context).size;
-  double iconSize =
-      (screen.width - 2 * boardPadding - 2 * numIconsPerRow * iconPadding) /
-          numIconsPerRow;
-
-  // Split icons into rows
-  List<List<int>> iconGrid = [];
-  for (int idx = 0; idx < iconGroup.length; idx++) {
-    if (idx % numIconsPerRow == 0) iconGrid.add([]);
-    iconGrid.last.add(iconGroup.iconItems[idx].codepoint);
-  }
-
-  return Padding(
-    padding: const EdgeInsets.all(boardPadding),
-    child: Container(
-      height: 3 * iconSize * iconGrid.length,
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: iconGrid.length,
-        itemBuilder: (context, rowNum) {
-          return Container(
-            height: iconSize * 2,
-            color: Colors.red[50],
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: iconGrid[rowNum].length,
-              itemBuilder: (context, index) {
-                int idxGlobal = rowNum * numIconsPerRow + index;
-                return isButton
-                    ? MaterialIconButton(
-                        codepoint: iconGrid[rowNum][index],
-                        size: iconSize,
-                        padding: iconPadding,
-                        iconVisibility: iconGroup.isVisible(idxGlobal),
-                        onPressed: iconGroup.isActive(idxGlobal)
-                            ? () {
-                                print("${iconGrid[rowNum][index]} preessed!");
-                                iconGroup.deactivate(idxGlobal);
-                              }
-                            : null,
-                      )
-                    : Icon(
-                        IconData(
-                          iconGroup.iconItems[index].codepoint,
-                          fontFamily: 'MaterialIcons',
-                        ),
-                      );
-              },
-            ),
-          );
-        },
-      ),
-    ),
-  );
 }

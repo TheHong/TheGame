@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/game_core.dart';
 import 'package:game_app/models/the_icon/icon_models.dart';
 
 enum Phase {
-  preGame,
-  preRound,
-  remember,
-  recall,
+  PRE_GAME,
+  LOADING,
+  PRE_ROUND,
+  REMEMBER,
+  RECALL,
+  EVALUATE,
 }
 
 class TheIconCore extends GameCore {
   IconList iconList = IconList();
   IconBoard currIconBoard;
-  Phase phase = Phase.preGame;
-  double score = 25; // The score represents the round number
+  Phase phase = Phase.PRE_GAME;
+  double score = 0; // The score represents the number of rounds COMPLETED
   double optionsFactor = 1; // Ratio of options to questions
+  int _timePerRoundStart = 3;
+  int _timePerRoundEnd = 3;
+  String bottomText = "";
+  int get rememberTime => (3 * (score + 1)).toInt();
+  int get recallTime => (5 * (score + 1)).toInt();
 
   @override
   String getGameName() => "The Icon";
@@ -28,25 +36,55 @@ class TheIconCore extends GameCore {
 
   @override
   Future game() async {
+    phase = Phase.LOADING;
+    notifyListeners();
     await iconList.loadIconInfo();
+    isGameStarted = true;
+
     while (!isGameDone) {
-      isGameStarted = true;
+      phase = Phase.PRE_ROUND;
+      prompt = "You got ${rememberTime}s!";
 
       // Generating icons
       currIconBoard = IconBoard(
         answer: IconGroup(
-          codepoints: iconList.getRandomCodepoints(n: score.toInt()),
+          codepoints: iconList.getRandomCodepoints(n: (score + 1).toInt()),
         ),
         iconList: iconList,
         optionsFactor: optionsFactor,
       );
       notifyListeners();
 
+      // Counts down for the user right before round begins
+      await counter.run(_timePerRoundStart,
+          notifier: notifyListeners, isRedActive: false);
+
       // Remembering phase
+      phase = Phase.REMEMBER;
+      prompt = "Remember!";
+      bottomText = "Ready to Recall";
+      await counter.run(rememberTime,
+          notifier: notifyListeners, boolInterrupt: boolInterrupt);
+      boolInterrupt.reset();
 
       // Recalling Phase
+      phase = Phase.RECALL;
+      prompt = "Recall!";
+      bottomText = "Submit";
+      await counter.run(recallTime,
+          notifier: notifyListeners, boolInterrupt: boolInterrupt);
+      boolInterrupt.reset();
 
-      isGameDone = true; // To be removed
+      // Evaluation Phase
+      phase = Phase.EVALUATE;
+      if (evaluateAnswer()) {
+        prompt = "Correct!";
+        score += 1;
+      } else {
+        isGameDone = true;
+      }
+      // notifyListeners()
+      await counter.run(_timePerRoundEnd);
     }
     print("Game Complete!");
   }
@@ -54,8 +92,11 @@ class TheIconCore extends GameCore {
   void selectQuestion(int idx) {
     currIconBoard.question.iconItems[currIconBoard.currQuestionIdx]
         .borderColor = Colors.transparent;
-    currIconBoard.question.iconItems[idx].borderColor =
-        Constant.SELECT_COLOUR_ICON;
+    // Only change border colour if there is still an unanswered question item
+    if (idx != -1) {
+      currIconBoard.question.iconItems[idx].borderColor =
+          Constant.SELECT_COLOUR_ICON;
+    }
     currIconBoard.currQuestionIdx = idx;
     notifyListeners();
   }
@@ -111,7 +152,8 @@ class TheIconCore extends GameCore {
     notifyListeners();
   }
 
-  void evaluateAnswer() {
+  bool evaluateAnswer() {
+    bool isCorrect = true;
     List<bool> correct = List<bool>.generate(
       currIconBoard.answer.length,
       (i) =>
@@ -123,8 +165,10 @@ class TheIconCore extends GameCore {
     for (int i = 0; i < currIconBoard.answer.length; i++) {
       currIconBoard.question.iconItems[i].borderColor =
           correct[i] ? Colors.green : Colors.red;
+      isCorrect = isCorrect && correct[i];
     }
     notifyListeners();
+    return isCorrect;
   }
 
   @override
