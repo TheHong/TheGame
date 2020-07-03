@@ -11,7 +11,7 @@ Below is an overview of the available games.
 | The Icons  | Player attempts to remember and recall the order and visuals of icons shown. (*coming soon*) |
 | The Sign  | Player attempts to be able to perform English<->ASL translation. (*coming soon*) |
 
-<img src="notes/sample_screen.png" width="30%" height="30%" alt="Sample of what Version 2.0.0 may look like">
+<img src="notes/sample_screen.png" width="30%" height="30%" title="Sample of what Version 2.0.0 may look like">
 
 ## Releases (and their major updates)
 
