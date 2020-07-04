@@ -2,6 +2,10 @@
 
 ## Branched out of master to develop the new game
 
+This branch is devoted to developing two similar games: The Icon and The Icons.
+
+It also introduces a upcoming game: The Sign.
+
 # TheGame
 Mobile Application with various games. Currently working on Version 2.0.0. The mobile application is developed using Dart language with the Flutter toolkit and makes use of Google Firebase's Cloud Firestore database to store historical results as well as to allow for remote disabling of certain games in the cases of urgent bug fixes. 
 

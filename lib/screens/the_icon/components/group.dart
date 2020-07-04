@@ -5,36 +5,38 @@ import 'package:game_app/models/the_icon/icon_models.dart';
 import 'package:provider/provider.dart';
 
 class Group extends StatelessWidget {
-  final IconGroup iconGroup;
-  final bool isButton;
-  final EdgeInsets groupMargins;
+  /// A Group object displays an IconGroup. 
+
+  final IconGroup iconGroup;  // IconGroup to be displayed
+  final bool isButton; // TODO: To remove
+  final Function onPressed; 
+  final double height; 
+  final EdgeInsets groupMargins; 
   final EdgeInsets groupPadding;
-  final double iconPadding;
+  final double iconPadding; // Padding between icon and the pressable region
+  final Color groupColor; // Background colour of the group
+  final Color buttonColor; // Background colour of the buttons
+  final Color iconColor; // Colour of the button icons
+  final Color disabledIconColor; // Colour of the button icons when disabled
+  final Color chosenIconColor; // Background colour of button icon when chosen
   final int numIconsPerRow;
-  final Function onPressed;
-  final double height;
-  final double curveRadius;
-  final Color groupColor;
-  final Color buttonColor;
-  final Color disabledIconColor;
-  final Color iconColor;
-  final Color chosenIconColor;
+  final double curveRadius; // Curve radius of the group
 
   Group({
     @required this.iconGroup,
     @required this.isButton,
     this.onPressed,
+    this.height,
     this.groupMargins = EdgeInsets.zero,
     this.groupPadding = EdgeInsets.zero,
+    this.iconPadding = 8,
     this.groupColor = Colors.transparent,
     this.buttonColor,
-    this.iconPadding = 8,
-    this.numIconsPerRow = 10,
-    this.height,
-    this.curveRadius = 0,
-    this.disabledIconColor = Colors.black12,
     this.iconColor = Colors.black,
+    this.disabledIconColor = Colors.black12,
     this.chosenIconColor = Colors.black26,
+    this.numIconsPerRow = 10,
+    this.curveRadius = 0,
   });
 
   @override
@@ -70,14 +72,14 @@ class Group extends StatelessWidget {
                 2 * (iconSize * iconGrid.length) +
                     groupPadding.top +
                     groupPadding.bottom,
-            child: ListView.builder(
+            child: ListView.builder( // Building a row
               padding: EdgeInsets.zero,
               scrollDirection: Axis.vertical,
               itemCount: iconGrid.length,
               itemBuilder: (context, rowNum) {
                 return Container(
                   height: iconSize * 2,
-                  child: ListView.builder(
+                  child: ListView.builder( // Building within a row
                     scrollDirection: Axis.horizontal,
                     itemCount: iconGrid[rowNum].length,
                     itemBuilder: (context, index) {

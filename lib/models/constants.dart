@@ -63,9 +63,12 @@ class Constant {
           " The green marker represents level needed to make it onto the leaderboard. The other three represents the bronze, silver, and gold results." +
           " You will have $TIME_PER_ROUND_TRILL seconds to do as many taps as possible.";
 
-  // The ICON ================================================================
-  static const String INSTRUCTIONS_ICON = "";
+  // The Icon and The Icons ===================================================
   static const Color SELECT_COLOUR_ICON = Colors.blue;
-  static const double QUESTIONS_SIZE_FACTOR_ICON = 0.2; // With respect to height
+  static const double QUESTIONS_SIZE_FACTOR_ICON =
+      0.2; // With respect to height
   static const double OPTIONS_SIZE_FACTOR_ICON = 0.2; // With respect to height
+  static const double OPTIONS_FACTOR_ICONS = 2;
+  static const String INSTRUCTIONS_ICON = "";
+  static const String INSTRUCTIONS_ICONS = "";
 }

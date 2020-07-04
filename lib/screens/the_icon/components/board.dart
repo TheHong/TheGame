@@ -6,6 +6,7 @@ import 'package:game_app/screens/the_icon/components/group.dart';
 import 'package:provider/provider.dart';
 
 class Board extends StatefulWidget {
+  /// A Group object displays the current IconBoard given by the IconCore.
   @override
   _BoardState createState() => _BoardState();
 }
@@ -16,7 +17,7 @@ class _BoardState extends State<Board> {
     Size screen = MediaQuery.of(context).size;
     return Consumer<TheIconCore>(builder: (context, iconCore, child) {
       return iconCore.phase == Phase.PRE_GAME
-          ? Expanded(child: Container()) // Check if this is doing anything
+          ? Expanded(child: Container()) // TODO: Check if this is doing anything
           : iconCore.phase == Phase.LOADING
               ? Container(
                   child: SpinKitPouringHourglass(
@@ -69,7 +70,7 @@ class _BoardState extends State<Board> {
                             iconCore.selectOption(idx);
                           }),
                     ),
-                    Group(
+                    Group( // TODO: For debugging purposes
                       iconGroup: iconCore.currIconBoard.answer,
                       isButton: true,
                       numIconsPerRow: 15,

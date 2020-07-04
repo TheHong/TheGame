@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/game_core.dart';
 import 'package:game_app/models/the_icon/icon_models.dart';
@@ -134,7 +133,7 @@ class TheIconCore extends GameCore {
         pastQ.idxLink = -1;
       }
 
-      // Case 3: Otherwise, continue with rest of code
+      // Case 3: Otherwise, continue with rest of this function
 
       // Set the question element to have same icon as the option element
       questionItem.codepoint = optionItem.codepoint;
@@ -153,15 +152,17 @@ class TheIconCore extends GameCore {
   }
 
   bool evaluateAnswer() {
+
     bool isCorrect = true;
     List<bool> correct = List<bool>.generate(
       currIconBoard.answer.length,
       (i) =>
-          currIconBoard.question.iconItems[i].idxLink != -1 &&
+          currIconBoard.question.iconItems[i].idxLink != -1 && // A link exists
           currIconBoard.answer.iconItems[i].codepoint ==
-              currIconBoard.question.iconItems[i].codepoint,
+              currIconBoard.question.iconItems[i].codepoint, // Link is correct
     );
 
+    // Change border colours to reflect evaluation results
     for (int i = 0; i < currIconBoard.answer.length; i++) {
       currIconBoard.question.iconItems[i].borderColor =
           correct[i] ? Colors.green : Colors.red;
@@ -175,4 +176,12 @@ class TheIconCore extends GameCore {
   String getDebugInfo() {
     return "";
   }
+}
+
+class TheIconsCore extends TheIconCore {
+  double optionsFactor = Constant.OPTIONS_FACTOR_ICONS;
+  @override
+  String getGameName() => "The Icons";
+  @override
+  String getInstructions() => Constant.INSTRUCTIONS_ICONS;
 }

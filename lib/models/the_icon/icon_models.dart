@@ -17,7 +17,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:game_app/components/custom_buttons.dart';
 import 'package:game_app/models/constants.dart';
 
 class IconList {
