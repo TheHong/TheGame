@@ -14,7 +14,7 @@ class IconGame extends StatefulWidget {
 
 class _IconGameState extends State<IconGame> {
   TheIconCore iconCore = TheIconCore();
-  Color backgroundColor = Colors.deepPurple;
+  Color backgroundColor = Colors.blue[100];
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +45,7 @@ class _IconGameState extends State<IconGame> {
             children: <Widget>[
               GameTitleBar(),
               Board(),
+              Expanded(child: Container()),
               BottomBar(),
             ],
           ),

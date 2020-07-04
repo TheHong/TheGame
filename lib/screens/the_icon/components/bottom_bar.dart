@@ -23,11 +23,16 @@ class BottomBar extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: [Phase.REMEMBER, Phase.RECALL]
-                  .contains(iconCore.phase),
+              visible: [Phase.REMEMBER, Phase.RECALL].contains(iconCore.phase),
               child: OneShotButton(
-                child: Text("${iconCore.bottomText}",
-                    style: TextStyle(fontSize: 25)),
+                child: Column(
+                  children: <Widget>[
+                    Text("${iconCore.prompt}"),
+                    Text("${iconCore.counter.currCount}",
+                        style: TextStyle(fontSize: 25)),
+                  ],
+                ),
+                padding: EdgeInsets.symmetric(vertical: 5.0),
                 color: Colors.pinkAccent[100],
                 onPressed: () {
                   iconCore.boolInterrupt.raise();

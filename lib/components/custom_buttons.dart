@@ -7,6 +7,7 @@ class OneShotButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color color;
   final Color disabledColor;
+  final EdgeInsets padding;
 
   bool _isPressed = false;
 
@@ -15,12 +16,14 @@ class OneShotButton extends StatelessWidget {
     @required this.onPressed,
     this.color = Colors.black,
     this.disabledColor = Colors.black26,
+    this.padding,
   });
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
       child: child,
+      padding: padding,
       color: color,
       disabledColor: disabledColor,
       onPressed: () {

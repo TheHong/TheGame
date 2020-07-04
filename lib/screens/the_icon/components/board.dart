@@ -17,7 +17,8 @@ class _BoardState extends State<Board> {
     Size screen = MediaQuery.of(context).size;
     return Consumer<TheIconCore>(builder: (context, iconCore, child) {
       return iconCore.phase == Phase.PRE_GAME
-          ? Expanded(child: Container()) // TODO: Check if this is doing anything
+          ? Expanded(
+              child: Container()) // TODO: Check if this is doing anything
           : iconCore.phase == Phase.LOADING
               ? Container(
                   child: SpinKitPouringHourglass(
@@ -34,22 +35,24 @@ class _BoardState extends State<Board> {
                       visible: [Phase.REMEMBER, Phase.RECALL, Phase.EVALUATE]
                           .contains(iconCore.phase),
                       child: Group(
-                          iconGroup: iconCore.phase == Phase.REMEMBER
-                              ? iconCore.currIconBoard.answer
-                              : iconCore.currIconBoard.question,
-                          isButton: true,
-                          height: screen.height *
-                              Constant.QUESTIONS_SIZE_FACTOR_ICON,
-                          groupMargins: EdgeInsets.symmetric(horizontal: 10),
-                          groupPadding: EdgeInsets.all(5),
-                          curveRadius: 30,
-                          numIconsPerRow: 10,
-                          iconColor: Colors.white,
-                          disabledIconColor: Colors.white,
-                          buttonColor: Colors.black26,
-                          onPressed: (TheIconCore iconCore, int idx) {
-                            iconCore.selectQuestion(idx);
-                          }),
+                        iconGroup: iconCore.phase == Phase.REMEMBER
+                            ? iconCore.currIconBoard.answer
+                            : iconCore.currIconBoard.question,
+                        isButton: true,
+                        height:
+                            screen.height * Constant.QUESTIONS_SIZE_FACTOR_ICON,
+                        groupMargins: EdgeInsets.symmetric(horizontal: 10),
+                        groupPadding: EdgeInsets.all(5),
+                        curveRadius: 30,
+                        numIconsPerRow: 10,
+                        iconColor: Colors.white,
+                        disabledIconColor: Colors.white,
+                        buttonColor: Colors.black26,
+                        onPressed: (TheIconCore iconCore, int idx) {
+                          iconCore.selectQuestion(idx);
+                        },
+                        groupColor: Colors.grey,
+                      ),
                     ),
                     Visibility(
                       maintainSize: true,
@@ -70,7 +73,8 @@ class _BoardState extends State<Board> {
                             iconCore.selectOption(idx);
                           }),
                     ),
-                    Group( // TODO: For debugging purposes
+                    Group(
+                      // TODO: For debugging purposes
                       iconGroup: iconCore.currIconBoard.answer,
                       isButton: true,
                       numIconsPerRow: 15,
