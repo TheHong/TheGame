@@ -17,12 +17,13 @@ class TheIconCore extends GameCore {
   IconBoard currIconBoard;
   Phase phase = Phase.PRE_GAME;
   double score = 0; // The score represents the number of rounds COMPLETED
+  int currRound = 0; 
   double optionsFactor = 1; // Ratio of options to questions
   String buttonPrompt = ""; // Prompt to specify the usage of the main button
   int _timePerRoundStart = 3;
   int _timePerRoundEnd = 3;
-  int get rememberTime => (3 * (score + 1)).toInt();
-  int get recallTime => (5 * (score + 1)).toInt();
+  int get rememberTime => (3 * (currRound)).toInt();
+  int get recallTime => (5 * (currRound)).toInt();
 
   @override
   String getGameName() => "The Icon";
@@ -69,19 +70,19 @@ class TheIconCore extends GameCore {
 
     while (!isGameDone) {
       phase = Phase.PRE_ROUND;
-      prompt = "You got ${rememberTime}s to remember!";
+      currRound += 1;
 
       // Generating icons
       currIconBoard = IconBoard(
         answer: IconGroup(
-          codepoints: iconList.getRandomCodepoints(n: (score + 1).toInt()),
+          codepoints: iconList.getRandomCodepoints(n: (currRound).toInt()),
         ),
         iconList: iconList,
         optionsFactor: optionsFactor,
       );
-      notifyListeners();
 
       // Counts down for the user right before round begins
+      prompt = "Get Ready!";
       await counter.run(_timePerRoundStart,
           notifier: notifyListeners, isRedActive: false, isShow: false);
 

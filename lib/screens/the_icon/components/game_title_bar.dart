@@ -26,7 +26,7 @@ class GameTitleBar extends StatelessWidget {
                       ? Column(
                           children: <Widget>[
                             Text(
-                              "Round ${iconCore.score.toInt()}",
+                              "Round ${iconCore.currRound}",
                               style: TextStyle(
                                   fontSize: 20.0, fontWeight: FontWeight.bold),
                             ),
@@ -59,6 +59,10 @@ class GameTitleBar extends StatelessWidget {
                   height: 10,
                 ),
                 Visibility(
+                  visible: iconCore.phase == Phase.PRE_ROUND,
+                  child: Text("${iconCore.prompt}"),
+                ),
+                Visibility(
                   visible:
                       [Phase.REMEMBER, Phase.RECALL].contains(iconCore.phase),
                   maintainSize: true,
@@ -85,11 +89,9 @@ class GameTitleBar extends StatelessWidget {
                     ),
                     padding: EdgeInsets.symmetric(vertical: 5.0),
                     color: Colors.deepPurple[200],
-                    onPressed: iconCore.phase == Phase.REMEMBER
-                        ? () {
-                            iconCore.boolInterrupt.raise();
-                          }
-                        : null,
+                    onPressed: () {
+                      iconCore.boolInterrupt.raise();
+                    },
                   ),
                 ),
               ],

@@ -58,7 +58,7 @@ class _BoardState extends State<Board> {
                       maintainSize: true,
                       maintainState: true,
                       maintainAnimation: true,
-                      visible: true,//iconCore.phase == Phase.RECALL,
+                      visible: iconCore.phase == Phase.RECALL,
                       child: Group(
                           iconGroup: iconCore.currIconBoard.options,
                           isButton: true,
