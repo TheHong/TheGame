@@ -21,7 +21,7 @@ class GameTitleBar extends StatelessWidget {
                     ]),
                     borderRadius: BorderRadius.all(Radius.circular(25.0)),
                   ),
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20),
                   child: !iconCore.isGameDone
                       ? Column(
                           children: <Widget>[
@@ -32,21 +32,27 @@ class GameTitleBar extends StatelessWidget {
                             ),
                             SizedBox(height: 10),
                             Text(
-                              "${iconCore.rememberTime}s Rem.",
+                              addPointPad(
+                                "${iconCore.rememberTime}s Rem.",
+                                iconCore.phase == Phase.REMEMBER,
+                              ),
                               style: TextStyle(
                                 fontSize: 12.5,
                                 color: iconCore.phase == Phase.REMEMBER
                                     ? Colors.blueGrey[800]
-                                    : Colors.blueGrey,
+                                    : Colors.blueGrey[200],
                               ),
                             ),
                             Text(
-                              "${iconCore.recallTime}s Rec.",
+                              addPointPad(
+                                "${iconCore.recallTime}s Rec.",
+                                iconCore.phase == Phase.RECALL,
+                              ),
                               style: TextStyle(
                                 fontSize: 12.5,
                                 color: iconCore.phase == Phase.RECALL
                                     ? Colors.blueGrey[800]
-                                    : Colors.blueGrey,
+                                    : Colors.blueGrey[200],
                               ),
                             ),
                           ],
@@ -100,3 +106,6 @@ class GameTitleBar extends StatelessWidget {
     );
   }
 }
+
+String addPointPad(String text, bool isAdd) =>
+    isAdd ? "> " + text + "  " : text;
