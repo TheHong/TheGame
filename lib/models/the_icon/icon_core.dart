@@ -17,7 +17,7 @@ class TheIconCore extends GameCore {
   IconBoard currIconBoard;
   Phase phase = Phase.PRE_GAME;
   double score = 0; // The score represents the number of rounds COMPLETED
-  int currRound = 0; 
+  int currRound = 0;
   double optionsFactor = 1; // Ratio of options to questions
   String buttonPrompt = ""; // Prompt to specify the usage of the main button
   int _timePerRoundStart = 3;
@@ -45,7 +45,7 @@ class TheIconCore extends GameCore {
   //   // Generating icons
   //   currIconBoard = IconBoard(
   //     answer: IconGroup(
-  //       codepoints: iconList.getRandomCodepoints(n: (score + 1).toInt()),
+  //       codepoints: iconList.getRandomCodepoints(n: (4).toInt()),
   //     ),
   //     iconList: iconList,
   //     optionsFactor: optionsFactor,
@@ -57,6 +57,14 @@ class TheIconCore extends GameCore {
   //   prompt = "Remember!";
   //   buttonPrompt = "Ready to Recall";
   //   await counter.run(rememberTime,
+  //       notifier: notifyListeners, boolInterrupt: boolInterrupt);
+  //   boolInterrupt.reset();
+
+  //   // Recalling Phase
+  //   phase = Phase.RECALL;
+  //   prompt = "Recall!";
+  //   buttonPrompt = "Click to Submit";
+  //   await counter.run(60,
   //       notifier: notifyListeners, boolInterrupt: boolInterrupt);
   //   boolInterrupt.reset();
   // }
@@ -117,9 +125,14 @@ class TheIconCore extends GameCore {
   }
 
   void selectQuestion(int idx) {
-    currIconBoard.question.iconItems[currIconBoard.currQuestionIdx]
-        .borderColor = Colors.transparent;
-    // Only change border colour if there is still an unanswered question item
+    // idx of -1 is encountered when getNextQuestion() is called but all questions are answered.
+
+    // Deselect the previous question (if applicable)
+    if (currIconBoard.currQuestionIdx != -1) {
+      currIconBoard.question.iconItems[currIconBoard.currQuestionIdx]
+          .borderColor = Colors.transparent;
+    }
+    // Select the new question
     if (idx != -1) {
       currIconBoard.question.iconItems[idx].borderColor =
           Constant.SELECT_COLOUR_ICON;
