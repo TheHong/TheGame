@@ -51,14 +51,14 @@ class _BoardState extends State<Board> {
                         onPressed: (TheIconCore iconCore, int idx) {
                           iconCore.selectQuestion(idx);
                         },
-                        groupColor: Colors.grey,
+                        groupColor: Colors.blue[50],
                       ),
                     ),
                     Visibility(
                       maintainSize: true,
                       maintainState: true,
                       maintainAnimation: true,
-                      visible: iconCore.phase == Phase.RECALL,
+                      visible: true,//iconCore.phase == Phase.RECALL,
                       child: Group(
                           iconGroup: iconCore.currIconBoard.options,
                           isButton: true,

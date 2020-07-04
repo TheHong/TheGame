@@ -18,9 +18,9 @@ class TheIconCore extends GameCore {
   Phase phase = Phase.PRE_GAME;
   double score = 0; // The score represents the number of rounds COMPLETED
   double optionsFactor = 1; // Ratio of options to questions
+  String buttonPrompt = ""; // Prompt to specify the usage of the main button
   int _timePerRoundStart = 3;
   int _timePerRoundEnd = 3;
-  String bottomText = ""; // Text to be displayed in bottom button
   int get rememberTime => (3 * (score + 1)).toInt();
   int get recallTime => (5 * (score + 1)).toInt();
 
@@ -33,8 +33,33 @@ class TheIconCore extends GameCore {
   @override
   String getInstructions() => Constant.INSTRUCTIONS_ICON;
 
+  // @override
+  // Future game() async {
+  //   // TODO: For dev
+  //   phase = Phase.LOADING;
+  //   notifyListeners();
+  //   await iconList.loadIconInfo();
+  //   isGameStarted = true;
 
-  // TODO: For dev
+  //   // Generating icons
+  //   currIconBoard = IconBoard(
+  //     answer: IconGroup(
+  //       codepoints: iconList.getRandomCodepoints(n: (score + 1).toInt()),
+  //     ),
+  //     iconList: iconList,
+  //     optionsFactor: optionsFactor,
+  //   );
+  //   notifyListeners();
+
+  //   // Remembering phase
+  //   phase = Phase.REMEMBER;
+  //   prompt = "Remember!";
+  //   buttonPrompt = "Ready to Recall";
+  //   await counter.run(rememberTime,
+  //       notifier: notifyListeners, boolInterrupt: boolInterrupt);
+  //   boolInterrupt.reset();
+  // }
+
   @override
   Future game() async {
     phase = Phase.LOADING;
@@ -42,79 +67,53 @@ class TheIconCore extends GameCore {
     await iconList.loadIconInfo();
     isGameStarted = true;
 
-    // Generating icons
-    currIconBoard = IconBoard(
-      answer: IconGroup(
-        codepoints: iconList.getRandomCodepoints(n: (score + 1).toInt()),
-      ),
-      iconList: iconList,
-      optionsFactor: optionsFactor,
-    );
-    notifyListeners();
+    while (!isGameDone) {
+      phase = Phase.PRE_ROUND;
+      prompt = "You got ${rememberTime}s to remember!";
 
-    // Remembering phase
-    phase = Phase.REMEMBER;
-    prompt = "Remember!";
-    bottomText = "Ready to Recall";
-    await counter.run(rememberTime,
-        notifier: notifyListeners, boolInterrupt: boolInterrupt);
-    boolInterrupt.reset();
+      // Generating icons
+      currIconBoard = IconBoard(
+        answer: IconGroup(
+          codepoints: iconList.getRandomCodepoints(n: (score + 1).toInt()),
+        ),
+        iconList: iconList,
+        optionsFactor: optionsFactor,
+      );
+      notifyListeners();
+
+      // Counts down for the user right before round begins
+      await counter.run(_timePerRoundStart,
+          notifier: notifyListeners, isRedActive: false, isShow: false);
+
+      // Remembering phase
+      phase = Phase.REMEMBER;
+      prompt = "Remember!";
+      buttonPrompt = "Click to Recall";
+      await counter.run(rememberTime,
+          notifier: notifyListeners, boolInterrupt: boolInterrupt);
+      boolInterrupt.reset();
+
+      // Recalling Phase
+      phase = Phase.RECALL;
+      prompt = "Recall!";
+      buttonPrompt = "Click to Submit";
+      await counter.run(recallTime,
+          notifier: notifyListeners, boolInterrupt: boolInterrupt);
+      boolInterrupt.reset();
+
+      // Evaluation Phase
+      phase = Phase.EVALUATE;
+      if (evaluateAnswer()) {
+        prompt = "Correct!";
+        score += 1;
+      } else {
+        isGameDone = true;
+      }
+      // notifyListeners()
+      await counter.run(_timePerRoundEnd);
+    }
+    print("Game Complete!");
   }
-
-  // @override
-  // Future game() async {
-  //   phase = Phase.LOADING;
-  //   notifyListeners();
-  //   await iconList.loadIconInfo();
-  //   isGameStarted = true;
-
-  //   while (!isGameDone) {
-  //     phase = Phase.PRE_ROUND;
-  //     prompt = "You got ${rememberTime}s!";
-
-  //     // Generating icons
-  //     currIconBoard = IconBoard(
-  //       answer: IconGroup(
-  //         codepoints: iconList.getRandomCodepoints(n: (score + 1).toInt()),
-  //       ),
-  //       iconList: iconList,
-  //       optionsFactor: optionsFactor,
-  //     );
-  //     notifyListeners();
-
-  //     // Counts down for the user right before round begins
-  //     await counter.run(_timePerRoundStart,
-  //         notifier: notifyListeners, isRedActive: false);
-
-  //     // Remembering phase
-  //     phase = Phase.REMEMBER;
-  //     prompt = "Remember!";
-  //     bottomText = "Ready to Recall";
-  //     await counter.run(rememberTime,
-  //         notifier: notifyListeners, boolInterrupt: boolInterrupt);
-  //     boolInterrupt.reset();
-
-  //     // Recalling Phase
-  //     phase = Phase.RECALL;
-  //     prompt = "Recall!";
-  //     bottomText = "Submit";
-  //     await counter.run(recallTime,
-  //         notifier: notifyListeners, boolInterrupt: boolInterrupt);
-  //     boolInterrupt.reset();
-
-  //     // Evaluation Phase
-  //     phase = Phase.EVALUATE;
-  //     if (evaluateAnswer()) {
-  //       prompt = "Correct!";
-  //       score += 1;
-  //     } else {
-  //       isGameDone = true;
-  //     }
-  //     // notifyListeners()
-  //     await counter.run(_timePerRoundEnd);
-  //   }
-  //   print("Game Complete!");
-  // }
 
   void selectQuestion(int idx) {
     currIconBoard.question.iconItems[currIconBoard.currQuestionIdx]

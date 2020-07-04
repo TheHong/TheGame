@@ -52,3 +52,24 @@ class _IconGameState extends State<IconGame> {
         ));
   }
 }
+
+// Exploring listview builder
+              // Container(
+              //   height: 150,
+              //   color: Colors.red,
+              //   alignment: Alignment.center,
+              //   child: ListView.separated(
+              //     padding: const EdgeInsets.all(8),
+              //     itemCount: 2,
+              //     scrollDirection: Axis.horizontal,
+              //     itemBuilder: (BuildContext context, int index) {
+              //       return Container(
+              //         height: 50,
+              //         color: Colors.amber[100],
+              //         child: Center(child: Text('E')),
+              //       );
+              //     },
+              //     separatorBuilder: (BuildContext context, int index) =>
+              //         const Divider(),
+              //   ),
+              // ),
