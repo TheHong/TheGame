@@ -37,6 +37,7 @@ class TheIconCore extends GameCore {
 
   @override
   Future game() async {
+    int NUM_ICONS = 11;
     // TODO: For dev
     phase = Phase.LOADING;
     notifyListeners();
@@ -46,7 +47,7 @@ class TheIconCore extends GameCore {
     // Generating icons
     currIconBoard = IconBoard(
       answer: IconGroup(
-        codepoints: iconList.getRandomCodepoints(n: (4).toInt()),
+        codepoints: iconList.getRandomCodepoints(n: (NUM_ICONS).toInt()),
       ),
       iconList: iconList,
       optionsFactor: optionsFactor,

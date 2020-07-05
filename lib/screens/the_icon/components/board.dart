@@ -40,8 +40,10 @@ class _BoardState extends State<Board> {
                             : iconCore.currIconBoard.question,
                         height:
                             screen.height * Constant.QUESTIONS_SIZE_FACTOR_ICON,
+                        alignment: Alignment.center,
                         groupMargins: EdgeInsets.symmetric(horizontal: 10),
                         groupPadding: EdgeInsets.all(5),
+                        iconMargins: 5,
                         curveRadius: 30,
                         numIconsPerRow: 10,
                         iconColor: Colors.white,
@@ -62,6 +64,7 @@ class _BoardState extends State<Board> {
                           iconGroup: iconCore.currIconBoard.options,
                           height:
                               screen.height * Constant.OPTIONS_SIZE_FACTOR_ICON,
+                          alignment: Alignment.centerLeft,
                           groupMargins: EdgeInsets.all(25),
                           groupPadding: EdgeInsets.all(10),
                           groupColor: Colors.white,
