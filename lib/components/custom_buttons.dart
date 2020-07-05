@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_app/components/common_widgets.dart';
 import 'package:game_app/models/game_core.dart';
 
 class OneShotButton extends StatelessWidget {
@@ -52,7 +53,8 @@ Widget getUpdatorBackButton(BuildContext context, GameCore gameCore) =>
           gameCore.databaseService.updateStats(gameCore.getGameName());
           gameCore.isStatsUpdated = true;
         }
-        Navigator.pop(context);
+        confirmedExit(context);
+        // Navigator.pop(context);
       },
     );
 

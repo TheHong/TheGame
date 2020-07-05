@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void getExitConfirmation(BuildContext context) {
+void confirmedExit(BuildContext context) {
   BuildContext prevContext = context;
   showDialog(
       context: context,
@@ -36,13 +36,14 @@ void getExitConfirmation(BuildContext context) {
                       Text(
                         "Are you sure you want to leave?",
                         style: TextStyle(
-                          fontSize: 19.0,
+                          fontSize: 15.0,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             FlatButton(
                               child: Text("Yes"),

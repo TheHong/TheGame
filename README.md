@@ -16,6 +16,9 @@ Below is an overview of the available games.
 ## Releases (and their major updates)
 In the following releases, the game is played (and tested) on phones of two people.
 
+### Version 2.0.1
+- In response to players clicking the exit key instead of the fast-forward key, a confirmation is added to the exit key.
+
 ### Version 2.0.0
 - Released The Icon and The Icons
 
