@@ -148,19 +148,22 @@ class _HomeState extends State<Home> {
                                 ],
                                 gameCommands: gameCommands["The Sign"],
                               ),
-                              gameCard(
-                                name: "The Bored",
-                                subtitle: "Coming Soon",
-                                icon: Icons.nature_people,
-                                routeStr: Constant.IS_DEBUG
-                                    ? '/testing_ground'
-                                    : '/waiting_page',
-                                numDecPlaces: 0,
-                                colorGradient: [
-                                  Colors.lime[200],
-                                  Colors.lime[100]
-                                ],
-                                gameCommands: gameCommands["The Bored"],
+                              Visibility(
+                                visible: Constant.IS_DEBUG,
+                                child: gameCard(
+                                  name: "The Bored",
+                                  subtitle: "Coming Soon",
+                                  icon: Icons.nature_people,
+                                  routeStr: Constant.IS_DEBUG
+                                      ? '/testing_ground'
+                                      : '/waiting_page',
+                                  numDecPlaces: 0,
+                                  colorGradient: [
+                                    Colors.lime[200],
+                                    Colors.lime[100]
+                                  ],
+                                  gameCommands: gameCommands["The Bored"],
+                                ),
                               ),
                               // NOTE: DON'T FORGET TO ADD ANY NEW GAMES TO THE constants.dart file
                               Visibility(

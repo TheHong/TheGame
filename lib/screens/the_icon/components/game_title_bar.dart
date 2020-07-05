@@ -7,7 +7,6 @@ class GameTitleBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
-    print(screen.width);
     return Consumer<TheIconCore>(
       builder: (context, iconCore, child) {
         return Padding(
