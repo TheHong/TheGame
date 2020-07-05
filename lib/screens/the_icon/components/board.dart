@@ -55,9 +55,9 @@ class _BoardState extends State<Board> {
                       ),
                     ),
                     Visibility(
-                      maintainSize: true,
-                      maintainState: true,
-                      maintainAnimation: true,
+                      maintainSize: !iconCore.isGameDone,
+                      maintainState: !iconCore.isGameDone,
+                      maintainAnimation: !iconCore.isGameDone,
                       visible: iconCore.phase == Phase.RECALL,
                       child: Group(
                           iconGroup: iconCore.currIconBoard.options,
@@ -67,6 +67,25 @@ class _BoardState extends State<Board> {
                           groupMargins: EdgeInsets.all(25),
                           groupPadding: EdgeInsets.all(10),
                           groupColor: Colors.white,
+                          curveRadius: 25,
+                          numIconsPerRow: 10,
+                          onPressed: (TheIconCore iconCore, int idx) {
+                            iconCore.selectOption(idx);
+                          }),
+                    ),
+                    Visibility(
+                      visible: iconCore.isGameDone,
+                      child: Group(
+                          iconGroup: iconCore.currIconBoard.answer,
+                          height: screen.height / 8,
+                          disabledIconColor: Colors.black,
+                          alignment: Alignment.center,
+                          groupMargins: EdgeInsets.symmetric(
+                            vertical: 25,
+                            horizontal: 35,
+                          ),
+                          groupPadding: EdgeInsets.all(10),
+                          groupColor: iconCore.scaffoldColor,
                           curveRadius: 25,
                           numIconsPerRow: 10,
                           onPressed: (TheIconCore iconCore, int idx) {

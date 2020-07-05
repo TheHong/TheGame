@@ -24,8 +24,8 @@ class TheIconCore extends GameCore {
   String buttonPrompt = ""; // Prompt to specify the usage of the main button
   int _timePerRoundStart = 2;
   int _timePerRoundEnd = 2;
-  int get rememberTime => max(1, (pow((currRound - 1), 2) + 1).toInt());
-  int get recallTime => max(3, (pow((currRound - 1), 2) + 1) ~/ 2);
+  int get rememberTime => (pow((currRound - 1), 2) + 5).toInt();
+  int get recallTime => (pow((currRound - 1), 2) + 5).toInt();
   Color scaffoldColor = Colors.cyan[200];
 
   @override
@@ -190,8 +190,8 @@ class TheIconCore extends GameCore {
 class TheIconsCore extends TheIconCore {
   double optionsFactor = Constant.OPTIONS_FACTOR_ICONS;
   Color scaffoldColor = Colors.cyan;
-  int get rememberTime => max(1, (pow((currRound - 1), 2) + 1).toInt());
-  int get recallTime => max(3, (pow((currRound - 1), 2) + 1));
+  int get rememberTime => (pow((currRound - 1), 2) + 10).toInt();
+  int get recallTime => (pow((currRound - 1), 2) + 10).toInt();
   @override
   String getGameName() => "The Icons";
   @override
