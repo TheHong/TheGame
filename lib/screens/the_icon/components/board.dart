@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 class Board extends StatefulWidget {
   /// A Group object displays the current IconBoard given by the IconCore.
+  final int numIconsPerRow = 8;
   @override
   _BoardState createState() => _BoardState();
 }
@@ -37,6 +38,7 @@ class _BoardState extends State<Board> {
                         iconGroup: iconCore.phase == Phase.REMEMBER
                             ? iconCore.currIconBoard.answer
                             : iconCore.currIconBoard.question,
+                        numIconsPerRow: widget.numIconsPerRow,
                         height:
                             screen.height * Constant.QUESTIONS_SIZE_FACTOR_ICON,
                         alignment: Alignment.center,
@@ -44,7 +46,6 @@ class _BoardState extends State<Board> {
                         groupPadding: EdgeInsets.all(5),
                         iconMargins: 5,
                         curveRadius: 30,
-                        numIconsPerRow: 10,
                         iconColor: Colors.white,
                         disabledIconColor: Colors.white,
                         buttonColor: Colors.black26,
@@ -61,6 +62,7 @@ class _BoardState extends State<Board> {
                       visible: iconCore.phase == Phase.RECALL,
                       child: Group(
                           iconGroup: iconCore.currIconBoard.options,
+                          numIconsPerRow: widget.numIconsPerRow,
                           height:
                               screen.height * Constant.OPTIONS_SIZE_FACTOR_ICON,
                           alignment: Alignment.centerLeft,
@@ -68,7 +70,6 @@ class _BoardState extends State<Board> {
                           groupPadding: EdgeInsets.all(10),
                           groupColor: Colors.white,
                           curveRadius: 25,
-                          numIconsPerRow: 10,
                           onPressed: (TheIconCore iconCore, int idx) {
                             iconCore.selectOption(idx);
                           }),
@@ -77,6 +78,7 @@ class _BoardState extends State<Board> {
                       visible: iconCore.isGameDone,
                       child: Group(
                           iconGroup: iconCore.currIconBoard.answer,
+                          numIconsPerRow: widget.numIconsPerRow,
                           height: screen.height / 8,
                           disabledIconColor: Colors.black,
                           alignment: Alignment.center,
@@ -87,7 +89,6 @@ class _BoardState extends State<Board> {
                           groupPadding: EdgeInsets.all(10),
                           groupColor: iconCore.scaffoldColor,
                           curveRadius: 25,
-                          numIconsPerRow: 10,
                           onPressed: (TheIconCore iconCore, int idx) {
                             iconCore.selectOption(idx);
                           }),
