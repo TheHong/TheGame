@@ -18,15 +18,22 @@ class BoolInterrupt {
 class Counter {
   /* Starts counting down at startCount - 1 */
   int currCount = 0;
+  bool _isShow = true; // Used by widgets to know if show counter or not
 
   Color defaultColour = Colors.black;
   Color urgentColour = Colors.red;
   Color colour = Colors.black;
 
-  Future run(int startCount,
-      {Function notifier,
-      BoolInterrupt boolInterrupt,
-      bool isRedActive = true}) async {
+  bool get isShow => _isShow;
+
+  Future run(
+    int startCount, {
+    Function notifier,
+    BoolInterrupt boolInterrupt,
+    bool isRedActive = true,
+    bool isShow = true,
+  }) async {
+    _isShow = isShow;
     try {
       for (int i = startCount - 1; i >= 0; i--) {
         // TODO: Could make use of null-aware operators below
@@ -44,6 +51,7 @@ class Counter {
       print("Counter safely came to an abrupt end.");
     }
     colour = defaultColour;
+    _isShow = true;
   }
 }
 

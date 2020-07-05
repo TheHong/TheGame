@@ -6,6 +6,7 @@ import 'package:game_app/screens/the_icon/components/group.dart';
 import 'package:provider/provider.dart';
 
 class Board extends StatefulWidget {
+  /// A Group object displays the current IconBoard given by the IconCore.
   @override
   _BoardState createState() => _BoardState();
 }
@@ -16,10 +17,10 @@ class _BoardState extends State<Board> {
     Size screen = MediaQuery.of(context).size;
     return Consumer<TheIconCore>(builder: (context, iconCore, child) {
       return iconCore.phase == Phase.PRE_GAME
-          ? Expanded(child: Container()) // Check if this is doing anything
+          ? Expanded(child: Container())
           : iconCore.phase == Phase.LOADING
               ? Container(
-                  child: SpinKitPouringHourglass(
+                  child: SpinKitCubeGrid(
                     color: Colors.white,
                     size: 100.0,
                   ),
@@ -33,33 +34,36 @@ class _BoardState extends State<Board> {
                       visible: [Phase.REMEMBER, Phase.RECALL, Phase.EVALUATE]
                           .contains(iconCore.phase),
                       child: Group(
-                          iconGroup: iconCore.phase == Phase.REMEMBER
-                              ? iconCore.currIconBoard.answer
-                              : iconCore.currIconBoard.question,
-                          isButton: true,
-                          height: screen.height *
-                              Constant.QUESTIONS_SIZE_FACTOR_ICON,
-                          groupMargins: EdgeInsets.symmetric(horizontal: 10),
-                          groupPadding: EdgeInsets.all(5),
-                          curveRadius: 30,
-                          numIconsPerRow: 10,
-                          iconColor: Colors.white,
-                          disabledIconColor: Colors.white,
-                          buttonColor: Colors.black26,
-                          onPressed: (TheIconCore iconCore, int idx) {
-                            iconCore.selectQuestion(idx);
-                          }),
+                        iconGroup: iconCore.phase == Phase.REMEMBER
+                            ? iconCore.currIconBoard.answer
+                            : iconCore.currIconBoard.question,
+                        height:
+                            screen.height * Constant.QUESTIONS_SIZE_FACTOR_ICON,
+                        alignment: Alignment.center,
+                        groupMargins: EdgeInsets.symmetric(horizontal: 10),
+                        groupPadding: EdgeInsets.all(5),
+                        iconMargins: 5,
+                        curveRadius: 30,
+                        numIconsPerRow: 10,
+                        iconColor: Colors.white,
+                        disabledIconColor: Colors.white,
+                        buttonColor: Colors.black26,
+                        onPressed: (TheIconCore iconCore, int idx) {
+                          iconCore.selectQuestion(idx);
+                        },
+                        groupColor: Colors.blue[50],
+                      ),
                     ),
                     Visibility(
-                      maintainSize: true,
-                      maintainState: true,
-                      maintainAnimation: true,
+                      maintainSize: !iconCore.isGameDone,
+                      maintainState: !iconCore.isGameDone,
+                      maintainAnimation: !iconCore.isGameDone,
                       visible: iconCore.phase == Phase.RECALL,
                       child: Group(
                           iconGroup: iconCore.currIconBoard.options,
-                          isButton: true,
                           height:
                               screen.height * Constant.OPTIONS_SIZE_FACTOR_ICON,
+                          alignment: Alignment.centerLeft,
                           groupMargins: EdgeInsets.all(25),
                           groupPadding: EdgeInsets.all(10),
                           groupColor: Colors.white,
@@ -69,10 +73,24 @@ class _BoardState extends State<Board> {
                             iconCore.selectOption(idx);
                           }),
                     ),
-                    Group(
-                      iconGroup: iconCore.currIconBoard.answer,
-                      isButton: true,
-                      numIconsPerRow: 15,
+                    Visibility(
+                      visible: iconCore.isGameDone,
+                      child: Group(
+                          iconGroup: iconCore.currIconBoard.answer,
+                          height: screen.height / 8,
+                          disabledIconColor: Colors.black,
+                          alignment: Alignment.center,
+                          groupMargins: EdgeInsets.symmetric(
+                            vertical: 25,
+                            horizontal: 35,
+                          ),
+                          groupPadding: EdgeInsets.all(10),
+                          groupColor: iconCore.scaffoldColor,
+                          curveRadius: 25,
+                          numIconsPerRow: 10,
+                          onPressed: (TheIconCore iconCore, int idx) {
+                            iconCore.selectOption(idx);
+                          }),
                     ),
                   ],
                 );

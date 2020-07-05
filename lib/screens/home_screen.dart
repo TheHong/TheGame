@@ -128,7 +128,7 @@ class _HomeState extends State<Home> {
                                 name: "The Icons",
                                 subtitle: "The Icon . . . but more",
                                 icon: MaterialCommunityIcons.face_outline,
-                                routeStr: '/waiting_screen',
+                                routeStr: '/the_icons',
                                 numDecPlaces: 0,
                                 colorGradient: [
                                   Colors.red[300],

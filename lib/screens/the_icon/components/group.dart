@@ -5,36 +5,39 @@ import 'package:game_app/models/the_icon/icon_models.dart';
 import 'package:provider/provider.dart';
 
 class Group extends StatelessWidget {
-  final IconGroup iconGroup;
-  final bool isButton;
-  final EdgeInsets groupMargins;
-  final EdgeInsets groupPadding;
-  final double iconPadding;
-  final int numIconsPerRow;
+  /// A Group object displays an IconGroup.
+  final IconGroup iconGroup; // IconGroup to be displayed
   final Function onPressed;
   final double height;
-  final double curveRadius;
-  final Color groupColor;
-  final Color buttonColor;
-  final Color disabledIconColor;
-  final Color iconColor;
-  final Color chosenIconColor;
+  final Alignment alignment;
+  final EdgeInsets groupMargins;
+  final EdgeInsets groupPadding;
+  final double iconMargins; // Margin between icon items
+  final double iconPadding; // Padding between icon and the pressable region
+  final Color groupColor; // Background colour of the group
+  final Color buttonColor; // Background colour of the buttons
+  final Color iconColor; // Colour of the button icons
+  final Color disabledIconColor; // Colour of the button icons when disabled
+  final Color chosenIconColor; // Background colour of button icon when chosen
+  final int numIconsPerRow;
+  final double curveRadius; // Curve radius of the group
 
   Group({
     @required this.iconGroup,
-    @required this.isButton,
     this.onPressed,
+    this.height,
+    this.alignment = Alignment.center,
     this.groupMargins = EdgeInsets.zero,
     this.groupPadding = EdgeInsets.zero,
+    this.iconMargins = 0,
+    this.iconPadding = 8,
     this.groupColor = Colors.transparent,
     this.buttonColor,
-    this.iconPadding = 8,
-    this.numIconsPerRow = 10,
-    this.height,
-    this.curveRadius = 0,
-    this.disabledIconColor = Colors.black12,
     this.iconColor = Colors.black,
+    this.disabledIconColor = Colors.black12,
     this.chosenIconColor = Colors.black26,
+    this.numIconsPerRow = 10,
+    this.curveRadius = 0,
   });
 
   @override
@@ -45,7 +48,8 @@ class Group extends StatelessWidget {
                 groupMargins.left +
                 groupPadding.right +
                 groupPadding.left) -
-            2 * numIconsPerRow * iconPadding) /
+            2 * numIconsPerRow * iconPadding -
+            (numIconsPerRow - 1) * iconMargins) /
         numIconsPerRow;
 
     // Split icons into rows
@@ -71,46 +75,48 @@ class Group extends StatelessWidget {
                     groupPadding.top +
                     groupPadding.bottom,
             child: ListView.builder(
+              // Building a row
               padding: EdgeInsets.zero,
               scrollDirection: Axis.vertical,
               itemCount: iconGrid.length,
               itemBuilder: (context, rowNum) {
                 return Container(
                   height: iconSize * 2,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: iconGrid[rowNum].length,
-                    itemBuilder: (context, index) {
-                      int idxGlobal = rowNum * numIconsPerRow + index;
-                      return isButton
-                          ? MaterialIconButton(
-                              codepoint: iconGrid[rowNum][index],
-                              size: iconSize,
-                              padding: iconPadding,
-                              iconVisibility: iconGroup.isVisible(idxGlobal),
-                              backgroundColor: buttonColor,
-                              disabledColor: disabledIconColor,
-                              // Change colour if chosen already
-                              color: iconGroup.iconItems[idxGlobal].isChosen
-                                  ? chosenIconColor
-                                  : iconColor,
-                              borderColor:
-                                  iconGroup.iconItems[idxGlobal].borderColor,
-                              onPressed: iconCore.phase == Phase.RECALL
-                                  ? () {
-                                      onPressed(iconCore, idxGlobal);
-                                      print(
-                                          "Pressed ${iconGroup.iconItems[idxGlobal].codepoint}");
-                                    }
-                                  : null,
-                            )
-                          : Icon(
-                              IconData(
-                                iconGroup.iconItems[index].codepoint,
-                                fontFamily: 'MaterialIcons',
-                              ),
-                            );
-                    },
+                  child: Align(
+                    alignment: alignment,
+                    child: ListView.builder(
+                      // Building within a row (alternates between icon item and sizedbox)
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: iconGrid[rowNum].length * 2 - 1,
+                      itemBuilder: (context, index) {
+                        int iconIdx = index ~/ 2;
+                        int idxGlobal = rowNum * numIconsPerRow + iconIdx;
+                        return index % 2 == 0
+                            ? MaterialIconButton(
+                                codepoint: iconGrid[rowNum][iconIdx],
+                                size: iconSize,
+                                padding: iconPadding,
+                                iconVisibility: iconGroup.isVisible(idxGlobal),
+                                backgroundColor: buttonColor,
+                                disabledColor: disabledIconColor,
+                                // Change colour if chosen already
+                                color: iconGroup.iconItems[idxGlobal].isChosen
+                                    ? chosenIconColor
+                                    : iconColor,
+                                borderColor:
+                                    iconGroup.iconItems[idxGlobal].borderColor,
+                                onPressed: iconCore.phase == Phase.RECALL
+                                    ? () {
+                                        onPressed(iconCore, idxGlobal);
+                                        print(
+                                            "Pressed ${iconGroup.iconItems[idxGlobal].codepoint}");
+                                      }
+                                    : null,
+                              )
+                            : SizedBox(width: iconMargins);
+                      },
+                    ),
                   ),
                 );
               },

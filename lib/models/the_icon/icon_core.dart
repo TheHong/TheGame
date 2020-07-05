@@ -1,5 +1,6 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/game_core.dart';
 import 'package:game_app/models/the_icon/icon_models.dart';
@@ -18,12 +19,14 @@ class TheIconCore extends GameCore {
   IconBoard currIconBoard;
   Phase phase = Phase.PRE_GAME;
   double score = 0; // The score represents the number of rounds COMPLETED
+  int currRound = 0;
   double optionsFactor = 1; // Ratio of options to questions
-  int _timePerRoundStart = 3;
-  int _timePerRoundEnd = 3;
-  String bottomText = "";
-  int get rememberTime => (3 * (score + 1)).toInt();
-  int get recallTime => (5 * (score + 1)).toInt();
+  String buttonPrompt = ""; // Prompt to specify the usage of the main button
+  int _timePerRoundStart = 2;
+  int _timePerRoundEnd = 2;
+  int get rememberTime => (pow((currRound - 1), 2) + 5).toInt();
+  int get recallTime => (pow((currRound - 1), 2) + 5).toInt();
+  Color scaffoldColor = Colors.cyan[200];
 
   @override
   String getGameName() => "The Icon";
@@ -37,32 +40,33 @@ class TheIconCore extends GameCore {
   @override
   Future game() async {
     phase = Phase.LOADING;
+    prompt = "Loading...";
     notifyListeners();
     await iconList.loadIconInfo();
     isGameStarted = true;
 
     while (!isGameDone) {
       phase = Phase.PRE_ROUND;
-      prompt = "You got ${rememberTime}s!";
+      currRound += 1;
 
       // Generating icons
       currIconBoard = IconBoard(
         answer: IconGroup(
-          codepoints: iconList.getRandomCodepoints(n: (score + 1).toInt()),
+          codepoints: iconList.getRandomCodepoints(n: (currRound).toInt()),
         ),
         iconList: iconList,
         optionsFactor: optionsFactor,
       );
-      notifyListeners();
 
       // Counts down for the user right before round begins
+      prompt = "Get Ready!";
       await counter.run(_timePerRoundStart,
-          notifier: notifyListeners, isRedActive: false);
+          notifier: notifyListeners, isRedActive: false, isShow: false);
 
       // Remembering phase
       phase = Phase.REMEMBER;
       prompt = "Remember!";
-      bottomText = "Ready to Recall";
+      buttonPrompt = "Click to Recall";
       await counter.run(rememberTime,
           notifier: notifyListeners, boolInterrupt: boolInterrupt);
       boolInterrupt.reset();
@@ -70,7 +74,7 @@ class TheIconCore extends GameCore {
       // Recalling Phase
       phase = Phase.RECALL;
       prompt = "Recall!";
-      bottomText = "Submit";
+      buttonPrompt = "Click to Submit";
       await counter.run(recallTime,
           notifier: notifyListeners, boolInterrupt: boolInterrupt);
       boolInterrupt.reset();
@@ -90,9 +94,14 @@ class TheIconCore extends GameCore {
   }
 
   void selectQuestion(int idx) {
-    currIconBoard.question.iconItems[currIconBoard.currQuestionIdx]
-        .borderColor = Colors.transparent;
-    // Only change border colour if there is still an unanswered question item
+    // idx of -1 is encountered when getNextQuestion() is called but all questions are answered.
+
+    // Deselect the previous question (if applicable)
+    if (currIconBoard.currQuestionIdx != -1) {
+      currIconBoard.question.iconItems[currIconBoard.currQuestionIdx]
+          .borderColor = Colors.transparent;
+    }
+    // Select the new question
     if (idx != -1) {
       currIconBoard.question.iconItems[idx].borderColor =
           Constant.SELECT_COLOUR_ICON;
@@ -134,7 +143,7 @@ class TheIconCore extends GameCore {
         pastQ.idxLink = -1;
       }
 
-      // Case 3: Otherwise, continue with rest of code
+      // Case 3: Otherwise, continue with rest of this function
 
       // Set the question element to have same icon as the option element
       questionItem.codepoint = optionItem.codepoint;
@@ -157,11 +166,12 @@ class TheIconCore extends GameCore {
     List<bool> correct = List<bool>.generate(
       currIconBoard.answer.length,
       (i) =>
-          currIconBoard.question.iconItems[i].idxLink != -1 &&
+          currIconBoard.question.iconItems[i].idxLink != -1 && // A link exists
           currIconBoard.answer.iconItems[i].codepoint ==
-              currIconBoard.question.iconItems[i].codepoint,
+              currIconBoard.question.iconItems[i].codepoint, // Link is correct
     );
 
+    // Change border colours to reflect evaluation results
     for (int i = 0; i < currIconBoard.answer.length; i++) {
       currIconBoard.question.iconItems[i].borderColor =
           correct[i] ? Colors.green : Colors.red;
@@ -175,4 +185,17 @@ class TheIconCore extends GameCore {
   String getDebugInfo() {
     return "";
   }
+}
+
+class TheIconsCore extends TheIconCore {
+  double optionsFactor = Constant.OPTIONS_FACTOR_ICONS;
+  Color scaffoldColor = Colors.cyan;
+  int get rememberTime => (pow((currRound - 1), 2) + 10).toInt();
+  int get recallTime => (pow((currRound - 1), 2) + 10).toInt();
+  @override
+  String getGameName() => "The Icons";
+  @override
+  String getGamePath() => "/the_icons";
+  @override
+  String getInstructions() => Constant.INSTRUCTIONS_ICONS;
 }

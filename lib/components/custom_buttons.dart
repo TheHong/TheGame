@@ -7,6 +7,7 @@ class OneShotButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color color;
   final Color disabledColor;
+  final EdgeInsets padding;
 
   bool _isPressed = false;
 
@@ -15,12 +16,14 @@ class OneShotButton extends StatelessWidget {
     @required this.onPressed,
     this.color = Colors.black,
     this.disabledColor = Colors.black26,
+    this.padding,
   });
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
       child: child,
+      padding: padding,
       color: color,
       disabledColor: disabledColor,
       onPressed: () {
@@ -49,25 +52,28 @@ Widget getUpdatorBackButton(BuildContext context, GameCore gameCore) =>
     );
 
 class MaterialIconButton extends StatelessWidget {
-  final int codepoint;
-  final double padding;
-  final double size;
-  final VoidCallback onPressed;
-  final Color color;
-  final Color disabledColor;
-  final Color borderColor;
-  final bool iconVisibility;
-  final Color backgroundColor;
+  /// Button consists of a icon, where the pressable region consists of the
+  /// button and the immediate area around the button
+
+  final int codepoint; // Codepoint defining the icon to use
+  final VoidCallback onPressed; // Set to null to disable
+  final double padding; // Padding between button and borders of press region
+  final double size; // Diameter of the button
+  final Color color; // Colour of the icon
+  final Color disabledColor; // Colour of the icon when button is disabled
+  final Color borderColor; // Colour of the border around the button
+  final Color backgroundColor; // Colour of the background surrounding the icon
+  final bool iconVisibility; // Whether or not icon is visible
 
   const MaterialIconButton({
     @required this.codepoint,
-    @required this.size,
     @required this.onPressed,
+    @required this.size,
+    this.padding = 8.0,
     this.color = Colors.black,
     this.disabledColor = Colors.black26,
     this.borderColor = Colors.transparent,
     this.backgroundColor = Colors.transparent,
-    this.padding = 8.0,
     this.iconVisibility = true,
   });
 

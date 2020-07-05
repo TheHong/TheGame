@@ -17,7 +17,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:game_app/components/custom_buttons.dart';
 import 'package:game_app/models/constants.dart';
 
 class IconList {
@@ -57,7 +56,8 @@ class IconItem {
 }
 
 class IconGroup {
-  // An IconGroup consists of a group of Icon Items, either the ones from which the player chooses, or the ones to be filled
+  /// An IconGroup consists of a group of Icon Items, either the ones from...
+  ///... which the player chooses, or the ones to be filled
   List<IconItem> iconItems;
   IconGroup({
     @required List<int> codepoints,
@@ -88,8 +88,9 @@ class IconBoard {
   IconGroup answer; // Icons expected to be filled in
   IconGroup question; // Icons to be filled in
   IconGroup options; // Icons to choose from
-  int currQuestionIdx =
-      0; // Index of the current icon (wrt to the question IconGroup) to which player must choose the correct icon from the options
+  // Index of the current icon (wrt to the question IconGroup) to which...
+  //... player must choose the correct icon from the options
+  int currQuestionIdx = 0;
 
   IconBoard({
     @required this.answer,

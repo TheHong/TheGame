@@ -63,9 +63,30 @@ class Constant {
           " The green marker represents level needed to make it onto the leaderboard. The other three represents the bronze, silver, and gold results." +
           " You will have $TIME_PER_ROUND_TRILL seconds to do as many taps as possible.";
 
-  // The ICON ================================================================
-  static const String INSTRUCTIONS_ICON = "";
+  // The Icon and The Icons ===================================================
   static const Color SELECT_COLOUR_ICON = Colors.blue;
-  static const double QUESTIONS_SIZE_FACTOR_ICON = 0.2; // With respect to height
+  static const double QUESTIONS_SIZE_FACTOR_ICON =
+      0.2; // With respect to height
   static const double OPTIONS_SIZE_FACTOR_ICON = 0.2; // With respect to height
+  static const double OPTIONS_FACTOR_ICONS = 2;
+  static const String INSTRUCTIONS_ICON =
+      "The point of the game is to be able to memorize a given list of icons." +
+          " There are two main phases. The remember phase (Rem.) is you memorize the icons that are shown by the game." +
+          " In the recall phase (Rec.), you will have to choose from a given list of icons to create a list of icons of the same order as you memorized." +
+          " You don't need to choose icons in the correct order. Only the final order (after choosing and submitting) matters." +
+          " This list of icons will have the same icons that you had to memorize; you only have to reorder them, hence only the order has to be memorized." +
+          " As the game progresses, more and more icons will have to be remembered. The time given for both phases will change accordingly." +
+          " If during any of the phase you don't need all the allocated time, you can click the timer to end the phase." +
+          " The objective is to get as much icons remembered and recalled.\n\n" +
+          "This is the same as The Icons, except that the list of icons will only contain the icons that were seen.";
+  static const String INSTRUCTIONS_ICONS =
+      "The point of the game is to be able to memorize a given list of icons." +
+          " There are two main phases. The remember phase (Rem.) is you memorize the icons that are shown by the game." +
+          " In the recall phase (Rec.), you will have to choose from a given list of icons to create a list of icons of the same order as you memorized." +
+          " You don't need to choose icons in the correct order. Only the final order (after choosing and submitting) matters." +
+          " This list of icons will have the icons that you had to memorize in addition to some other icons; you will have to remember both the order and look of the icons." +
+          " As the game progresses, more and more icons will have to be remembered. The time given for both phases will change accordingly." +
+          " If during any of the phase you don't need all the allocated time, you can click the timer to end the phase." +
+          " The objective is to get as much icons remembered and recalled.\n\n" +
+          "This is the same as The Icon, except that the list of icons will also contain other random icons.";
 }

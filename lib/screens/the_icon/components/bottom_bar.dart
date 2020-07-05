@@ -18,19 +18,7 @@ class BottomBar extends StatelessWidget {
                 child: Text("Begin", style: TextStyle(fontSize: 25)),
                 color: Colors.pinkAccent[100],
                 onPressed: () {
-                  iconCore.game();
-                },
-              ),
-            ),
-            Visibility(
-              visible: [Phase.REMEMBER, Phase.RECALL]
-                  .contains(iconCore.phase),
-              child: OneShotButton(
-                child: Text("${iconCore.bottomText}",
-                    style: TextStyle(fontSize: 25)),
-                color: Colors.pinkAccent[100],
-                onPressed: () {
-                  iconCore.boolInterrupt.raise();
+                  iconCore.run();
                 },
               ),
             ),
