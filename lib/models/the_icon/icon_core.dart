@@ -24,7 +24,7 @@ class TheIconCore extends GameCore {
   int _timePerRoundEnd = 3;
   int get rememberTime => (3 * (currRound)).toInt();
   int get recallTime => (5 * (currRound)).toInt();
-  Color scaffoldColor = Colors.blue[100];
+  Color scaffoldColor = Colors.cyan[200];
 
   @override
   String getGameName() => "The Icon";
@@ -221,7 +221,7 @@ class TheIconCore extends GameCore {
 
 class TheIconsCore extends TheIconCore {
   double optionsFactor = Constant.OPTIONS_FACTOR_ICONS;
-  Color scaffoldColor = Colors.blue[200];
+  Color scaffoldColor = Colors.cyan;
   int get rememberTime => (4 * (currRound)).toInt();
   int get recallTime => (6 * (currRound)).toInt();
   @override
