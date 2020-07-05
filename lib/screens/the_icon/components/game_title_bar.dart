@@ -6,11 +6,17 @@ import 'package:flutter/material.dart';
 class GameTitleBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size screen = MediaQuery.of(context).size;
+    print(screen.width);
     return Consumer<TheIconCore>(
       builder: (context, iconCore, child) {
         return Padding(
-            padding: const EdgeInsets.only(
-                left: 16.0, right: 16.0, bottom: 16.0, top: 0),
+            padding: EdgeInsets.only(
+              left: screen.width / 22.5,
+              right: screen.width / 22.5,
+              bottom: screen.height / 40,
+              top: 0,
+            ),
             child: Column(
               children: <Widget>[
                 Container(
@@ -21,9 +27,9 @@ class GameTitleBar extends StatelessWidget {
                     ]),
                     borderRadius: BorderRadius.all(Radius.circular(25.0)),
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12.0,
-                    horizontal: 20,
+                  padding: EdgeInsets.symmetric(
+                    vertical: screen.height / 49,
+                    horizontal: screen.width / 18,
                   ),
                   child: !iconCore.isGameDone
                       ? Column(
@@ -31,9 +37,11 @@ class GameTitleBar extends StatelessWidget {
                             Text(
                               "Round ${iconCore.currRound}",
                               style: TextStyle(
-                                  fontSize: 20.0, fontWeight: FontWeight.bold),
+                                fontSize: screen.height / 29.6,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: screen.height / 74),
                             Text(
                               addPointPad(
                                 "${iconCore.rememberTime}s Rem.",
@@ -41,7 +49,7 @@ class GameTitleBar extends StatelessWidget {
                                 iconCore.phase,
                               ),
                               style: TextStyle(
-                                fontSize: 12.5,
+                                fontSize: screen.height / 47.4,
                                 color: iconCore.phase == Phase.REMEMBER
                                     ? Colors.blueGrey[800]
                                     : Colors.blueGrey[200],
@@ -54,7 +62,7 @@ class GameTitleBar extends StatelessWidget {
                                 iconCore.phase,
                               ),
                               style: TextStyle(
-                                fontSize: 12.5,
+                                fontSize: screen.height / 47.4,
                                 color: iconCore.phase == Phase.RECALL
                                     ? Colors.blueGrey[800]
                                     : Colors.blueGrey[200],
@@ -64,19 +72,14 @@ class GameTitleBar extends StatelessWidget {
                         )
                       : Text(
                           "Final Score: ${iconCore.score.toStringAsFixed(0)}",
-                          style: TextStyle(fontSize: 30.0)),
+                          style: TextStyle(fontSize: screen.height / 19.7)),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: screen.height / 40,
                 ),
                 Visibility(
-                  visible:
-                      [Phase.LOADING, Phase.PRE_ROUND].contains(iconCore.phase),
-                  child: Text("${iconCore.prompt}"),
-                ),
-                Visibility(
-                  visible:
-                      [Phase.REMEMBER, Phase.RECALL].contains(iconCore.phase),
+                  visible: [Phase.PRE_ROUND, Phase.REMEMBER, Phase.RECALL]
+                      .contains(iconCore.phase),
                   maintainSize: true,
                   maintainState: true,
                   maintainAnimation: true,
@@ -88,22 +91,27 @@ class GameTitleBar extends StatelessWidget {
                           iconCore.counter.isShow
                               ? "${iconCore.counter.currCount}"
                               : "",
-                          style: TextStyle(fontSize: 25),
+                          style: TextStyle(fontSize: screen.height / 23.7),
                         ),
                         Text(
                           "${iconCore.buttonPrompt}",
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: screen.height / 59.2,
                             color: Colors.black26,
                           ),
                         )
                       ],
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 5.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: screen.height / 118),
                     color: Colors.deepPurple[200],
-                    onPressed: () {
-                      iconCore.boolInterrupt.raise();
-                    },
+                    disabledColor: Colors.deepPurple[200],
+                    disabledTextColor: Colors.black,
+                    onPressed: iconCore.phase == Phase.PRE_ROUND
+                        ? null
+                        : () {
+                            iconCore.boolInterrupt.raise();
+                          },
                   ),
                 ),
               ],

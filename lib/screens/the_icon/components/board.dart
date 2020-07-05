@@ -42,8 +42,9 @@ class _BoardState extends State<Board> {
                         height:
                             screen.height * Constant.QUESTIONS_SIZE_FACTOR_ICON,
                         alignment: Alignment.center,
-                        groupMargins: EdgeInsets.symmetric(horizontal: 10),
-                        groupPadding: EdgeInsets.all(5),
+                        groupMargins:
+                            EdgeInsets.symmetric(horizontal: screen.width / 36),
+                        groupPadding: EdgeInsets.all(screen.height / 118.4),
                         iconMargins: 5,
                         curveRadius: 30,
                         iconColor: Colors.white,
@@ -66,7 +67,10 @@ class _BoardState extends State<Board> {
                           height:
                               screen.height * Constant.OPTIONS_SIZE_FACTOR_ICON,
                           alignment: Alignment.centerLeft,
-                          groupMargins: EdgeInsets.all(25),
+                          groupMargins: EdgeInsets.symmetric(
+                            horizontal: screen.width / 14.4,
+                            vertical: screen.height / 40,
+                          ),
                           groupPadding: EdgeInsets.all(10),
                           groupColor: Colors.white,
                           curveRadius: 25,
@@ -83,8 +87,8 @@ class _BoardState extends State<Board> {
                           disabledIconColor: Colors.black,
                           alignment: Alignment.center,
                           groupMargins: EdgeInsets.symmetric(
-                            vertical: 25,
-                            horizontal: 35,
+                            vertical: screen.width / 24,
+                            horizontal: screen.width / 10.2,
                           ),
                           groupPadding: EdgeInsets.all(10),
                           groupColor: iconCore.scaffoldColor,

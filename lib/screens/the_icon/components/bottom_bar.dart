@@ -15,7 +15,12 @@ class BottomBar extends StatelessWidget {
             Visibility(
               visible: iconCore.phase == Phase.PRE_GAME,
               child: OneShotButton(
-                child: Text("Begin", style: TextStyle(fontSize: 25)),
+                child: Text(
+                  "Begin",
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height / 23.7,
+                  ),
+                ),
                 color: Colors.pinkAccent[100],
                 onPressed: () {
                   iconCore.run();

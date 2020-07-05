@@ -7,6 +7,7 @@ class OneShotButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color color;
   final Color disabledColor;
+  final Color disabledTextColor;
   final EdgeInsets padding;
 
   bool _isPressed = false;
@@ -16,6 +17,7 @@ class OneShotButton extends StatelessWidget {
     @required this.onPressed,
     this.color = Colors.black,
     this.disabledColor = Colors.black26,
+    this.disabledTextColor,
     this.padding,
   });
 
@@ -25,15 +27,18 @@ class OneShotButton extends StatelessWidget {
       child: child,
       padding: padding,
       color: color,
+      disabledTextColor: disabledTextColor,
       disabledColor: disabledColor,
-      onPressed: () {
-        if (!_isPressed) {
-          _isPressed = true;
-          onPressed();
-        } else {
-          print("Detected double press");
-        }
-      },
+      onPressed: onPressed == null
+          ? null
+          : () {
+              if (!_isPressed) {
+                _isPressed = true;
+                onPressed();
+              } else {
+                print("Detected double press");
+              }
+            },
     );
   }
 }
