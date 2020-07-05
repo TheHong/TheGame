@@ -15,6 +15,8 @@ Below is an overview of the available games.
 
 ## Releases (and their major updates)
 
+__The master branch is currently at the middle of the development of Version 2.0.0. For releases after v2.0.0, the master branch will be at the latest version while the development will be done in a seperate branch.__
+
 In the following releases, the game is played (and tested) on phones of two people.
 
 ### Version 1.3.0
