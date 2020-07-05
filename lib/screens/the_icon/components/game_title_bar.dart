@@ -21,7 +21,10 @@ class GameTitleBar extends StatelessWidget {
                     ]),
                     borderRadius: BorderRadius.all(Radius.circular(25.0)),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12.0,
+                    horizontal: 20,
+                  ),
                   child: !iconCore.isGameDone
                       ? Column(
                           children: <Widget>[
@@ -35,6 +38,7 @@ class GameTitleBar extends StatelessWidget {
                               addPointPad(
                                 "${iconCore.rememberTime}s Rem.",
                                 iconCore.phase == Phase.REMEMBER,
+                                iconCore.phase,
                               ),
                               style: TextStyle(
                                 fontSize: 12.5,
@@ -47,6 +51,7 @@ class GameTitleBar extends StatelessWidget {
                               addPointPad(
                                 "${iconCore.recallTime}s Rec.",
                                 iconCore.phase == Phase.RECALL,
+                                iconCore.phase,
                               ),
                               style: TextStyle(
                                 fontSize: 12.5,
@@ -65,7 +70,8 @@ class GameTitleBar extends StatelessWidget {
                   height: 10,
                 ),
                 Visibility(
-                  visible: iconCore.phase == Phase.PRE_ROUND,
+                  visible:
+                      [Phase.LOADING, Phase.PRE_ROUND].contains(iconCore.phase),
                   child: Text("${iconCore.prompt}"),
                 ),
                 Visibility(
@@ -107,5 +113,5 @@ class GameTitleBar extends StatelessWidget {
   }
 }
 
-String addPointPad(String text, bool isAdd) =>
-    isAdd ? "> " + text + "  " : text;
+String addPointPad(String text, bool isAdd, Phase phase) =>
+    [Phase.PRE_GAME].contains(phase) ? "" : isAdd ? "> " + text + "  " : text;

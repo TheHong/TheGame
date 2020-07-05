@@ -52,7 +52,6 @@ class _TestingGroundState extends State<TestingGround> {
 }
 
 Widget displayGroup(BuildContext context, IconGroup iconGroup, bool isButton) {
-  // TODO: tobe deleted
   const double boardPadding = 10;
   const double iconPadding = 8;
   const int numIconsPerRow = 10;

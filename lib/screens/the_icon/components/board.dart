@@ -17,11 +17,10 @@ class _BoardState extends State<Board> {
     Size screen = MediaQuery.of(context).size;
     return Consumer<TheIconCore>(builder: (context, iconCore, child) {
       return iconCore.phase == Phase.PRE_GAME
-          ? Expanded(
-              child: Container()) // TODO: Check if this is doing anything
+          ? Expanded(child: Container())
           : iconCore.phase == Phase.LOADING
               ? Container(
-                  child: SpinKitPouringHourglass(
+                  child: SpinKitCubeGrid(
                     color: Colors.white,
                     size: 100.0,
                   ),
@@ -73,11 +72,6 @@ class _BoardState extends State<Board> {
                           onPressed: (TheIconCore iconCore, int idx) {
                             iconCore.selectOption(idx);
                           }),
-                    ),
-                    Group(
-                      // TODO: For debugging purposes
-                      iconGroup: iconCore.currIconBoard.answer,
-                      numIconsPerRow: 15,
                     ),
                   ],
                 );

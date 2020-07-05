@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 class Group extends StatelessWidget {
   /// A Group object displays an IconGroup.
-
   final IconGroup iconGroup; // IconGroup to be displayed
   final Function onPressed;
   final double height;
@@ -83,7 +82,6 @@ class Group extends StatelessWidget {
               itemBuilder: (context, rowNum) {
                 return Container(
                   height: iconSize * 2,
-                  // color: Colors.red,
                   child: Align(
                     alignment: alignment,
                     child: ListView.builder(
