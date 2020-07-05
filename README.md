@@ -7,17 +7,17 @@ Below is an overview of the available games.
 | :-------: | ---------|
 | The Pitch | Player attempts to determine the note corresponding to tones as quickly as possible. |
 | The Trill | Player attempts to trill (using two fingers of same hands to alternating tapping) as quickly as possible. |
-| The Icon  | Player attempts to remember and recall the order of icons shown. (*coming soon*) |
-| The Icons  | Player attempts to remember and recall the order and visuals of icons shown. (*coming soon*) |
+| The Icon  | Player attempts to remember and recall the order of icons shown. |
+| The Icons  | Player attempts to remember and recall the order and visuals of icons shown. |
 | The Sign  | Player attempts to be able to perform English<->ASL translation. (*coming soon*) |
 
-<img src="notes/sample_screen.png" width="30%" height="30%" title="Sample of what Version 2.0.0 may look like">
+<img src="notes/sample_screen.png" width="30%" height="30%" title="Sample of home screen of Version 2.0.0">
 
 ## Releases (and their major updates)
-
-__The master branch is currently at the middle of the development of Version 2.0.0. For releases after v2.0.0, the master branch will be at the latest version while the development will be done in a seperate branch.__
-
 In the following releases, the game is played (and tested) on phones of two people.
+
+### Version 2.0.0
+- Released The Icon and The Icons
 
 ### Version 1.3.0
 - Make The Trill keys more sensitive to presses

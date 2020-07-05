@@ -10,15 +10,4 @@ Have a seperate document for storage
 Buttons have a disabled colour field. Use it
 Keep in mind difference between padding and margins. Change some variable names.
 Why does gamecore not get disposed when not using a Consumer. Compare commits 5f2618d1 with 07c26f74.
-
-wrt Icon
-Flutter error not caught when exit
-	Fixed. Should be because not running iconCore.run(). Currently running iconCore.game()
-Make countdown more obvious
-	Done
-Create a midtext that says info  including amount of time given for remember and amount given to recall
-	Put it in the title bar
-Centralized the icons (instead of flush left)
-	Or not
-Instructions
-Take into account The Icons
+Look into making game more efficient (starting to lag)
