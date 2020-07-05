@@ -5,13 +5,12 @@ import 'package:game_app/models/the_icon/icon_models.dart';
 import 'package:provider/provider.dart';
 
 class Group extends StatelessWidget {
-  /// A Group object displays an IconGroup. 
+  /// A Group object displays an IconGroup.
 
-  final IconGroup iconGroup;  // IconGroup to be displayed
-  final bool isButton; // TODO: To remove
-  final Function onPressed; 
-  final double height; 
-  final EdgeInsets groupMargins; 
+  final IconGroup iconGroup; // IconGroup to be displayed
+  final Function onPressed;
+  final double height;
+  final EdgeInsets groupMargins;
   final EdgeInsets groupPadding;
   final double iconPadding; // Padding between icon and the pressable region
   final Color groupColor; // Background colour of the group
@@ -24,7 +23,6 @@ class Group extends StatelessWidget {
 
   Group({
     @required this.iconGroup,
-    @required this.isButton,
     this.onPressed,
     this.height,
     this.groupMargins = EdgeInsets.zero,
@@ -72,21 +70,24 @@ class Group extends StatelessWidget {
                 2 * (iconSize * iconGrid.length) +
                     groupPadding.top +
                     groupPadding.bottom,
-            child: ListView.builder( // Building a row
+            child: ListView.builder(
+              // Building a row
               padding: EdgeInsets.zero,
               scrollDirection: Axis.vertical,
               itemCount: iconGrid.length,
               itemBuilder: (context, rowNum) {
                 return Container(
                   height: iconSize * 2,
-                  child: ListView.builder( // Building within a row
+                  child: ListView.builder(
+                    // Building within a row (alternates between icon item and sizedbox)
                     scrollDirection: Axis.horizontal,
-                    itemCount: iconGrid[rowNum].length,
+                    itemCount: iconGrid[rowNum].length * 2 - 1,
                     itemBuilder: (context, index) {
-                      int idxGlobal = rowNum * numIconsPerRow + index;
-                      return isButton
+                      int iconIdx = index ~/ 2;
+                      int idxGlobal = rowNum * numIconsPerRow + iconIdx;
+                      return index % 2 == 1
                           ? MaterialIconButton(
-                              codepoint: iconGrid[rowNum][index],
+                              codepoint: iconGrid[rowNum][iconIdx],
                               size: iconSize,
                               padding: iconPadding,
                               iconVisibility: iconGroup.isVisible(idxGlobal),
@@ -106,12 +107,7 @@ class Group extends StatelessWidget {
                                     }
                                   : null,
                             )
-                          : Icon(
-                              IconData(
-                                iconGroup.iconItems[index].codepoint,
-                                fontFamily: 'MaterialIcons',
-                              ),
-                            );
+                          : SizedBox(width: 25);
                     },
                   ),
                 );

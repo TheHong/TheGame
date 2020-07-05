@@ -38,7 +38,6 @@ class _BoardState extends State<Board> {
                         iconGroup: iconCore.phase == Phase.REMEMBER
                             ? iconCore.currIconBoard.answer
                             : iconCore.currIconBoard.question,
-                        isButton: true,
                         height:
                             screen.height * Constant.QUESTIONS_SIZE_FACTOR_ICON,
                         groupMargins: EdgeInsets.symmetric(horizontal: 10),
@@ -61,7 +60,6 @@ class _BoardState extends State<Board> {
                       visible: iconCore.phase == Phase.RECALL,
                       child: Group(
                           iconGroup: iconCore.currIconBoard.options,
-                          isButton: true,
                           height:
                               screen.height * Constant.OPTIONS_SIZE_FACTOR_ICON,
                           groupMargins: EdgeInsets.all(25),
@@ -76,7 +74,6 @@ class _BoardState extends State<Board> {
                     Group(
                       // TODO: For debugging purposes
                       iconGroup: iconCore.currIconBoard.answer,
-                      isButton: true,
                       numIconsPerRow: 15,
                     ),
                   ],

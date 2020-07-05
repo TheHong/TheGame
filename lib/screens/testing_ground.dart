@@ -84,24 +84,17 @@ Widget displayGroup(BuildContext context, IconGroup iconGroup, bool isButton) {
               itemCount: iconGrid[rowNum].length,
               itemBuilder: (context, index) {
                 int idxGlobal = rowNum * numIconsPerRow + index;
-                return isButton
-                    ? MaterialIconButton(
-                        codepoint: iconGrid[rowNum][index],
-                        size: iconSize,
-                        padding: iconPadding,
-                        iconVisibility: iconGroup.isVisible(idxGlobal),
-                        onPressed: true
-                            ? () {
-                                print("${iconGrid[rowNum][index]} preessed!");
-                              }
-                            : null,
-                      )
-                    : Icon(
-                        IconData(
-                          iconGroup.iconItems[index].codepoint,
-                          fontFamily: 'MaterialIcons',
-                        ),
-                      );
+                return MaterialIconButton(
+                  codepoint: iconGrid[rowNum][index],
+                  size: iconSize,
+                  padding: iconPadding,
+                  iconVisibility: iconGroup.isVisible(idxGlobal),
+                  onPressed: true
+                      ? () {
+                          print("${iconGrid[rowNum][index]} preessed!");
+                        }
+                      : null,
+                );
               },
             ),
           );
