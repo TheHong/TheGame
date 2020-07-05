@@ -21,6 +21,7 @@ class _TrillGameState extends State<TrillGame> {
     return ChangeNotifierProvider<TheTrillCore>(
         create: (context) => trillCore,
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
             backgroundColor: Colors.green[100],
             appBar: AppBar(
               title: Text("The Trill", style: TextStyle(color: Colors.black)),
@@ -41,23 +42,18 @@ class _TrillGameState extends State<TrillGame> {
                 )
               ],
             ),
-            body: ListView(
-              physics: NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 0,
-                      horizontal: MediaQuery.of(context).size.width / 41),
-                  child: Column(
-                    children: <Widget>[
-                      TitleBar(),
-                      Prompter(), // Contains parameters that do not adapt with screen size
-                      MiniKeyPressor(),
-                      SubmitButton(),
-                    ],
-                  ),
-                )
-              ],
+            body: Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: 0,
+                  horizontal: MediaQuery.of(context).size.width / 41),
+              child: Column(
+                children: <Widget>[
+                  TitleBar(),
+                  Prompter(), // Contains parameters that do not adapt with screen size
+                  MiniKeyPressor(),
+                  SubmitButton(),
+                ],
+              ),
             )));
   }
 }

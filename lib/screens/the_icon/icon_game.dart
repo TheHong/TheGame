@@ -27,6 +27,7 @@ class _IconGameState extends State<IconGame> {
     return ChangeNotifierProvider<TheIconCore>(
       create: (context) => widget.iconCore,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: widget.iconCore.scaffoldColor,
         appBar: AppBar(
           title: Text(widget.iconCore.getGameName()),
@@ -51,6 +52,7 @@ class _IconGameState extends State<IconGame> {
           children: <Widget>[
             GameTitleBar(),
             Board(),
+            Expanded(child: Container()),
             BottomBar(),
           ],
         ),
