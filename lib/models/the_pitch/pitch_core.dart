@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/game_core.dart';
@@ -107,7 +109,10 @@ class ThePitchCore extends GameCore {
         keyboard.keysByNote[currNote].specialColor = Colors.green;
         prompt = "Incorrect!";
       } else {
-        scoreChange = _timePerRound - submitDuration;
+        scoreChange = min(
+          _timePerRound * 1.0,
+          _timePerRound - submitDuration + Constant.SCORE_OFFSET_PITCH,
+        );
         score += scoreChange;
         isCorrect = true;
         keyboard.currKey.specialColor = Colors.green;
