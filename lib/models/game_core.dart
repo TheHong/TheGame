@@ -26,25 +26,27 @@ class Counter {
 
   bool get isShow => _isShow;
 
+  BoolInterrupt boolInterrupt;
+
   Future run(
     int startCount, {
     Function notifier,
-    BoolInterrupt boolInterrupt,
     bool isRedActive = true,
     bool isShow = true,
   }) async {
     _isShow = isShow;
+    boolInterrupt.reset();
     try {
       for (int i = startCount - 1; i >= 0; i--) {
         // TODO: Could make use of null-aware operators below
-        if (boolInterrupt is BoolInterrupt && boolInterrupt.val) break;
+        if (boolInterrupt.val) break;
         // _currCount is only updated if other widgets are notified
         if (notifier is Function) {
           currCount = i;
           colour = isRedActive && i <= 3 ? urgentColour : defaultColour;
           notifier();
         }
-        if (boolInterrupt is BoolInterrupt && boolInterrupt.val) break;
+        if (boolInterrupt.val) break;
         await Future.delayed(Duration(seconds: 1), () {});
       }
     } on FlutterError {
@@ -52,6 +54,11 @@ class Counter {
     }
     colour = defaultColour;
     _isShow = true;
+  }
+
+  double stop(){
+    boolInterrupt.raise();
+    return 0;
   }
 }
 
