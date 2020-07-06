@@ -16,8 +16,10 @@ Below is an overview of the available games.
 ## Releases (and their major updates)
 In the following releases, the game is played (and tested) on phones of two people.
 
-### Version 2.1.0 (under development)
+### Version 2.1.0
 - Modify timing regime for the remember phase of The Icon and The Icons
+- Adjust minimum time allocated to the Icon and The Icons
+- Adjust The Pitch scores to take into account app delay. 
 
 ### Version 2.0.1
 - In response to players clicking the exit key instead of the fast-forward key, a confirmation is added to the exit key.
