@@ -274,15 +274,6 @@ class _HomeState extends State<Home> {
                               TextStyle(fontSize: 15.0, color: Colors.black26),
                         ),
                       ),
-                      // Row(
-                      //   children: <Widget>[
-                      //     // This does not take into account more than 3 players on podium
-                      //     // Nor does it take into account there is less than 3 players
-                      //     getSmallMedalResultItem(1, results[0]),
-                      //     getSmallMedalResultItem(2, results[1]),
-                      //     getSmallMedalResultItem(3, results[2]),
-                      //   ],
-                      // ),
                     ],
                   ),
                 ),
@@ -293,7 +284,6 @@ class _HomeState extends State<Home> {
                       icon: Icon(Icons.list),
                       onPressed: () {
                         _showQuickResults(context, name, numDecPlaces);
-                        // _showQuickResultsFromResults(context, results, numDecPlaces);
                       },
                     ),
                     IconButton(
@@ -352,39 +342,3 @@ void _showQuickResults(BuildContext context, String game, int numDecPlaces) {
     ),
   );
 }
-
-// void _showQuickResultsFromResults(
-//     BuildContext context, List<Result> results, int numDecPlaces) {
-//   List<int> ranking = getRanking(results);
-//   showDialog(
-//     context: context,
-//     builder: (context) => SimpleDialog(
-//       title: Text(
-//           results.isNotEmpty
-//               ? "Results (${results[0].game})"
-//               : "No records yet!",
-//           style: TextStyle(fontSize: 20)),
-//       children: [
-//         Visibility(
-//           visible: results.isNotEmpty,
-//           child: Container(
-//             width: 300,
-//             height: 300,
-//             child: ListView.builder(
-//                 // Put stream
-//                 scrollDirection: Axis.vertical,
-//                 itemCount: results.length,
-//                 itemBuilder: (context, index) {
-//                   return getResultItem(
-//                     rank: ranking[index],
-//                     index: index,
-//                     result: results[index],
-//                     numDecPlaces: numDecPlaces,
-//                   );
-//                 }),
-//           ),
-//         ),
-//       ],
-//     ),
-//   );
-// }

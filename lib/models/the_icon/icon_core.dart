@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/game_core.dart';
