@@ -29,8 +29,6 @@ class TheIconCore extends GameCore {
   double bonusTime = 0;
   Color scaffoldColor = Colors.cyan[200];
 
-  final stopwatch = Stopwatch(); // To measure time taken to answer
-
   @override
   String getGameName() => "The Icon";
   @override
@@ -72,26 +70,17 @@ class TheIconCore extends GameCore {
       phase = Phase.REMEMBER;
       prompt = "Remember!";
       buttonPrompt = "Click to Recall";
-      stopwatch.start();
       await counter.run(
         rememberTime,
         notifier: notifyListeners,
-        boolInterrupt: boolInterrupt,
       );
-      timeEarned = rememberTime - stopwatch.elapsedMicroseconds / pow(10, 6);
-      print(rememberTime);
-      print(stopwatch.elapsedMicroseconds / pow(10, 6));
-      stopwatch.stop();
-      stopwatch.reset();
-      boolInterrupt.reset();
+      timeEarned = rememberTime - counter.timeElapsed;
 
       // Recalling Phase
       phase = Phase.RECALL;
       prompt = "Recall!";
       buttonPrompt = "Click to Submit";
-      await counter.run(recallTime,
-          notifier: notifyListeners, boolInterrupt: boolInterrupt);
-      boolInterrupt.reset();
+      await counter.run(recallTime, notifier: notifyListeners);
 
       // Evaluation Phase
       phase = Phase.EVALUATE;

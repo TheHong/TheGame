@@ -44,6 +44,8 @@ class Constant {
       3; // Duration of the countdown to the start of the round
   static const int TIME_PER_ROUND_END_PITCH =
       3; // Duration at the end of each round before the countdown of next round
+  static const SCORE_OFFSET_PITCH =
+      1.0; // Offset to take into account program delay (score bonus)
   static const String INSTRUCTIONS_PITCH =
       "The point of this game is to be able to choose the note that corresponds to the note being played as quickly as possible." +
           " For each round, one note will be played. You will have $TIME_PER_ROUND_PITCH seconds to guess the note by pressing one of the keys on the keyboard." +

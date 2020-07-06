@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:game_app/models/constants.dart';
 import 'package:game_app/models/game_core.dart';
@@ -22,7 +24,7 @@ class ThePitchCore extends GameCore {
   String currNote = ""; // Current note to be identified
   String selectedNote = ""; // Note selected by player
 
-  double submitTime = -1; // Point in the COUNTDOWN that answer was submitted
+  double submitDuration = -1; // Time it took to submit an answer
 
   bool isCorrect = false; // Is the submitted answer correct
   double scoreChange = 0;
@@ -30,7 +32,6 @@ class ThePitchCore extends GameCore {
 
   final notePlayer = NotePlayer(); // To play the tones
   final keyboard = Keyboard(); // Contains the information of the keys
-  final stopwatch = Stopwatch(); // To measure time taken to answer
 
   @override
   String getGameName() => "The Pitch";
@@ -59,9 +60,8 @@ class ThePitchCore extends GameCore {
       isRoundDone = false;
       keyboard.reset();
       selectedNote = "";
-      submitTime = -1;
+      submitDuration = -1;
       scoreChange = 0;
-      boolInterrupt.reset();
 
       // Update variables
       prompt = _prompts["prep"];
@@ -94,27 +94,25 @@ class ThePitchCore extends GameCore {
 
       // Give user time to choose
       keyboard.activate();
-      stopwatch
-          .start(); // Used in the key_pressor widget to get the exact time user submits
-      await counter.run(_timePerRound,
-          notifier: notifyListeners, boolInterrupt: boolInterrupt);
-      print(stopwatch.elapsedMicroseconds);
-      stopwatch.stop();
-      stopwatch.reset();
+      await counter.run(_timePerRound, notifier: notifyListeners);
       keyboard.deactivate();
+      submitDuration = counter.timeElapsed;
 
       // Evaluation -----------------------------------------------------------
       // No answer was submitted or the answer is incorrect
-      if (submitTime == -1 || currNote != selectedNote) {
-        scoreChange =
-            0; // This and the next line are not needed. They are just for clarity
+      if (currNote != selectedNote) {
+        // This and the next line are not needed. They are just for clarity
+        scoreChange = 0;
         score += scoreChange;
         isCorrect = false;
         keyboard.currKey.specialColor = Colors.red;
         keyboard.keysByNote[currNote].specialColor = Colors.green;
         prompt = "Incorrect!";
       } else {
-        scoreChange = _timePerRound - submitTime;
+        scoreChange = min(
+          _timePerRound * 1.0,
+          _timePerRound - submitDuration + Constant.SCORE_OFFSET_PITCH,
+        );
         score += scoreChange;
         isCorrect = true;
         keyboard.currKey.specialColor = Colors.green;
@@ -133,11 +131,6 @@ class ThePitchCore extends GameCore {
     notifyListeners();
   }
 
-  void setSubmitTime(double newSubmit) {
-    submitTime = newSubmit;
-    notifyListeners();
-  }
-
   void setSelected(String newNote) {
     selectedNote = newNote;
     notifyListeners();
@@ -148,7 +141,7 @@ class ThePitchCore extends GameCore {
     return "Chosen: $selectedNote\n" +
         "Current: $currNote\n" +
         "Keyboard Active: ${keyboard.isActive}\n" +
-        "Submit Time: $submitTime\n" +
+        "Submit Duration: $submitDuration\n" +
         "Correct: $isCorrect\n" +
         "Round Complete: $isRoundDone\n" +
         "Game Complete: $isGameDone\n";

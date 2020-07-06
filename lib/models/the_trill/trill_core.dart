@@ -37,8 +37,7 @@ class TheTrillCore extends GameCore {
     notifyListeners();
 
     // Give player a certain amount of time to do the trills
-    await counter.run(_timePerRound,
-        notifier: notifyListeners, boolInterrupt: boolInterrupt);
+    await counter.run(_timePerRound, notifier: notifyListeners);
     keyboard.deactivate();
 
     // Pause for user to get result feedback --------------------------------

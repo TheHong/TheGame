@@ -130,7 +130,7 @@ class GameTitleBar extends StatelessWidget {
                     onPressed: iconCore.phase == Phase.PRE_ROUND
                         ? null
                         : () {
-                            iconCore.boolInterrupt.raise();
+                            iconCore.counter.stop();
                           },
                   ),
                 ),
