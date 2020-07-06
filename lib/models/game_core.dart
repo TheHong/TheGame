@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:game_app/models/constants.dart';
@@ -16,8 +18,13 @@ class BoolInterrupt {
 }
 
 class Counter {
-  /* Starts counting down at startCount - 1 */
+  /// Starts counting down at startCount - 1
+
+  final BoolInterrupt boolInterrupt = BoolInterrupt();
+  final Stopwatch stopwatch = Stopwatch();
+
   int currCount = 0;
+  double timeElapsed; // How much time elapsed during Counter's run
   bool _isShow = true; // Used by widgets to know if show counter or not
 
   Color defaultColour = Colors.black;
@@ -26,8 +33,6 @@ class Counter {
 
   bool get isShow => _isShow;
 
-  BoolInterrupt boolInterrupt;
-
   Future run(
     int startCount, {
     Function notifier,
@@ -35,12 +40,14 @@ class Counter {
     bool isShow = true,
   }) async {
     _isShow = isShow;
+    timeElapsed = -1;
     boolInterrupt.reset();
+    stopwatch.reset();
+    stopwatch.start();
     try {
       for (int i = startCount - 1; i >= 0; i--) {
-        // TODO: Could make use of null-aware operators below
         if (boolInterrupt.val) break;
-        // _currCount is only updated if other widgets are notified
+        // currCount is only updated if other widgets are notified
         if (notifier is Function) {
           currCount = i;
           colour = isRedActive && i <= 3 ? urgentColour : defaultColour;
@@ -52,13 +59,15 @@ class Counter {
     } on FlutterError {
       print("Counter safely came to an abrupt end.");
     }
+    if (!boolInterrupt.val) timeElapsed = startCount * 1.0;
+    stopwatch.stop();
     colour = defaultColour;
     _isShow = true;
   }
 
-  double stop(){
+  void stop() {
+    timeElapsed = stopwatch.elapsedMicroseconds / pow(10, 6);
     boolInterrupt.raise();
-    return 0;
   }
 }
 
@@ -66,7 +75,6 @@ abstract class GameCore extends ChangeNotifier {
   DatabaseService databaseService = DatabaseService();
   final counter = Counter(); // To get time to be displayed
   final leaderboardSize = Constant.LEADERBOARD_SIZE;
-  final boolInterrupt = BoolInterrupt();
 
   // TODO: Privatize if needed
   double score = 0.0;
@@ -211,7 +219,7 @@ abstract class GameCore extends ChangeNotifier {
   @override
   void dispose() {
     isGameDone = true; // Ensure background processes end
-    boolInterrupt.raise(); // Ensure background processes end
+    counter.stop(); // Ensure counter ends
     print(
         "$this successfully disposed. (Stats${isStatsUpdated ? " " : " not "}updated)");
     super.dispose();
