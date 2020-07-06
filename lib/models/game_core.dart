@@ -228,6 +228,11 @@ abstract class GameCore extends ChangeNotifier {
 
   @override
   void dispose() {
+    // Update results if not done already
+    if (isGameDone && !isStatsUpdated && isResultsActivated) {
+      databaseService.updateStats(getGameName());
+      isStatsUpdated = true;
+    }
     isGameDone = true; // Ensure background processes end
     counter.stop(); // Ensure counter ends
     print(
