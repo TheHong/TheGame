@@ -53,7 +53,7 @@ Widget getUpdatorBackButton(BuildContext context, GameCore gameCore) =>
           gameCore.databaseService.updateStats(gameCore.getGameName());
           gameCore.isStatsUpdated = true;
         }
-        if (!gameCore.isGameDone)
+        if (!gameCore.isGameDone && gameCore.isGameStarted)
           confirmedExit(context);
         else
           Navigator.pop(context);

@@ -41,11 +41,11 @@ class TheIconCore extends GameCore {
   Future game() async {
     phase = Phase.LOADING;
     prompt = "Loading...";
+    isGameStarted = true;
     notifyListeners();
     await iconList.loadIconInfo();
 
     timeEarned = 0;
-    isGameStarted = true;
     while (!isGameDone) {
       phase = Phase.PRE_ROUND;
       currRound += 1;
@@ -72,6 +72,7 @@ class TheIconCore extends GameCore {
       await counter.run(
         rememberTime + bonusTime,
         notifier: notifyListeners,
+        isRedActive: true,
       );
       if (counter.timeElapsed < rememberTime) {
         // Gained bonus
@@ -85,7 +86,11 @@ class TheIconCore extends GameCore {
       phase = Phase.RECALL;
       prompt = "Recall!";
       buttonPrompt = "Click to Submit";
-      await counter.run(recallTime, notifier: notifyListeners);
+      await counter.run(
+        recallTime,
+        notifier: notifyListeners,
+        isRedActive: true,
+      );
 
       // Evaluation Phase
       phase = Phase.EVALUATE;
@@ -100,6 +105,33 @@ class TheIconCore extends GameCore {
       await counter.run(_timePerRoundEnd);
     }
     print("Game Complete!");
+  }
+
+  @override
+  Future gadme() async {
+    phase = Phase.LOADING;
+    prompt = "Loading...";
+    isGameStarted = true;
+    notifyListeners();
+    await iconList.loadIconInfo();
+
+    phase = Phase.PRE_ROUND;
+    currRound += 1;
+
+    // Generating icons
+    currIconBoard = IconBoard(
+      answer: IconGroup(
+        codepoints: iconList.getRandomCodepoints(n: (currRound).toInt()),
+      ),
+      iconList: iconList,
+      optionsFactor: optionsFactor,
+    );
+
+    // Remembering phase
+    phase = Phase.REMEMBER;
+    prompt = "Remember!";
+    buttonPrompt = "Click to Recall";
+    notifyListeners();
   }
 
   void selectQuestion(int idx) {

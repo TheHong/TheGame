@@ -98,7 +98,10 @@ class Group extends StatelessWidget {
                                 size: iconSize,
                                 padding: iconPadding,
                                 iconVisibility: iconGroup.isVisible(idxGlobal),
-                                backgroundColor: buttonColor,
+                                backgroundColor: buttonColor ??
+                                    (iconGroup.iconItems[idxGlobal].isVisible
+                                        ? Colors.transparent
+                                        : Colors.black12),
                                 disabledColor: disabledIconColor,
                                 // Change colour if chosen already
                                 color: iconGroup.iconItems[idxGlobal].isChosen

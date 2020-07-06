@@ -47,9 +47,11 @@ class _BoardState extends State<Board> {
                         groupPadding: EdgeInsets.all(screen.height / 118.4),
                         iconMargins: 5,
                         curveRadius: 30,
-                        iconColor: Colors.white,
-                        disabledIconColor: Colors.white,
-                        buttonColor: Colors.black26,
+                        iconColor: Colors.black,
+                        disabledIconColor: Colors.black,
+                        buttonColor: iconCore.phase == Phase.REMEMBER
+                            ? Colors.transparent
+                            : null,
                         onPressed: (TheIconCore iconCore, int idx) {
                           iconCore.selectQuestion(idx);
                         },
