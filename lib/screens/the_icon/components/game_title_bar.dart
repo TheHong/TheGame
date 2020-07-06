@@ -60,13 +60,15 @@ class GameTitleBar extends StatelessWidget {
                                 ),
                                 Text(
                                   iconCore.bonusTime > 0
-                                      ? "+${iconCore.bonusTime.toStringAsFixed(1)}s"
+                                      ? "+${iconCore.bonusTime}s"
                                       : "",
                                   style: TextStyle(
                                     fontSize: screen.height / 47.4,
                                     color: iconCore.phase == Phase.REMEMBER
-                                        ? Colors.green
-                                        : Colors.blueGrey[200],
+                                        ? Colors.blueGrey[800]
+                                        : iconCore.phase == Phase.EVALUATE
+                                            ? Colors.green
+                                            : Colors.blueGrey[200],
                                   ),
                                 ),
                               ],
@@ -87,7 +89,7 @@ class GameTitleBar extends StatelessWidget {
                           ],
                         )
                       : Text(
-                          "Final Score: ${iconCore.score.toStringAsFixed(0)}",
+                          "Final Score: ${iconCore.score.toStringAsFixed(iconCore.getNumDecPlaces())}",
                           style: TextStyle(fontSize: screen.height / 19.7)),
                 ),
                 SizedBox(
@@ -95,11 +97,12 @@ class GameTitleBar extends StatelessWidget {
                 ),
                 Visibility(
                   visible: [
-                    Phase.PRE_ROUND,
-                    Phase.REMEMBER,
-                    Phase.RECALL,
-                    Phase.EVALUATE
-                  ].contains(iconCore.phase) && !iconCore.isGameDone,
+                        Phase.PRE_ROUND,
+                        Phase.REMEMBER,
+                        Phase.RECALL,
+                        Phase.EVALUATE
+                      ].contains(iconCore.phase) &&
+                      !iconCore.isGameDone,
                   maintainSize: true,
                   maintainState: true,
                   maintainAnimation: true,
@@ -142,4 +145,4 @@ class GameTitleBar extends StatelessWidget {
 }
 
 String addPointPad(String text, bool isAdd, Phase phase) =>
-    [Phase.PRE_GAME].contains(phase) ? "" : isAdd ? "> " + text + "  " : text;
+    [Phase.PRE_GAME].contains(phase) ? "" : isAdd ? "> " + text : text;

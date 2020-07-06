@@ -24,8 +24,8 @@ class TheIconCore extends GameCore {
   String buttonPrompt = ""; // Prompt to specify the usage of the main button
   int _timePerRoundStart = 2;
   int _timePerRoundEnd = 1;
-  int get rememberTime => max(5, (5 * (currRound - 1)).toInt());
-  int get recallTime => max(5, (5 * (currRound - 1)).toInt());
+  int get rememberTime => (Constant.TIME_PER_Q_ICON * (currRound - 1)).toInt();
+  int get recallTime => 2 * (Constant.TIME_PER_Q_ICON * (currRound - 1)).toInt();
   int bonusTime = 0;
   int timeEarned;
   Color scaffoldColor = Colors.cyan[200];
@@ -92,9 +92,7 @@ class TheIconCore extends GameCore {
       // Evaluation Phase
       phase = Phase.EVALUATE;
       if (evaluateAnswer()) {
-        prompt = "Correct! " +
-            (timeEarned >= 0 ? "Earned extra" : "Used up") +
-            " ${timeEarned.abs()}s";
+        prompt = "Correct!";
         bonusTime += timeEarned;
         score += 1;
       } else {
@@ -203,8 +201,8 @@ class TheIconCore extends GameCore {
 class TheIconsCore extends TheIconCore {
   double optionsFactor = Constant.OPTIONS_FACTOR_ICONS;
   Color scaffoldColor = Colors.cyan;
-  int get rememberTime => max(7, (8 * (currRound - 1)).toInt());
-  int get recallTime => max(7, (8 * (currRound - 1)).toInt());
+  int get rememberTime => (Constant.TIME_PER_Q_ICONS * (currRound - 1)).toInt();
+  int get recallTime => 2 * (Constant.TIME_PER_Q_ICONS * (currRound - 1)).toInt();
   @override
   String getGameName() => "The Icons";
   @override
