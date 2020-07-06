@@ -26,7 +26,10 @@ class TheIconCore extends GameCore {
   int _timePerRoundEnd = 1;
   int get rememberTime => (pow((currRound - 1), 2) + 5).toInt();
   int get recallTime => (pow((currRound - 1), 2) + 5).toInt();
+  double bonusTime = 0;
   Color scaffoldColor = Colors.cyan[200];
+
+  final stopwatch = Stopwatch(); // To measure time taken to answer
 
   @override
   String getGameName() => "The Icon";
@@ -37,7 +40,7 @@ class TheIconCore extends GameCore {
   @override
   String getInstructions() => Constant.INSTRUCTIONS_ICON;
 
- @override
+  @override
   Future game() async {
     phase = Phase.LOADING;
     prompt = "Loading...";
@@ -68,8 +71,15 @@ class TheIconCore extends GameCore {
       phase = Phase.REMEMBER;
       prompt = "Remember!";
       buttonPrompt = "Click to Recall";
-      await counter.run(rememberTime,
-          notifier: notifyListeners, boolInterrupt: boolInterrupt);
+      stopwatch.start();
+      await counter.run(
+        rememberTime,
+        notifier: notifyListeners,
+        boolInterrupt: boolInterrupt,
+      );
+      bonusTime += rememberTime - stopwatch.elapsedMicroseconds / pow(10, 6);
+      stopwatch.stop();
+      stopwatch.reset();
       boolInterrupt.reset();
 
       // Recalling Phase
@@ -93,7 +103,6 @@ class TheIconCore extends GameCore {
     }
     print("Game Complete!");
   }
-
 
   void selectQuestion(int idx) {
     // idx of -1 is encountered when getNextQuestion() is called but all questions are answered.

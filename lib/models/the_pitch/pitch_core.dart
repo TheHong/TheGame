@@ -30,7 +30,7 @@ class ThePitchCore extends GameCore {
 
   final notePlayer = NotePlayer(); // To play the tones
   final keyboard = Keyboard(); // Contains the information of the keys
-  final stopwatch = Stopwatch(); // To measure time
+  final stopwatch = Stopwatch(); // To measure time taken to answer
 
   @override
   String getGameName() => "The Pitch";
@@ -95,7 +95,7 @@ class ThePitchCore extends GameCore {
       // Give user time to choose
       keyboard.activate();
       stopwatch
-          .start(); // Used in another widget to get the exact time user submits
+          .start(); // Used in the key_pressor widget to get the exact time user submits
       await counter.run(_timePerRound,
           notifier: notifyListeners, boolInterrupt: boolInterrupt);
       print(stopwatch.elapsedMicroseconds);
