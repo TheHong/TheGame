@@ -24,8 +24,8 @@ class TheIconCore extends GameCore {
   String buttonPrompt = ""; // Prompt to specify the usage of the main button
   int _timePerRoundStart = 2;
   int _timePerRoundEnd = 1;
-  int get rememberTime => (pow((currRound - 1), 2) + 5).toInt();
-  int get recallTime => (pow((currRound - 1), 2) + 5).toInt();
+  int get rememberTime => max(5, (5 * (currRound - 1)).toInt());
+  int get recallTime => max(5, (5 * (currRound - 1)).toInt());
   double bonusTime = 0;
   Color scaffoldColor = Colors.cyan[200];
 
@@ -46,8 +46,9 @@ class TheIconCore extends GameCore {
     prompt = "Loading...";
     notifyListeners();
     await iconList.loadIconInfo();
-    isGameStarted = true;
 
+    double timeEarned = 0;
+    isGameStarted = true;
     while (!isGameDone) {
       phase = Phase.PRE_ROUND;
       currRound += 1;
@@ -77,7 +78,9 @@ class TheIconCore extends GameCore {
         notifier: notifyListeners,
         boolInterrupt: boolInterrupt,
       );
-      bonusTime += rememberTime - stopwatch.elapsedMicroseconds / pow(10, 6);
+      timeEarned = rememberTime - stopwatch.elapsedMicroseconds / pow(10, 6);
+      print(rememberTime);
+      print(stopwatch.elapsedMicroseconds / pow(10, 6));
       stopwatch.stop();
       stopwatch.reset();
       boolInterrupt.reset();
@@ -93,12 +96,13 @@ class TheIconCore extends GameCore {
       // Evaluation Phase
       phase = Phase.EVALUATE;
       if (evaluateAnswer()) {
-        prompt = "Correct!";
+        prompt = "Correct! Earned ${timeEarned.toStringAsFixed(1)}s";
+        bonusTime += timeEarned;
         score += 1;
       } else {
         isGameDone = true;
       }
-      // notifyListeners()
+      notifyListeners();
       await counter.run(_timePerRoundEnd);
     }
     print("Game Complete!");
@@ -201,8 +205,8 @@ class TheIconCore extends GameCore {
 class TheIconsCore extends TheIconCore {
   double optionsFactor = Constant.OPTIONS_FACTOR_ICONS;
   Color scaffoldColor = Colors.cyan;
-  int get rememberTime => (pow((currRound - 1), 2) + 10).toInt();
-  int get recallTime => (pow((currRound - 1), 2) + 10).toInt();
+  int get rememberTime => max(7, (8 * (currRound - 1)).toInt());
+  int get recallTime => max(7, (8 * (currRound - 1)).toInt());
   @override
   String getGameName() => "The Icons";
   @override

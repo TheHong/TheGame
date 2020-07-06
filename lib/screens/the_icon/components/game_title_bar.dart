@@ -41,18 +41,35 @@ class GameTitleBar extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: screen.height / 74),
-                            Text(
-                              addPointPad(
-                                "${iconCore.rememberTime}s Rem.",
-                                iconCore.phase == Phase.REMEMBER,
-                                iconCore.phase,
-                              ),
-                              style: TextStyle(
-                                fontSize: screen.height / 47.4,
-                                color: iconCore.phase == Phase.REMEMBER
-                                    ? Colors.blueGrey[800]
-                                    : Colors.blueGrey[200],
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  addPointPad(
+                                    "${iconCore.rememberTime}s Rem.",
+                                    iconCore.phase == Phase.REMEMBER,
+                                    iconCore.phase,
+                                  ),
+                                  style: TextStyle(
+                                    fontSize: screen.height / 47.4,
+                                    color: iconCore.phase == Phase.REMEMBER
+                                        ? Colors.blueGrey[800]
+                                        : Colors.blueGrey[200],
+                                  ),
+                                ),
+                                Text(
+                                  iconCore.bonusTime > 0
+                                      ? "+${iconCore.bonusTime.toStringAsFixed(1)}s"
+                                      : "",
+                                  style: TextStyle(
+                                    fontSize: screen.height / 47.4,
+                                    color: iconCore.phase == Phase.REMEMBER
+                                        ? Colors.green
+                                        : Colors.blueGrey[200],
+                                  ),
+                                ),
+                              ],
                             ),
                             Text(
                               addPointPad(
@@ -77,8 +94,12 @@ class GameTitleBar extends StatelessWidget {
                   height: screen.height / 40,
                 ),
                 Visibility(
-                  visible: [Phase.PRE_ROUND, Phase.REMEMBER, Phase.RECALL]
-                      .contains(iconCore.phase),
+                  visible: [
+                    Phase.PRE_ROUND,
+                    Phase.REMEMBER,
+                    Phase.RECALL,
+                    Phase.EVALUATE
+                  ].contains(iconCore.phase) && !iconCore.isGameDone,
                   maintainSize: true,
                   maintainState: true,
                   maintainAnimation: true,
