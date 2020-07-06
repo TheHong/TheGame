@@ -71,8 +71,8 @@ class Constant {
       0.2; // With respect to height
   static const double OPTIONS_SIZE_FACTOR_ICON = 0.2; // With respect to height
   static const double OPTIONS_FACTOR_ICONS = 2;
-  static const int TIME_PER_Q_ICON = 5;
-  static const int TIME_PER_Q_ICONS = 7;
+  static const int TIME_PER_Q_ICON = 4;
+  static const int TIME_PER_Q_ICONS = 4;
   static const String INSTRUCTIONS_ICON = "The point of the game is to be able to memorize a given list of icons." +
       " There are two main phases. The remember phase (Rem.) is you memorize the icons that are shown by the game." +
       " In the recall phase (Rec.), you will have to choose from a given list of icons to create a list of icons of the same order as you memorized." +
