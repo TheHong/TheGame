@@ -26,7 +26,8 @@ class TheIconCore extends GameCore {
   int _timePerRoundEnd = 1;
   int get rememberTime => max(5, (5 * (currRound - 1)).toInt());
   int get recallTime => max(5, (5 * (currRound - 1)).toInt());
-  double bonusTime = 0;
+  int bonusTime = 0;
+  int timeEarned;
   Color scaffoldColor = Colors.cyan[200];
 
   @override
@@ -45,7 +46,7 @@ class TheIconCore extends GameCore {
     notifyListeners();
     await iconList.loadIconInfo();
 
-    double timeEarned = 0;
+    timeEarned = 0;
     isGameStarted = true;
     while (!isGameDone) {
       phase = Phase.PRE_ROUND;
@@ -71,10 +72,16 @@ class TheIconCore extends GameCore {
       prompt = "Remember!";
       buttonPrompt = "Click to Recall";
       await counter.run(
-        rememberTime,
+        rememberTime + bonusTime,
         notifier: notifyListeners,
       );
-      timeEarned = rememberTime - counter.timeElapsed;
+      if (counter.timeElapsed < rememberTime) {
+        // Gained bonus
+        timeEarned = (rememberTime - counter.timeElapsed).ceil();
+      } else {
+        // Loss bonus
+        timeEarned = (rememberTime - counter.timeElapsed).floor();
+      }
 
       // Recalling Phase
       phase = Phase.RECALL;
@@ -85,7 +92,9 @@ class TheIconCore extends GameCore {
       // Evaluation Phase
       phase = Phase.EVALUATE;
       if (evaluateAnswer()) {
-        prompt = "Correct! Earned ${timeEarned.toStringAsFixed(1)}s";
+        prompt = "Correct! " +
+            (timeEarned >= 0 ? "Earned extra" : "Used up") +
+            " ${timeEarned.abs()}s";
         bonusTime += timeEarned;
         score += 1;
       } else {
