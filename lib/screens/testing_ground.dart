@@ -9,6 +9,7 @@ class TestingGround extends StatefulWidget {
 class _TestingGroundState extends State<TestingGround> {
   String state = "HELLO";
   final Counter counter = Counter();
+  final Stopwatch stopwatch = Stopwatch();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +36,10 @@ class _TestingGroundState extends State<TestingGround> {
         icon: Icon(Icons.fingerprint),
         onPressed: () {
           counter.run(10);
+          stopwatch.start();
+          print(stopwatch.elapsedMicroseconds);
+          stopwatch.stop();
+          stopwatch.reset();
         },
       ),
     );

@@ -24,8 +24,10 @@ class Counter {
   final Stopwatch stopwatch = Stopwatch();
 
   int currCount = 0;
+  int timeElapsedRaw; // Used to capture the time elapsed immediately
   double timeElapsed; // How much time elapsed during Counter's run
   bool _isShow = true; // Used by widgets to know if show counter or not
+  bool _isActive = false; // Whether or not counter is currently running
 
   Color defaultColour = Colors.black;
   Color urgentColour = Colors.red;
@@ -40,7 +42,9 @@ class Counter {
     bool isShow = true,
   }) async {
     _isShow = isShow;
-    timeElapsed = -1;
+    timeElapsedRaw = -1; // APPROXIMATE
+    timeElapsed = -1; // APPROXIMATE
+    _isActive = true;
     boolInterrupt.reset();
     stopwatch.reset();
     stopwatch.start();
@@ -63,11 +67,17 @@ class Counter {
     stopwatch.stop();
     colour = defaultColour;
     _isShow = true;
+    _isActive = false;
   }
 
   void stop() {
-    timeElapsed = stopwatch.elapsedMicroseconds / pow(10, 6);
-    boolInterrupt.raise();
+    // Record immediately
+    timeElapsedRaw = stopwatch.elapsedMicroseconds;
+    if (_isActive) {
+      timeElapsed = timeElapsedRaw / pow(10, 6);
+      boolInterrupt.raise();
+      _isActive = false;
+    }
   }
 }
 
