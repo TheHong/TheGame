@@ -6,7 +6,7 @@ class Constant {
   static const bool IS_DEBUG = !kReleaseMode;
   static const bool IS_DEVELOPER =
       false; // Only true if want to grant access to developer suite in release mode
-  static const String VERSION = "Version 2.0.1";
+  static const String VERSION = "Version 2.1.0";
   static const int LEADERBOARD_SIZE = 10;
   static const List<String> GAMES = [
     "The Pitch",
@@ -44,6 +44,8 @@ class Constant {
       3; // Duration of the countdown to the start of the round
   static const int TIME_PER_ROUND_END_PITCH =
       3; // Duration at the end of each round before the countdown of next round
+  static const SCORE_OFFSET_PITCH =
+      1.0; // Offset to take into account program delay (score bonus)
   static const String INSTRUCTIONS_PITCH =
       "The point of this game is to be able to choose the note that corresponds to the note being played as quickly as possible." +
           " For each round, one note will be played. You will have $TIME_PER_ROUND_PITCH seconds to guess the note by pressing one of the keys on the keyboard." +
@@ -69,24 +71,28 @@ class Constant {
       0.2; // With respect to height
   static const double OPTIONS_SIZE_FACTOR_ICON = 0.2; // With respect to height
   static const double OPTIONS_FACTOR_ICONS = 2;
-  static const String INSTRUCTIONS_ICON =
-      "The point of the game is to be able to memorize a given list of icons." +
-          " There are two main phases. The remember phase (Rem.) is you memorize the icons that are shown by the game." +
-          " In the recall phase (Rec.), you will have to choose from a given list of icons to create a list of icons of the same order as you memorized." +
-          " You don't need to choose icons in the correct order. Only the final order (after choosing and submitting) matters." +
-          " This list of icons will have the same icons that you had to memorize; you only have to reorder them, hence only the order has to be memorized." +
-          " As the game progresses, more and more icons will have to be remembered. The time given for both phases will change accordingly." +
-          " If during any of the phase you don't need all the allocated time, you can click the timer to end the phase." +
-          " The objective is to get as much icons remembered and recalled.\n\n" +
-          "This is the same as The Icons, except that the list of icons will only contain the icons that were seen.";
-  static const String INSTRUCTIONS_ICONS =
-      "The point of the game is to be able to memorize a given list of icons." +
-          " There are two main phases. The remember phase (Rem.) is you memorize the icons that are shown by the game." +
-          " In the recall phase (Rec.), you will have to choose from a given list of icons to create a list of icons of the same order as you memorized." +
-          " You don't need to choose icons in the correct order. Only the final order (after choosing and submitting) matters." +
-          " This list of icons will have the icons that you had to memorize in addition to some other icons; you will have to remember both the order and look of the icons." +
-          " As the game progresses, more and more icons will have to be remembered. The time given for both phases will change accordingly." +
-          " If during any of the phase you don't need all the allocated time, you can click the timer to end the phase." +
-          " The objective is to get as much icons remembered and recalled.\n\n" +
-          "This is the same as The Icon, except that the list of icons will also contain other random icons.";
+  static const int TIME_PER_Q_ICON = 5;
+  static const int TIME_PER_Q_ICONS = 7;
+  static const String INSTRUCTIONS_ICON = "The point of the game is to be able to memorize a given list of icons." +
+      " There are two main phases. The remember phase (Rem.) is you memorize the icons that are shown by the game." +
+      " In the recall phase (Rec.), you will have to choose from a given list of icons to create a list of icons of the same order as you memorized." +
+      " You don't need to choose icons in the correct order. Only the final order (after choosing and submitting) matters." +
+      " This list of icons will have the same icons that you had to memorize; you only have to reorder them, hence only the order has to be memorized." +
+      " As the game progresses, more and more icons will have to be remembered. The time given for both phases will change accordingly." +
+      " If during any of the phase you don't need all the allocated time, you can click the timer to end the phase." +
+      " The time that you did not use in the remember phase can be used in the remember phase of subsequent rounds; hence it is beneficial to remember as quickly as possible." +
+      " However, taking shorter time to recall will not increase future recall time; hence, you may use as much of the allocated time to recall (e.g. for break)." +
+      " The objective is to get as much icons remembered and recalled.\n\n" +
+      "This is the same as The Icons, except that the list of icons will only contain the icons that were seen.";
+  static const String INSTRUCTIONS_ICONS = "The point of the game is to be able to memorize a given list of icons." +
+      " There are two main phases. The remember phase (Rem.) is you memorize the icons that are shown by the game." +
+      " In the recall phase (Rec.), you will have to choose from a given list of icons to create a list of icons of the same order as you memorized." +
+      " You don't need to choose icons in the correct order. Only the final order (after choosing and submitting) matters." +
+      " This list of icons will have the icons that you had to memorize in addition to some other icons; you will have to remember both the order and look of the icons." +
+      " As the game progresses, more and more icons will have to be remembered. The time given for both phases will change accordingly." +
+      " If during any of the phase you don't need all the allocated time, you can click the timer to end the phase." +
+      " The time that you did not use in the remember phase can be used in the remember phase of subsequent rounds; hence it is beneficial to remember as quickly as possible." +
+      " However, taking shorter time to recall will not increase future recall time; hence, you may use as much of the allocated time to recall (e.g. for break)." +
+      " The objective is to get as much icons remembered and recalled.\n\n" +
+      "This is the same as The Icon, except that the list of icons will also contain other random icons.";
 }

@@ -11,3 +11,4 @@ Buttons have a disabled colour field. Use it
 Keep in mind difference between padding and margins. Change some variable names.
 Why does gamecore not get disposed when not using a Consumer. Compare commits 5f2618d1 with 07c26f74.
 Look into making game more efficient (starting to lag)
+Memory problem when close then open again THe Pitch. Not sure if it's a phone issue or what.

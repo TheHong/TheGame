@@ -83,16 +83,12 @@ class _KeyPressorState extends State<KeyPressor> {
                     onPressed: () {
                       // Submit the first key selected if not submitted yet
                       if (pitchCore.keyboard.isActive) {
-                        pitchCore.setSubmitTime(
-                            pitchCore.stopwatch.elapsedMicroseconds /
-                                pow(10, 6));
-
+                        pitchCore.counter.stop();
                         setState(() {
                           pitchCore.keyboard.select(key);
                           pitchCore.keyboard.deactivate();
                           pitchCore
                               .setSelected(key.isSelected ? key.value : "");
-                          pitchCore.boolInterrupt.raise(); // To stop the counter
                         });
                       } else if (!pitchCore.isGameStarted) {
                         // User can play notes before game starts

@@ -24,8 +24,10 @@ class TheIconCore extends GameCore {
   String buttonPrompt = ""; // Prompt to specify the usage of the main button
   int _timePerRoundStart = 2;
   int _timePerRoundEnd = 1;
-  int get rememberTime => (pow((currRound - 1), 2) + 5).toInt();
-  int get recallTime => (pow((currRound - 1), 2) + 5).toInt();
+  int get rememberTime => (Constant.TIME_PER_Q_ICON * (currRound - 1)).toInt();
+  int get recallTime => 2 * (Constant.TIME_PER_Q_ICON * (currRound - 1)).toInt();
+  int bonusTime = 0;
+  int timeEarned;
   Color scaffoldColor = Colors.cyan[200];
 
   @override
@@ -37,14 +39,15 @@ class TheIconCore extends GameCore {
   @override
   String getInstructions() => Constant.INSTRUCTIONS_ICON;
 
- @override
+  @override
   Future game() async {
     phase = Phase.LOADING;
     prompt = "Loading...";
     notifyListeners();
     await iconList.loadIconInfo();
-    isGameStarted = true;
 
+    timeEarned = 0;
+    isGameStarted = true;
     while (!isGameDone) {
       phase = Phase.PRE_ROUND;
       currRound += 1;
@@ -68,32 +71,38 @@ class TheIconCore extends GameCore {
       phase = Phase.REMEMBER;
       prompt = "Remember!";
       buttonPrompt = "Click to Recall";
-      await counter.run(rememberTime,
-          notifier: notifyListeners, boolInterrupt: boolInterrupt);
-      boolInterrupt.reset();
+      await counter.run(
+        rememberTime + bonusTime,
+        notifier: notifyListeners,
+      );
+      if (counter.timeElapsed < rememberTime) {
+        // Gained bonus
+        timeEarned = (rememberTime - counter.timeElapsed).ceil();
+      } else {
+        // Loss bonus
+        timeEarned = (rememberTime - counter.timeElapsed).floor();
+      }
 
       // Recalling Phase
       phase = Phase.RECALL;
       prompt = "Recall!";
       buttonPrompt = "Click to Submit";
-      await counter.run(recallTime,
-          notifier: notifyListeners, boolInterrupt: boolInterrupt);
-      boolInterrupt.reset();
+      await counter.run(recallTime, notifier: notifyListeners);
 
       // Evaluation Phase
       phase = Phase.EVALUATE;
       if (evaluateAnswer()) {
         prompt = "Correct!";
+        bonusTime += timeEarned;
         score += 1;
       } else {
         isGameDone = true;
       }
-      // notifyListeners()
+      notifyListeners();
       await counter.run(_timePerRoundEnd);
     }
     print("Game Complete!");
   }
-
 
   void selectQuestion(int idx) {
     // idx of -1 is encountered when getNextQuestion() is called but all questions are answered.
@@ -192,8 +201,8 @@ class TheIconCore extends GameCore {
 class TheIconsCore extends TheIconCore {
   double optionsFactor = Constant.OPTIONS_FACTOR_ICONS;
   Color scaffoldColor = Colors.cyan;
-  int get rememberTime => (pow((currRound - 1), 2) + 10).toInt();
-  int get recallTime => (pow((currRound - 1), 2) + 10).toInt();
+  int get rememberTime => (Constant.TIME_PER_Q_ICONS * (currRound - 1)).toInt();
+  int get recallTime => 2 * (Constant.TIME_PER_Q_ICONS * (currRound - 1)).toInt();
   @override
   String getGameName() => "The Icons";
   @override
